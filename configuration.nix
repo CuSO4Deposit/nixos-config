@@ -56,7 +56,8 @@
     };
 
     shellAliases = {
-      dotfiles = "git --git-dir='/home/cuso4d/.dotfiles/' --work-tree='/home/cuso4d'";
+      alg = "alias | grep";
+      c = "clear";
       sudonvim = "sudo -E -s nvim";
     };
   };
