@@ -50,6 +50,11 @@
       silent = true;
   };
 
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+  };
+
   programs.nixvim = (import ./modules/nixvim) pkgs;
 
   programs.zsh = {
