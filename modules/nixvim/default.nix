@@ -57,7 +57,7 @@
       "cmp-path"
       "cmp_luasnip"
       "comment"
-      "hardtime"
+      # "hardtime"
       "illuminate"
       "indent-blankline"
       "lsp"
@@ -78,8 +78,8 @@
     value = import "${path}/${name}.nix";
   }) pluginNames);
 
-  extraPlugins = with pkgs.vimPlugins; [
-    nui-nvim # required by hardtime
-    plenary-nvim # required by hardtime
-  ];
+  # extraPlugins = with pkgs.vimPlugins; [
+    # nui-nvim # required by hardtime
+    # plenary-nvim # required by hardtime
+  # ];
 }
