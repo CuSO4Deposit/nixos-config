@@ -15,6 +15,12 @@
   wsl.enable = true;
   wsl.defaultUser = "cuso4d";
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.substituters = [
     "https://mirrors.ustc.edu.cn/nix-channels/store"
