@@ -35,6 +35,7 @@
     # beancount = {
     #   enable = true;
     # };
+    clangd.enable = true;
     nixd.enable = true;
     typst_lsp = {
       enable = true;
