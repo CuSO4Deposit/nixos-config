@@ -26,6 +26,7 @@
     "https://mirrors.ustc.edu.cn/nix-channels/store"
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];  
+  nix.settings.trusted-users = [ "cuso4d" "root" ];
 
   environment.systemPackages = [
     pkgs.bat
