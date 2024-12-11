@@ -22,7 +22,8 @@
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.substituters = [
+  # https://github.com/NixOS/nixpkgs/issues/158356#issuecomment-1556882689
+  nix.settings.substituters = lib.mkForce [
     "https://mirrors.ustc.edu.cn/nix-channels/store"
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];  
