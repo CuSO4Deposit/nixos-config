@@ -37,7 +37,7 @@
     cursorcolumn = true; # highlight current column
     cursorline = true; # highlight current line
     expandtab = true; # input spaces instead of tabs
-    mouse = null; # disable mouse
+    mouse = ""; # disable mouse
     number = true; # show line number
     relativenumber = true; # show line number relative to cursor
     ruler = true; # show line and column number of cursor
