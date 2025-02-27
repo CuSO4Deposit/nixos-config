@@ -12,9 +12,6 @@
   imports = [
   ];
 
-  wsl.enable = true;
-  wsl.defaultUser = "cuso4d";
-
   nix.gc = {
     automatic = true;
     dates = "weekly";

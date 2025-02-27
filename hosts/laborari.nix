@@ -9,6 +9,9 @@
     settings.KbdInteractiveAuthentication = false;
   };
 
+  wsl.enable = true;
+  wsl.defaultUser = "cuso4d";
+
   virtualisation.docker.enable = true;
   virtualisation.docker.daemon.settings = {
     "proxies" = {
