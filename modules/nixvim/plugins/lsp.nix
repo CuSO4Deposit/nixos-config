@@ -32,12 +32,9 @@
     };
   };
   servers = {
-    # beancount = {
-    #   enable = true;
-    # };
     clangd.enable = true;
     nixd.enable = true;
-    typst_lsp = {
+    tinymist = {
       enable = true;
       settings.offset_encoding = "utf-8";
     };

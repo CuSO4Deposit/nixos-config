@@ -11,14 +11,28 @@
   };
 
   outputs = { self, nixpkgs, nixos-wsl, nixvim }@inputs: {
-    nixosConfigurations.nightcord-lexikos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = { inherit inputs; };
-      modules = [
-        ./configuration.nix
-        nixos-wsl.nixosModules.wsl
-        nixvim.nixosModules.nixvim
-      ];
+    nixosConfigurations = {
+
+      nightcord-lexikos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          nixos-wsl.nixosModules.wsl
+          nixvim.nixosModules.nixvim
+        ];
+      };
+
+      nightcord-laborari = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          nixos-wsl.nixosModules.wsl
+          nixvim.nixosModules.nixvim
+        ];
+      };
+
     };
   };
 }
