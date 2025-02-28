@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "git+https://codeberg.org/cocvu/cus-nixvim?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -19,7 +19,6 @@
         modules = [
           ./configuration.nix
           nixos-wsl.nixosModules.wsl
-          nixvim.nixosModules.nixvim
         ];
       };
 
@@ -29,7 +28,6 @@
         modules = [
           ./configuration.nix
           nixos-wsl.nixosModules.wsl
-          nixvim.nixosModules.nixvim
         ];
       };
 

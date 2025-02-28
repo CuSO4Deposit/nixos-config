@@ -27,6 +27,7 @@
   nix.settings.trusted-users = [ "cuso4d" "root" ];
 
   environment.systemPackages = [
+    inputs.nixvim.packages."${pkgs.system}".nvim
     pkgs.bat
     pkgs.curl
     pkgs.git
@@ -53,8 +54,6 @@
     enable = true;
     lfs.enable = true;
   };
-
-  programs.nixvim = (import ./modules/nixvim) pkgs;
 
   programs.zsh = {
     enable = true;
