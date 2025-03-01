@@ -26,12 +26,15 @@
   ];  
   nix.settings.trusted-users = [ "cuso4d" "root" ];
 
-  environment.systemPackages = [
+  environment.systemPackages = let
+    oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh {};
+  in [
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
+    oh-cus-zsh
     pkgs.bat
     pkgs.curl
     pkgs.git
-    pkgs.oh-my-zsh
+    # pkgs.oh-my-zsh
     pkgs.zsh
   ];
 
@@ -58,10 +61,13 @@
   programs.zsh = {
     enable = true;
 
-    ohMyZsh = {
+    ohMyZsh = let
+      oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh {};
+    in {
       enable = true;
+      package = oh-cus-zsh;
       plugins = [ "git" ];
-      theme = "kphoen";
+      theme = "cphoen";
     };
 
     shellAliases = {
