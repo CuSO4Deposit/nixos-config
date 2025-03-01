@@ -4,13 +4,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nixvim = {
+    cus-nixvim = {
       url = "git+https://codeberg.org/cocvu/cus-nixvim?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, nixvim }@inputs: {
+  outputs = { self, nixpkgs, nixos-wsl, cus-nixvim }@inputs: {
     nixosConfigurations = {
 
       nightcord-lexikos = nixpkgs.lib.nixosSystem {

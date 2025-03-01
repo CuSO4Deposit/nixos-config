@@ -27,7 +27,7 @@
   nix.settings.trusted-users = [ "cuso4d" "root" ];
 
   environment.systemPackages = [
-    inputs.nixvim.packages."${pkgs.system}".nvim
+    inputs.cus-nixvim.packages."${pkgs.system}".nvim
     pkgs.bat
     pkgs.curl
     pkgs.git
