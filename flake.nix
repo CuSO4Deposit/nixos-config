@@ -18,6 +18,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./configuration.nix
+          ./hosts/lexikos.nix
           nixos-wsl.nixosModules.wsl
         ];
       };
@@ -27,6 +28,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./configuration.nix
+          ./hosts/laborari.nix
           nixos-wsl.nixosModules.wsl
         ];
       };
