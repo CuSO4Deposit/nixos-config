@@ -33,6 +33,16 @@
         ];
       };
 
+      nightcord-proximo = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          ./hosts/proximo.nix
+          nixos-wsl.nixosModules.wsl
+        ];
+      };
+
     };
   };
 }
