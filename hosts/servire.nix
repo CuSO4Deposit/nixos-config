@@ -19,6 +19,7 @@
   users.users."cuso4d".openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJD6JpxiKFEThom4/HMchI8S08+Tuxvp04xSLxtMMLH cuso4d"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEgnoIeHJv3VVT9SgOELc0rlnPz+cv4uA2yESbLdJ7Vv cuso4d"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH6h+14VT9DIfCJLcNi3PIeAR0qTwG8SVphpMtvLRFXN cuso4d@nightcord-proximo"
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
