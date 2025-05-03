@@ -13,6 +13,15 @@
   outputs = { self, nixpkgs, nixos-wsl, cus-nixvim }@inputs: {
     nixosConfigurations = {
 
+      nightcord-dynamica = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./configuration.nix
+          ./hosts/dynamica.nix
+        ];
+      };
+
       nightcord-lexikos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
