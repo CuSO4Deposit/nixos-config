@@ -31,7 +31,6 @@
     pkgs.bat
     pkgs.curl
     pkgs.git
-    # pkgs.oh-my-zsh
     pkgs.zsh
   ];
 

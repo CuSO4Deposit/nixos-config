@@ -1,3 +1,4 @@
+{ config, pkgs, inputs, ... }:
 {
   imports =
     [
@@ -6,6 +7,14 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  environment.systemPackages = with pkgs; [
+    # GUI
+    ghostty
+    librewolf-wayland
+    logseq
+    v2rayn
+  ];
 
   networking.hostName = "nightcord-dynamica";
   networking.networkmanager.enable = true;
