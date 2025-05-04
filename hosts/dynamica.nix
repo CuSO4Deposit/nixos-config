@@ -13,7 +13,7 @@
     ghostty
     librewolf-wayland
     logseq
-    v2rayn
+    v2raya
   ];
 
   networking.hostName = "nightcord-dynamica";
@@ -58,6 +58,8 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
+  
+  services.v2raya.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
