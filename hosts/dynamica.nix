@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 {
   imports =
     [
@@ -18,6 +18,23 @@
 
   networking.hostName = "nightcord-dynamica";
   networking.networkmanager.enable = true;
+
+  programs.dconf.enable = true;
+  programs.dconf.profiles = {
+    user.databases = [{
+      settings = with lib.gvariant; {
+        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+        "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
+        "org/gnome/desktop/interface".enable-hot-corners = false;
+        "org/gnome/desktop/input-sources".sources = map mkTuple [
+          [ "xkb" "us" ]
+          [ "xkb" "cn" ]
+          [ "xkb" "jp" ]
+        ];
+      };
+    }];
+  };
+
 
   time.timeZone = "Europe/London";
 
