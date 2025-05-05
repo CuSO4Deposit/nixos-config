@@ -14,10 +14,14 @@
     librewolf-wayland
     logseq
     v2raya
+    nur.repos.linyinfeng.wemeet
   ];
 
   networking.hostName = "nightcord-dynamica";
   networking.networkmanager.enable = true;
+  networking.proxy.httpProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.httpsProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
 
   programs.dconf.enable = true;
   programs.dconf.profiles = {

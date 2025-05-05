@@ -4,13 +4,17 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     cus-nixvim = {
       url = "git+https://codeberg.org/cocvu/cus-nixvim?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, cus-nixvim }@inputs: {
+  outputs = { self, nixpkgs, nixos-wsl, nur, cus-nixvim }@inputs: {
     nixosConfigurations = {
 
       nightcord-dynamica = nixpkgs.lib.nixosSystem {
@@ -19,6 +23,7 @@
         modules = [
           ./configuration.nix
           ./hosts/dynamica.nix
+          nur.modules.nixos.default # This adds the NUR overlay
         ];
       };
 
