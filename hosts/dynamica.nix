@@ -8,6 +8,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.systemPackages = with pkgs; [
     # GUI
     ghostty
@@ -15,6 +16,8 @@
     logseq
     v2raya
     nur.repos.linyinfeng.wemeet
+
+    kitty # default terminal for hyprland
   ];
 
   networking.hostName = "nightcord-dynamica";
@@ -38,6 +41,7 @@
       };
     }];
   };
+  programs.hyprland.enable = true;
 
 
   time.timeZone = "Europe/London";
