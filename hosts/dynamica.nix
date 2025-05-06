@@ -39,11 +39,10 @@
     fcitx5.addons = with pkgs; [
       fcitx5-chinese-addons
       fcitx5-gtk
+      fcitx5-mozc
       fcitx5-pinyin-zhwiki
       fcitx5-pinyin-moegirl
-      fcitx5-tokyonight
     ];
-    fcitx5.waylandFrontend = true;
     type = "fcitx5";
   };
 
@@ -67,11 +66,6 @@
         "org/gnome/desktop/interface".color-scheme = "prefer-dark";
         "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
         "org/gnome/desktop/interface".enable-hot-corners = false;
-        "org/gnome/desktop/input-sources".sources = map mkTuple [
-          [ "xkb" "us" ]
-          [ "xkb" "cn+altgr-pinyin" ]
-          [ "xkb" "jp" ]
-        ];
       };
     }];
   };
