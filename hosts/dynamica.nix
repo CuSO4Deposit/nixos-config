@@ -5,8 +5,8 @@
       ./dynamica-hardware-configuration.nix
     ];
 
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.systemPackages = with pkgs; [
@@ -14,14 +14,11 @@
     ghostty
     librewolf-wayland
     logseq
-    v2raya
     nur.repos.linyinfeng.wemeet
-
-    kitty # default terminal for hyprland
+    v2raya
   ];
 
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -48,9 +45,12 @@
 
   networking.hostName = "nightcord-dynamica";
   networking.networkmanager.enable = true;
+  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
   networking.proxy.httpProxy = "socks5://127.0.0.1:20170";
   networking.proxy.httpsProxy = "socks5://127.0.0.1:20170";
-  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   programs.dconf.enable = true;
   programs.dconf.profiles = {
@@ -64,15 +64,12 @@
             ];
           };
         "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-        "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
         "org/gnome/desktop/interface".enable-hot-corners = false;
+        "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
       };
     }];
   };
   programs.hyprland.enable = true;
-
-
-  time.timeZone = "Europe/London";
 
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
@@ -87,21 +84,20 @@
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  security.rtkit.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
-  
+
   services.v2raya.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  time.timeZone = "Etc/UTC";
 
   # List packages installed in system profile. To search, run:
   # This value determines the NixOS release from which the default
