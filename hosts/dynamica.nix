@@ -20,32 +20,6 @@
     kitty # default terminal for hyprland
   ];
 
-  networking.hostName = "nightcord-dynamica";
-  networking.networkmanager.enable = true;
-  networking.proxy.httpProxy = "socks5://127.0.0.1:20170";
-  networking.proxy.httpsProxy = "socks5://127.0.0.1:20170";
-  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
-
-  programs.dconf.enable = true;
-  programs.dconf.profiles = {
-    user.databases = [{
-      settings = with lib.gvariant; {
-        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-        "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
-        "org/gnome/desktop/interface".enable-hot-corners = false;
-        "org/gnome/desktop/input-sources".sources = map mkTuple [
-          [ "xkb" "us" ]
-          [ "xkb" "cn" ]
-          [ "xkb" "jp" ]
-        ];
-      };
-    }];
-  };
-  programs.hyprland.enable = true;
-
-
-  time.timeZone = "Europe/London";
-
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -59,6 +33,52 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
+
+  i18n.inputMethod = {
+    enable = true;
+    fcitx5.addons = with pkgs; [
+      fcitx5-chinese-addons
+      fcitx5-gtk
+      fcitx5-pinyin-zhwiki
+      fcitx5-pinyin-moegirl
+      fcitx5-tokyonight
+    ];
+    fcitx5.waylandFrontend = true;
+    type = "fcitx5";
+  };
+
+  networking.hostName = "nightcord-dynamica";
+  networking.networkmanager.enable = true;
+  networking.proxy.httpProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.httpsProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
+
+  programs.dconf.enable = true;
+  programs.dconf.profiles = {
+    user.databases = [{
+      lockAll = true;
+      settings = with lib.gvariant; {
+        "org/gnome/shell" = {
+            disable-user-extensions = false;
+            enabled-extensions = [
+              pkgs.gnomeExtensions.kimpanel.extensionUuid
+            ];
+          };
+        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+        "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
+        "org/gnome/desktop/interface".enable-hot-corners = false;
+        "org/gnome/desktop/input-sources".sources = map mkTuple [
+          [ "xkb" "us" ]
+          [ "xkb" "cn+altgr-pinyin" ]
+          [ "xkb" "jp" ]
+        ];
+      };
+    }];
+  };
+  programs.hyprland.enable = true;
+
+
+  time.timeZone = "Europe/London";
 
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
