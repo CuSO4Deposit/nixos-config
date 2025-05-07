@@ -2,6 +2,10 @@
   description = "A NixOS Configuration Flake Wrapper";  
 
   inputs = {
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nur = {
@@ -14,7 +18,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, nur, cus-nixvim }@inputs: {
+  outputs = { self, home-manager, nixpkgs, nixos-wsl, nur, cus-nixvim }@inputs: {
     nixosConfigurations = {
 
       nightcord-dynamica = nixpkgs.lib.nixosSystem {
@@ -24,6 +28,11 @@
           ./configuration.nix
           ./hosts/dynamica.nix
           nur.modules.nixos.default # This adds the NUR overlay
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.cuso4d = import ./home.nix;
+          }
         ];
       };
 
