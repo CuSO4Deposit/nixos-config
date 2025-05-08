@@ -14,7 +14,6 @@
     librewolf-wayland
     logseq
     nur.repos.linyinfeng.wemeet
-    v2raya
   ];
 
   programs.home-manager.enable = true;
