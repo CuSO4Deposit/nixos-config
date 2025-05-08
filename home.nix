@@ -1,9 +1,14 @@
-{ configs, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   home.homeDirectory = "/home/cuso4d";
   home.username = "cuso4d";
 
+  home.file."${config.xdg.configHome}" = {
+    force = true;
+    source = ./files/.config;
+    recursive = true;
+  };
   home.packages = with pkgs; [
     ghostty
     librewolf-wayland

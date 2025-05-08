@@ -36,6 +36,10 @@
 
   environment.variables.EDITOR = "nvim";
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.ubuntu-mono
+  ];
+
   users.users.cuso4d = {
     isNormalUser = true;
     home = "/home/cuso4d";
