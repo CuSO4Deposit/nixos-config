@@ -9,14 +9,6 @@
   boot.loader.systemd-boot.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.systemPackages = with pkgs; [
-    # GUI
-    ghostty
-    librewolf-wayland
-    logseq
-    nur.repos.linyinfeng.wemeet
-    v2raya
-  ];
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {

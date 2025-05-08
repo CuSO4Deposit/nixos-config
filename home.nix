@@ -1,8 +1,16 @@
-{ configs, pkg, ... }:
+{ configs, pkgs, ... }:
 
 {
   home.homeDirectory = "/home/cuso4d";
   home.username = "cuso4d";
+
+  home.packages = with pkgs; [
+    ghostty
+    librewolf-wayland
+    logseq
+    nur.repos.linyinfeng.wemeet
+    v2raya
+  ];
 
   programs.home-manager.enable = true;
 
