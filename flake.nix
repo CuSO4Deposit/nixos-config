@@ -29,6 +29,7 @@
           ./hosts/dynamica.nix
           nur.modules.nixos.default # This adds the NUR overlay
           home-manager.nixosModules.home-manager {
+            home-manager.backupFileExtension = "backup";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.cuso4d = import ./home.nix;
