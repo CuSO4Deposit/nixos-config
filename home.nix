@@ -34,6 +34,7 @@
       DisableProfileImport = false;
       DisableSetDesktopBackground = true;
       DisableTelemetry = true;
+      DontCheckDefaultBrowser = true;
       Extensions = {
         Install = [
           # Dark Reader
@@ -41,7 +42,7 @@
           # uBlock Origin
           "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
           # Vimium
-          "https://addons.mozilla.org/firefox/downloads/latest/vimium/latest.xpi"
+          "https://addons.mozilla.org/firefox/downloads/file/4458679/vimium_ff-latest.xpi"
         ];
         Uninstall = [
           "amazondotcom@search.mozilla.org"
@@ -50,7 +51,10 @@
         ];
       };
       FirefoxSuggest = {
+        ImproveSuggest = false;
+        Locked = true;
         SponsoredSuggestions = false;
+        WebSuggestions = false;
       };
       NoDefaultBookmarks = true;
       OverrideFirstRunPage = "";
@@ -108,6 +112,13 @@
               definedAliases = [ "@np" ];
             };
           };
+        };
+        settings = {
+          browser.contentblocking.category = "strict";
+          privacy.fingerprintProtection = true;
+          privacy.sanitize.sanitizeOnShutdown = true;
+          privacy.trackingprotection.emailtracking.enabled = true;
+          privacy.trackingprotection.enabled = true;
         };
       };
     };
