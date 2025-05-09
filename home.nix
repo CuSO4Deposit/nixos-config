@@ -20,7 +20,6 @@
     # firefox
   ];
 
-  programs.home-manager.enable = true;
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-wayland;
@@ -123,6 +122,23 @@
         };
       };
     };
+  };
+  programs.home-manager.enable = true;
+
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = pkgs.hyprland;
+    settings = {
+      bind = [
+        "$mod, F, exec, firefox"
+        "$mod, Q, exec, $terminal"
+        "$mod, M, exec, exit"
+      ];
+      monitor = ",prefered,auto,1";
+      "$terminal" = "ghostty";
+      "$mod" = "SUPER";
+    };
+    systemd.enable = true;
   };
 
   # This value determines the Home Manager release that your configuration is 
