@@ -13,6 +13,7 @@
     ghostty
     logseq
     nur.repos.linyinfeng.wemeet
+    wl-clipboard
 
     ### defined in programs
     # home-manager

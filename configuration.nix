@@ -29,9 +29,11 @@
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
     oh-cus-zsh
     pkgs.bat
+    pkgs.busybox
     pkgs.curl
     pkgs.git
-    pkgs.zsh
+    pkgs.jq
+    pkgs.tldr
   ];
 
   environment.variables.EDITOR = "nvim";
