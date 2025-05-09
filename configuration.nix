@@ -74,7 +74,11 @@
 
     shellAliases = {
       alg = "alias | grep";
+      bat = "bat --theme=base16";
       c = "clear";
+      gmv = "git mv";
+      nrb = "nixos-rebuild switch --flake .#$(hostname) --use-remote-sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
+      nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --use-remote-sudo;";
       sudonvim = "sudo -E -s nvim";
     };
   };
