@@ -10,11 +10,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1746891918,
-        "narHash": "sha256-lErVYWEVKqjon365wW0fooHFZ+trJtNvaHvInOWYPuw=",
+        "lastModified": 1746976619,
+        "narHash": "sha256-+Qha5KvW5Yk9bZ6W//EE/jBmUrGtiVUcSDtzL+Yewvw=",
         "ref": "main",
-        "rev": "7ba02a3be71016e433795944c794a84a9014e34d",
-        "revCount": 8,
+        "rev": "747672b8aef3cf616a446ce6b38632251f924f83",
+        "revCount": 9,
         "type": "git",
         "url": "https://codeberg.org/cocvu/cus-nixvim"
       },

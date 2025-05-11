@@ -19,7 +19,18 @@
   };
 
   outputs = { self, home-manager, nixpkgs, nixos-wsl, nur, cus-nixvim }@inputs: {
-    nixosConfigurations = {
+    nixosConfigurations = let
+        wslConfig = hostname: nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./configuration.nix
+            ./hosts/${hostname}.nix
+            nixos-wsl.nixosModules.wsl
+          ];
+        };
+        wslHostnames = [ "laborari" "lexikos" "proximo" ];
+      in {
 
       nightcord-dynamica = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -36,47 +47,9 @@
           }
         ];
       };
-
-      nightcord-lexikos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          ./hosts/lexikos.nix
-          nixos-wsl.nixosModules.wsl
-        ];
-      };
-
-      nightcord-laborari = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          ./hosts/laborari.nix
-          nixos-wsl.nixosModules.wsl
-        ];
-      };
-
-      nightcord-servire = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          ./hosts/servire.nix
-          nixos-wsl.nixosModules.wsl
-        ];
-      };
-
-      nightcord-proximo = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./configuration.nix
-          ./hosts/proximo.nix
-          nixos-wsl.nixosModules.wsl
-        ];
-      };
-
-    };
+    }  // builtins.listToAttrs (map (name: {
+            name = "nightcord-${name}";
+            value = wslConfig name;
+          }) wslHostnames);
   };
 }
