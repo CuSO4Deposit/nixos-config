@@ -6,15 +6,14 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "nixpkgs-stable": "nixpkgs-stable",
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1746976619,
-        "narHash": "sha256-+Qha5KvW5Yk9bZ6W//EE/jBmUrGtiVUcSDtzL+Yewvw=",
+        "lastModified": 1746979507,
+        "narHash": "sha256-NdKVq4JtzWSjV4qQSw0AsOcocEIGo3zg7O+R6VzAdpU=",
         "ref": "main",
-        "rev": "747672b8aef3cf616a446ce6b38632251f924f83",
-        "revCount": 9,
+        "rev": "34f60e343d60a952f583640dd7bd35dfe8c60e85",
+        "revCount": 10,
         "type": "git",
         "url": "https://codeberg.org/cocvu/cus-nixvim"
       },
@@ -216,22 +215,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
-    "nixpkgs-stable": {
-      "locked": {
-        "lastModified": 1743576891,
-        "narHash": "sha256-vXiKURtntURybE6FMNFAVpRPr8+e8KoLPrYs9TGuAKc=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "44a69ed688786e98a101f02b712c313f1ade37ab",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-24.11",
-        "repo": "nixpkgs",
         "type": "github"
       }
     },
