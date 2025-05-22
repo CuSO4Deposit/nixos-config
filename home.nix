@@ -119,6 +119,8 @@
         };
         settings = {
           browser.contentblocking.category = "strict";
+          # https://www.reddit.com/r/firefox/comments/kfyso6/possible_to_change_default_zoom_level_in/
+          font.size.systemFontScale = 120;
           privacy.fingerprintProtection = true;
           privacy.sanitize.sanitizeOnShutdown = true;
           privacy.trackingprotection.emailtracking.enabled = true;
