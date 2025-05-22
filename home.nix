@@ -164,18 +164,23 @@
       bind = [
         "$mainMod, Q, exec, $terminal"
         "$mainMod, C, killactive"
-        "$mainMod, M, exit"
+        "$mainMod, escape, exit"
         "$mainMod, E, exec, $fileManager"
-        "$mainMod, V, togglefloating"
-        "$mainMod, R, exec, $menu"
+        "$mainMod, T, togglefloating"
         "$mainMod, P, pseudo"
-        "$mainMod, J, togglesplit"
+        "$mainMod, space, exec, $menu"
+        "$mainMod, V, togglesplit"
         "$mainMod, F, exec, firefox"
+        "$mainMod, M, fullscreen, 1"
 
         "$mainMod, left, movefocus, l"
         "$mainMod, right, movefocus, r"
         "$mainMod, up, movefocus, u"
         "$mainMod, down, movefocus, d"
+        "$mainMod SHIFT, left, movewindow, l"
+        "$mainMod SHIFT, right, movewindow, r"
+        "$mainMod SHIFT, up, movewindow, u"
+        "$mainMod SHIFT, down, movewindow, d"
 
         "$mainMod, 1, workspace, 1"
         "$mainMod, 2, workspace, 2"
@@ -273,7 +278,7 @@
 
       # variables
       "$fileManager" = "nautilus";
-      "$menu" = "wofi --show drun";
+      "$menu" = "wofi --show=drun";
       "$mainMod" = "SUPER";
       "$terminal" = "ghostty";
     };
