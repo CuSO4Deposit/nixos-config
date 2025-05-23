@@ -52,7 +52,11 @@
 
   programs.direnv = {
       enable = true;
-      silent = true;
+      loadInNixShell = true;
+      nix-direnv = {
+        enable = true;
+        package = pkgs.nix-direnv;
+      };
   };
 
   programs.git = {
@@ -62,6 +66,10 @@
 
   programs.zsh = {
     enable = true;
+
+    interactiveShellInit = ''
+      eval "$(direnv hook bash)"
+    '';
 
     ohMyZsh = let
       oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh {};
