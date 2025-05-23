@@ -288,6 +288,12 @@
         "XCURSOR_SIZE, 24"
         "HYPRCURSOR_SIZE, 24"
       ];
+      exec-once = [
+        # https://github.com/hyprwm/Hyprland/discussions/421#discussioncomment-12027361
+        "fcitx5-remote -r"
+        "fcitx5 -d --replace &"
+        "fcitx5-remote -r"
+      ];
       general = {
         allow_tearing = false;
         border_size = 2;
