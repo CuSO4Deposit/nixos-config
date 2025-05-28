@@ -425,8 +425,6 @@ window#waybar {
         "fcitx5-remote -r"
         "fcitx5 -d --replace &"
         "fcitx5-remote -r"
-
-        "waybar"
       ];
       general = {
         allow_tearing = false;
