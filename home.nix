@@ -14,6 +14,7 @@
     ghostty
     logseq
     nur.repos.linyinfeng.wemeet
+    telegram-desktop
     wofi
 
     # utils
