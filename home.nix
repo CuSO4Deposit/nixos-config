@@ -170,10 +170,37 @@
 
   programs.waybar = {
     enable = true;
+    settings = {
+      mainBar = {
+        clock = {
+          calendar = {
+            mode = "year";
+            mode-mon-col = 3;
+            weeks-pos = "right";
+            on-scroll = 1;
+            format = {
+              months = "<span color='#a9b1d6'><b>{}</b></span>";
+              days = "<span color='#c0caf5'><b>{}</b></span>";
+              weeks = "<span color='#b4f9f8'><b>W{}</b></span>";
+              weekdays = "<span color='#ffc777'><b>{}</b></span>";
+              today = "<span color='#ff757f'><b><u>{}</u></b></span>";
+            };
+          };
+          format = "{:%Y-%m-%d %H:%M %Z}";
+          tooltip-format = "<tt><small>{calendar}</small></tt>";
+        };
+        modules-left = [
+          "hyprland/workspaces"
+        ];
+        modules-center = [
+          "clock"
+        ];
+      };
+    };
     # https://github.com/stronk-dev/Tokyo-Night-Linux/blob/d553d015a0d3c1e9e41b72aab959ad89f91b457d/.config/waybar/style.css
     style = ''
 #waybar {
-    font-family: "SF Pro Display", Cantarell, Noto Sans, sans-serif;
+    font-family: "UbuntuMono Nerd Font Propo", Cantarell, Noto Sans, sans-serif;
     font-size: 16px;
 }
 
@@ -237,9 +264,9 @@ window#waybar {
 }
 
 #custom-recorder {
-	font-size: 18px;
-	margin: 2px 7px 0px 7px;
-	color:#ee2e24;
+  font-size: 18px;
+  margin: 2px 7px 0px 7px;
+  color:#ee2e24;
 }
 
 #tray,
@@ -265,10 +292,10 @@ window#waybar {
     /* border-top: 3px solid rgba(217, 216, 216, 0.5); */
 }
 
-/* #clock {
+#clock {
     margin:     0px 16px 0px 10px;
     min-width:  140px;
-} */
+}
 
 #battery.warning {
     color: rgba(255, 210, 4, 1);
