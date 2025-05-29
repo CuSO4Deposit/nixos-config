@@ -21,12 +21,40 @@
           format = "{:%Y-%m-%d %H:%M %Z}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
         };
+        battery = {
+          format = "{icon} {capacity}%";
+          format-icons = ["" "" "" "" ""];
+        };
+        cpu = {
+          format = " {}%";
+        };
+        memory = {
+          format = " {percentage}%";
+        };
         modules-left = [
           "hyprland/workspaces"
         ];
         modules-center = [
           "clock"
         ];
+        modules-right = [
+          "network"
+          "cpu"
+          "memory"
+          "battery"
+        ];
+        network = {
+          interface = "wlp2s0";
+          format = "{ifname}";
+          format-wifi = " {essid} ({signalStrength}%)";
+          format-ethernet = "󰊗 {ipaddr}/{cidr}";
+          format-disconnected = ""; # An empty format will hide the module.
+          tooltip-format = "󰊗 {ifname} via {gwaddr}";
+          tooltip-format-wifi = " {essid} ({signalStrength}%)";
+          tooltip-format-ethernet = " {ifname}";
+          tooltip-format-disconnected = "󰅛 Disconnected";
+          max-length = 50;
+        };
       };
     };
     # https://github.com/stronk-dev/Tokyo-Night-Linux/blob/d553d015a0d3c1e9e41b72aab959ad89f91b457d/.config/waybar/style.css
