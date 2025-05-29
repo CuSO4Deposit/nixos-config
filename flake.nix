@@ -43,7 +43,7 @@
             home-manager.backupFileExtension = "backup";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.cuso4d = import ./home.nix;
+            home-manager.users.cuso4d = import ./home;
           }
         ];
       };
