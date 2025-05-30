@@ -33,6 +33,7 @@
     pkgs.curl
     pkgs.git
     pkgs.jq
+    pkgs.nixfmt-rfc-style
     pkgs.tldr
   ];
 
