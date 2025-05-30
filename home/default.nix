@@ -24,6 +24,7 @@
   imports = [
     ./dunst.nix
     ./hyprland.nix
+    ./hyprpaper.nix
     ./firefox.nix
     ./waybar.nix
     ./wofi.nix
