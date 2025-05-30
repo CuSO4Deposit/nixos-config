@@ -15,6 +15,7 @@
     nur.repos.linyinfeng.wemeet
     telegram-desktop
     wofi
+    wpsoffice-cn
 
     # utils
     wl-clipboard
