@@ -22,6 +22,7 @@
   ];
 
   imports = [
+    ./dunst.nix
     ./hyprland.nix
     ./firefox.nix
     ./waybar.nix
