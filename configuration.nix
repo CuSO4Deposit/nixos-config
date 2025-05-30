@@ -74,7 +74,6 @@
       enable = true;
       package = pkgs.nix-direnv;
     };
-    silent = true;
   };
 
   programs.git = {
