@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs.firefox = {
     enable = true;
@@ -41,7 +46,7 @@
       OverridePostUpdatePage = "";
       Proxy = {
         HTTPProxy = "127.0.0.1:20171";
-        Locked = true;
+        Locked = false;
         Mode = "manual";
         SOCKSProxy = "127.0.0.1:20170";
         SOCKSVersion = 5;
@@ -53,27 +58,43 @@
         search = {
           default = "DuckDuckGo Lite";
           force = true;
-          order = [ "DuckDuckGo Lite" "google" "Baidu" "bing" "Nix Packages" ];
+          order = [
+            "DuckDuckGo Lite"
+            "google"
+            "Baidu"
+            "bing"
+            "Nix Packages"
+          ];
           engines = {
             "DuckDuckGo Lite" = {
-              urls = [{
-                template = "https://lite.duckduckgo.com/lite";
-                params = [
-                  { name = "q"; value = "{searchTerms}"; }
-                ];
-              }];
+              urls = [
+                {
+                  template = "https://lite.duckduckgo.com/lite";
+                  params = [
+                    {
+                      name = "q";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
               icon = "${pkgs.fetchurl {
                 url = "https://duckduckgo.com/favicon.ico";
                 sha256 = "sha256-2ZT4BrHkIltQvlq2gbLOz4RcwhahmkMth4zqPLgVuv0=";
               }}";
             };
             "Baidu" = {
-              urls = [{
-                template = "https://www.baidu.com/s";
-                params = [
-                  { name = "wd"; value = "{searchTerms}"; }
-                ];
-              }];
+              urls = [
+                {
+                  template = "https://www.baidu.com/s";
+                  params = [
+                    {
+                      name = "wd";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
               icon = "${pkgs.fetchurl {
                 url = "https://www.baidu.com/favicon.ico";
                 sha256 = "sha256-xwCIB5/pRBpybGbODnOuODFeyABR091ULEG4L6ChmTo=";
@@ -81,13 +102,21 @@
               definedAliases = [ "@bd" ];
             };
             "Nix Packages" = {
-              urls = [{
-                template = "https://search.nixos.org/packages";
-                params = [
-                  { name = "channel"; value = "unstable"; }
-                  { name = "query"; value = "{searchTerms}"; }
-                ];
-              }];
+              urls = [
+                {
+                  template = "https://search.nixos.org/packages";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@np" ];
             };
