@@ -38,16 +38,18 @@
     let
       oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh { };
     in
+    with pkgs;
     [
+      agenix-cli
+      bat
+      busybox
+      curl
+      git
       inputs.cus-nixvim.packages."${pkgs.system}".nvim
+      jq
+      nixfmt-rfc-style
       oh-cus-zsh
-      pkgs.bat
-      pkgs.busybox
-      pkgs.curl
-      pkgs.git
-      pkgs.jq
-      pkgs.nixfmt-rfc-style
-      pkgs.tldr
+      tldr
     ];
 
   environment.variables.EDITOR = "nvim";
