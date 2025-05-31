@@ -14,24 +14,8 @@
 }:
 
 {
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  # https://github.com/NixOS/nixpkgs/issues/158356#issuecomment-1556882689
-  nix.settings.substituters = lib.mkForce [
-    "https://mirrors.ustc.edu.cn/nix-channels/store"
-    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-  ];
-  nix.settings.trusted-users = [
-    "cuso4d"
-    "root"
+  imports = [
+    ./secrets
   ];
 
   environment.systemPackages =
@@ -55,6 +39,26 @@
 
   fonts.packages = with pkgs; [
     nerd-fonts.ubuntu-mono
+  ];
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  # https://github.com/NixOS/nixpkgs/issues/158356#issuecomment-1556882689
+  nix.settings.substituters = lib.mkForce [
+    "https://mirrors.ustc.edu.cn/nix-channels/store"
+    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+  ];
+  nix.settings.trusted-users = [
+    "cuso4d"
+    "root"
   ];
 
   users.users.cuso4d = {
