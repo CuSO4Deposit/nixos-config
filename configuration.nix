@@ -14,22 +14,16 @@
 }:
 
 {
-  environment.systemPackages =
-    let
-      oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh { };
-    in
-    with pkgs;
-    [
-      bat
-      busybox
-      curl
-      git
-      inputs.cus-nixvim.packages."${pkgs.system}".nvim
-      jq
-      nixfmt-rfc-style
-      oh-cus-zsh
-      tldr
-    ];
+  environment.systemPackages = with pkgs; [
+    bat
+    busybox
+    curl
+    git
+    inputs.cus-nixvim.packages."${pkgs.system}".nvim
+    jq
+    nixfmt-rfc-style
+    tldr
+  ];
 
   environment.variables.EDITOR = "nvim";
 
@@ -86,7 +80,7 @@
     enable = true;
 
     interactiveShellInit = ''
-      eval "$(direnv hook bash)"
+      eval "$(direnv hook zsh)"
     '';
 
     ohMyZsh =
