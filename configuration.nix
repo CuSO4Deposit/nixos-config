@@ -40,7 +40,6 @@
     in
     with pkgs;
     [
-      agenix-cli
       bat
       busybox
       curl

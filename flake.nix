@@ -2,6 +2,10 @@
   description = "A NixOS Configuration Flake Wrapper";
 
   inputs = {
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     cus-nixvim = {
       url = "git+https://codeberg.org/cocvu/cus-nixvim?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -27,6 +31,7 @@
   outputs =
     {
       self,
+      agenix,
       home-manager,
       nixpkgs,
       nixos-wsl,
@@ -73,7 +78,11 @@
               modules = [
                 ./configuration.nix
                 ./hosts/${hostname}.nix
+                agenix.nixosModules.default
                 nixos-wsl.nixosModules.wsl
+                {
+                  environment.systemPackages = [ agenix.packages.${system}.default ];
+                }
               ];
             };
           wslHostnames = [
@@ -92,9 +101,11 @@
             modules = [
               ./configuration.nix
               ./hosts/dynamica.nix
+              agenix.nixosModules.default
               nur.modules.nixos.default # This adds the NUR overlay
               home-manager.nixosModules.home-manager
               {
+                environment.systemPackages = [ agenix.packages.${system}.default ];
                 home-manager.backupFileExtension = "backup";
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
