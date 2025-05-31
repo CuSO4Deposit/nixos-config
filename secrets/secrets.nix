@@ -12,5 +12,4 @@ let
   all = hosts ++ users;
 in
 {
-  "firefox_bypass.age".publicKeys = all;
 }

@@ -107,6 +107,8 @@
               {
                 environment.systemPackages = [ agenix.packages.${system}.default ];
                 home-manager.backupFileExtension = "backup";
+                # https://github.com/ryantm/agenix/issues/305#issuecomment-2603003925
+                home-manager.extraSpecialArgs.agenix = agenix;
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
                 home-manager.users.cuso4d = import ./home;

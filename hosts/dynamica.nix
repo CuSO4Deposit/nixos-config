@@ -1,9 +1,17 @@
-{ lib, config, pkgs, inputs, ... }:
 {
-  imports =
-    [
-      ./dynamica-hardware-configuration.nix
-    ];
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+{
+  age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
+    lib.attrNames (lib.attrsets.filterAttrs (n: v: v.isNormalUser) config.users.users)
+  );
+  imports = [
+    ./dynamica-hardware-configuration.nix
+  ];
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
@@ -48,20 +56,22 @@
 
   programs.dconf.enable = true;
   programs.dconf.profiles = {
-    user.databases = [{
-      lockAll = true;
-      settings = with lib.gvariant; {
-        "org/gnome/shell" = {
+    user.databases = [
+      {
+        lockAll = true;
+        settings = with lib.gvariant; {
+          "org/gnome/shell" = {
             disable-user-extensions = false;
             enabled-extensions = [
               pkgs.gnomeExtensions.kimpanel.extensionUuid
             ];
           };
-        "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-        "org/gnome/desktop/interface".enable-hot-corners = false;
-        "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
-      };
-    }];
+          "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+          "org/gnome/desktop/interface".enable-hot-corners = false;
+          "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
+        };
+      }
+    ];
   };
   programs.hyprland.enable = true;
 

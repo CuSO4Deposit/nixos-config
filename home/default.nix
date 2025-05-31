@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  agenix,
+  ...
+}:
 {
   home.homeDirectory = "/home/cuso4d";
   home.username = "cuso4d";
@@ -28,6 +33,7 @@
     ./firefox.nix
     ./waybar.nix
     ./wofi.nix
+    agenix.homeManagerModules.default
   ];
 
   programs.home-manager.enable = true;

@@ -14,10 +14,6 @@
 }:
 
 {
-  imports = [
-    ./secrets
-  ];
-
   environment.systemPackages =
     let
       oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh { };
