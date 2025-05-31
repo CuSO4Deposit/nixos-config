@@ -16,8 +16,10 @@
   home.packages = with pkgs; [
     # GUI
     ghostty
+    grim
     logseq
     nur.repos.linyinfeng.wemeet
+    slurp
     telegram-desktop
     wofi
     wpsoffice-cn

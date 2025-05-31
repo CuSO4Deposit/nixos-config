@@ -93,6 +93,8 @@
         "$mainMod, mouse:272, movewindow"
         # invalid dispatcher, requested "resizewindow" does not exist
         # "$mainMod, mouse:273, resizewindow"
+
+        '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
       ];
       decoration = {
         active_opacity = 1.0;
