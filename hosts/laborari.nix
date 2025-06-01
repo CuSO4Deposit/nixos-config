@@ -1,30 +1,38 @@
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
+  age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
+    lib.attrNames (lib.attrsets.filterAttrs (n: v: v.isNormalUser) config.users.users)
+  );
+
+  imports = [
+    ./modules/desktop.nix
+    ./laborari-hardware-configuration.nix
+  ];
+
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+
   networking.hostName = "nightcord-laborari";
+  networking.networkmanager.enable = true;
+  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.httpProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.httpsProxy = "socks5://127.0.0.1:20170";
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings.PasswordAuthentication = false;
-    settings.PermitRootLogin = "no";
-    settings.KbdInteractiveAuthentication = false;
-  };
+  services.v2raya.enable = true;
 
-  wsl.enable = true;
-  wsl.defaultUser = "cuso4d";
+  time.timeZone = "Etc/UTC";
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.daemon.settings = {
-    "proxies" = {
-      "http-proxy" = "http://172.31.80.1:7890";
-      "https-proxy" = "http://172.31.80.1:7890";
-    };
-  };
-
+  # List packages installed in system profile. To search, run:
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
+  # on your system were taken. It‘s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

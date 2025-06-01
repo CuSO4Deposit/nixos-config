@@ -86,41 +86,49 @@
               ];
             };
           wslHostnames = [
-            "laborari"
             "lexikos"
             "proximo"
           ];
-        in
-        {
-
-          nightcord-dynamica = nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = {
-              inherit inputs;
+          desktopConfig =
+            hostname:
+            nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs;
+              };
+              modules = [
+                ./configuration.nix
+                ./hosts/${hostname}.nix
+                agenix.nixosModules.default
+                nur.modules.nixos.default # This adds the NUR overlay
+                home-manager.nixosModules.home-manager
+                {
+                  environment.systemPackages = [ agenix.packages.${system}.default ];
+                  home-manager.backupFileExtension = "backup";
+                  # https://github.com/ryantm/agenix/issues/305#issuecomment-2603003925
+                  home-manager.extraSpecialArgs.agenix = agenix;
+                  home-manager.useGlobalPkgs = true;
+                  home-manager.useUserPackages = true;
+                  home-manager.users.cuso4d = import ./home;
+                }
+              ];
             };
-            modules = [
-              ./configuration.nix
-              ./hosts/dynamica.nix
-              agenix.nixosModules.default
-              nur.modules.nixos.default # This adds the NUR overlay
-              home-manager.nixosModules.home-manager
-              {
-                environment.systemPackages = [ agenix.packages.${system}.default ];
-                home-manager.backupFileExtension = "backup";
-                # https://github.com/ryantm/agenix/issues/305#issuecomment-2603003925
-                home-manager.extraSpecialArgs.agenix = agenix;
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.users.cuso4d = import ./home;
-              }
-            ];
-          };
-        }
-        // builtins.listToAttrs (
+          desktopHostnames = [
+            "dynamica"
+            "laborari"
+          ];
+        in
+        builtins.listToAttrs (
           map (name: {
             name = "nightcord-${name}";
             value = wslConfig name;
           }) wslHostnames
+        )
+        // builtins.listToAttrs (
+          map (name: {
+            name = "nightcord-${name}";
+            value = desktopConfig name;
+          }) desktopHostnames
         );
     };
 }
