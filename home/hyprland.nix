@@ -144,6 +144,7 @@
       input = {
         follow_mouse = 1;
         kb_layout = "us";
+        numlock_by_default = true;
         sensitivity = 0;
         touchpad = {
           natural_scroll = true;

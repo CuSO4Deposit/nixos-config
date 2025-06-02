@@ -51,6 +51,7 @@
           };
           "org/gnome/desktop/interface".color-scheme = "prefer-dark";
           "org/gnome/desktop/interface".enable-hot-corners = false;
+          "org/gnome/desktop/peripherals/keyboard".numlock-state = true;
           "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
         };
       }
