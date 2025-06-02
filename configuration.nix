@@ -103,6 +103,8 @@
       nrb = "nixos-rebuild switch --flake .#$(hostname) --use-remote-sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
       nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --use-remote-sudo;";
       sudonvim = "sudo -E -s nvim";
+      # https://wszqkzqk.github.io/2024/03/09/WPS-Fcitx5/
+      wps = ''XMODIFIERS="@im=fcitx" GTK_IM_MODULE="fcitx" QT_IM_MODULE="fcitx" SDL_IM_MODULE=fcitx wps'';
     };
   };
 }
