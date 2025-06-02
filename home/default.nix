@@ -21,6 +21,7 @@
     nur.repos.linyinfeng.wemeet
     slurp
     telegram-desktop
+    wechat-uos
     wofi
     wpsoffice-cn
 
