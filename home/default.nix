@@ -18,10 +18,10 @@
     ghostty
     grim
     logseq
-    nur.repos.linyinfeng.wemeet
     slurp
     telegram-desktop
     wechat-uos
+    wemeet
     wofi
     wpsoffice-cn
 
