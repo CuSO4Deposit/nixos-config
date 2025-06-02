@@ -52,7 +52,12 @@
           "org/gnome/desktop/interface".color-scheme = "prefer-dark";
           "org/gnome/desktop/interface".enable-hot-corners = false;
           "org/gnome/desktop/peripherals/keyboard".numlock-state = true;
-          "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-timeout = mkUint32 3600;
+          # Automatic Screen Blank (in seconds). (Set to 0 to disable)
+          "org/gnome/desktop/session".idle-delay = mkUint32 600;
+          # Automatic Suspend: Off (set it to "suspend" to turn on)
+          "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type = "nothing";
+          # Power Button Bahavior: Power Off (other options: suspend, hibernate, nothing)
+          "org/gnome/settings-daemon/plugins/power".power-button-action = "interactive";
         };
       }
     ];
