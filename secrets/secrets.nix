@@ -12,6 +12,17 @@ let
     proximo-user
   ];
   all = hosts ++ users;
+
+  secrets = [
+    "officeVPN.ovpn.age"
+    "officeVPN.auth.age"
+  ];
 in
-{
-}
+builtins.listToAttrs (
+  map (name: {
+    name = "${name}";
+    value = {
+      publicKeys = all;
+    };
+  }) secrets
+)
