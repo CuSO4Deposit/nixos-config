@@ -42,6 +42,22 @@
 
   time.timeZone = "Etc/UTC";
 
+  virtualisation.docker = {
+    daemon.settings = {
+      proxies =
+        let
+          # This is the default port of http-proxy of v2rayA that follows rules.
+          # I need to bypass some domains, so I cannot use config.networking.proxy.* 
+          proxy = "http://127.0.0.1:20172";
+        in
+        {
+          http-proxy = proxy;
+          https-proxy = proxy;
+        };
+    };
+    enable = true;
+  };
+
   # List packages installed in system profile. To search, run:
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
