@@ -23,6 +23,17 @@
 
   environment.etc.openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
 
+  # OpenGL
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    nvidiaSettings = true;
+    open = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+  };
+
   networking.hostName = "nightcord-laborari";
   networking.networkmanager.enable = true;
   networking.proxy.allProxy = "socks5://127.0.0.1:20170";
@@ -38,6 +49,7 @@
       auth-user-pass ${config.age.secrets."officeVPN.auth".path}
     '';
   };
+  services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
 
   time.timeZone = "Etc/UTC";
