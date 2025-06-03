@@ -18,6 +18,7 @@
     ghostty
     grim
     logseq
+    netease-cloud-music-gtk
     slurp
     telegram-desktop
     wechat-uos
