@@ -21,6 +21,9 @@
     netease-cloud-music-gtk
     slurp
     telegram-desktop
+    # feishu crashes in hyprland with unknown reason. Before I fix this, use
+    #   this to run a feishu web app (feishu does not support firefox)
+    ungoogled-chromium
     wechat-uos
     wemeet
     wofi
