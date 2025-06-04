@@ -32,6 +32,10 @@
     # utils
     wl-clipboard
   ];
+  home.sessionVariables = {
+    QT_IM_MODULE = "fcitx";
+    XMODIFERS = "@im=fcitx";
+  };
 
   imports = [
     ./dunst.nix
