@@ -5,7 +5,11 @@
   ...
 }:
 {
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    QT_IM_MODULE = "fcitx";
+    XMODIFERS = "@im=fcitx";
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
