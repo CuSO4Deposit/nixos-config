@@ -76,6 +76,15 @@
     lfs.enable = true;
   };
 
+  programs.tmux = {
+    clock24 = true;
+    enable = true;
+    keyMode = "vi";
+    plugins = with pkgs.tmuxPlugins; [
+      tokyo-night-tmux
+    ];
+  };
+
   programs.zsh = {
     enable = true;
 
