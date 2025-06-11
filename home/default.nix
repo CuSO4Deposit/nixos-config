@@ -15,6 +15,7 @@
   };
   home.packages = with pkgs; [
     # GUI
+    filezilla
     ghostty
     grim
     logseq
