@@ -15,6 +15,7 @@
   };
   home.packages = with pkgs; [
     # GUI
+    evolution
     filezilla
     ghostty
     grim
