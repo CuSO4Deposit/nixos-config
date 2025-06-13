@@ -96,6 +96,15 @@
 
         '', Print, exec, grim -g "$(slurp -d)" - | wl-copy''
       ];
+      binde = [
+        '', XF86AudioMute, exec, "wpctl set-volume @DEFAULT_AUDIO_SINK@ toggle"''
+        '', XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+''
+        '', XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-''
+
+        # Another keybind for dynamica
+        '', muhenkan, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+''
+        '', henkan_mode, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-''
+      ];
       decoration = {
         active_opacity = 1.0;
         blur = {
