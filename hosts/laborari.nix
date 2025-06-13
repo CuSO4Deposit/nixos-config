@@ -5,7 +5,8 @@
   ...
 }:
 let
-  proxy = "http://127.0.0.1:20172";
+  httpProxy = "http://127.0.0.1:20172";
+  socks5Proxy = "socks5://127.0.0.1:20170";
 in
 {
   age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
@@ -39,9 +40,9 @@ in
 
   networking.hostName = "nightcord-laborari";
   networking.networkmanager.enable = true;
-  networking.proxy.allProxy = proxy;
-  networking.proxy.httpProxy = proxy;
-  networking.proxy.httpsProxy = proxy;
+  networking.proxy.allProxy = socks5Proxy;
+  networking.proxy.httpProxy = socks5Proxy;
+  networking.proxy.httpsProxy = socks5Proxy;
 
   programs.steam.enable = true;
 
@@ -62,8 +63,8 @@ in
   virtualisation.docker = {
     daemon.settings = {
       proxies = {
-        http-proxy = proxy;
-        https-proxy = proxy;
+        http-proxy = httpProxy;
+        https-proxy = httpProxy;
       };
     };
     enable = true;
