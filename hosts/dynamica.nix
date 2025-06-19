@@ -11,6 +11,7 @@
 
   imports = [
     ./modules/desktop.nix
+    ./modules/office-vpn.nix
     ./dynamica-hardware-configuration.nix
   ];
 
