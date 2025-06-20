@@ -15,6 +15,9 @@ in
     ./laborari-hardware-configuration.nix
   ];
 
+  boot.binfmt.emulatedSystems = [
+    "loongarch64-linux"
+  ];
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
