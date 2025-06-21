@@ -5,6 +5,7 @@
     ./proximo-hardware-configuration.nix
   ];
 
+  networking.firewall.allowedTCPPorts = [ 7777 ];
   networking.hostName = "nightcord-proximo";
 
   services.openssh = {
