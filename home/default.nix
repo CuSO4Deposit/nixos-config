@@ -30,7 +30,7 @@
     wechat-uos
     wemeet
     wofi
-    wpsoffice-cn
+    zeal
 
     # utils
     wl-clipboard
@@ -52,12 +52,6 @@
     feishu-web = {
       name = "feishu-web";
       exec = "chromium --no-proxy-server feishu.cn/messages";
-      terminal = false;
-    };
-    wps = {
-      name = "wps-fixed";
-      # https://wszqkzqk.github.io/2024/03/09/WPS-Fcitx5/
-      exec = ''XMODIFIERS="@im=fcitx" GTK_IM_MODULE="fcitx" QT_IM_MODULE="fcitx" SDL_IM_MODULE=fcitx wps'';
       terminal = false;
     };
   };
