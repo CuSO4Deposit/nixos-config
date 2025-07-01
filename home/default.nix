@@ -31,6 +31,7 @@
     wemeet
     wofi
     zeal
+    zotero
 
     # utils
     wl-clipboard
