@@ -121,8 +121,8 @@
       c = "clear";
       cc0 = "curl https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt -o ./LICENSE";
       gmv = "git mv";
-      nrb = "nixos-rebuild switch --flake .#$(hostname) --use-remote-sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
-      nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --use-remote-sudo;";
+      nrb = "nixos-rebuild switch --flake .#$(hostname) --sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
+      nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --sudo;";
       sudonvim = "sudo -E -s nvim";
     };
   };
