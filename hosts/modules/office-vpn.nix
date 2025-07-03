@@ -13,6 +13,8 @@
     "officeVPN.auth".file = ../../secrets/officeVPN.auth.age;
   };
 
+  environment.etc.openvpn.source = "${pkgs.update-systemd-resolved}/libexec/openvpn";
+
   services.openvpn.servers.office = {
     # service.openvpn.servers.<name>.authUserPass still do not allow paths.
     # This is a possible workaround provided by tbaumann in:

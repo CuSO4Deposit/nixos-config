@@ -21,8 +21,6 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
-  environment.etc.openvpn.source = "${pkgs.update-resolv-conf}/libexec/openvpn";
-
   # OpenGL
   hardware.graphics.enable = true;
   hardware.nvidia = {

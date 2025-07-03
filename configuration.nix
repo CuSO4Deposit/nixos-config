@@ -31,6 +31,8 @@
     nerd-fonts.ubuntu-mono
   ];
 
+  networking.resolvconf.enable = !(config.services.resolved.enable);
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -50,6 +52,16 @@
     "cuso4d"
     "root"
   ];
+
+  services.resolved = {
+    enable = true;
+    dnssec = "allow-downgrade";
+    dnsovertls = "opportunistic";
+    fallbackDns = [
+      "1.1.1.1#one.one.one.one"
+      "8.8.8.8#dns.google"
+    ];
+  };
 
   users.users.cuso4d = {
     isNormalUser = true;
