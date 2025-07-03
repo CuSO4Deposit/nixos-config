@@ -55,6 +55,10 @@
 
   services.resolved = {
     enable = true;
+    extraConfig = ''
+      [Resolve]
+      Cache=no-negative
+    '';
     dnssec = "allow-downgrade";
     dnsovertls = "opportunistic";
     fallbackDns = [

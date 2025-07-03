@@ -15,6 +15,10 @@ in
     ./laborari-hardware-configuration.nix
   ];
 
+  age.secrets = {
+    "office-band.conf".file = ../secrets/office-band.conf.age;
+  };
+
   boot.binfmt.emulatedSystems = [
     "loongarch64-linux"
   ];
@@ -37,6 +41,7 @@ in
   networking.proxy.allProxy = socks5Proxy;
   networking.proxy.httpProxy = socks5Proxy;
   networking.proxy.httpsProxy = socks5Proxy;
+  networking.wg-quick.interfaces.office-band.configFile = config.age.secrets."office-band.conf".path;
 
   programs.steam.enable = true;
 
