@@ -53,6 +53,8 @@
     "root"
   ];
 
+  nixpkgs.config.allowUnfree = true;
+
   services.resolved = {
     enable = true;
     extraConfig = ''
