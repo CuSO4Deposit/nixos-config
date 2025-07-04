@@ -43,6 +43,7 @@
         "$mainMod, V, togglesplit"
         "$mainMod, F, exec, firefox"
         "$mainMod, M, fullscreen, 1"
+        "$mainMod, S, exec, logseq"
 
         "$mainMod, left, movefocus, l"
         "$mainMod, right, movefocus, r"
@@ -83,8 +84,8 @@
         "$mainMod SHIFT, 9, movetoworkspace, 9"
         "$mainMod SHIFT, 0, movetoworkspace, 10"
 
-        "$mainMod, S, togglespecialworkspace, scratch"
-        "$mainMod SHIFT, S, movetoworkspace, special:scratch"
+        "$mainMod, -, togglespecialworkspace, scratch"
+        "$mainMod SHIFT, -, movetoworkspace, special:scratch"
 
         # Move/resize windows with mainMod + LMB/RMB and dragging
         "$mainMod, mouse_down, workspace, e+1"
