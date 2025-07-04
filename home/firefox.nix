@@ -27,7 +27,9 @@
           # uBlock Origin
           "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
           # Vimium
-          "https://addons.mozilla.org/firefox/downloads/file/4458679/vimium_ff-latest.xpi"
+          "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi"
+          # xBrowserSync
+          "https://addons.mozilla.org/firefox/downloads/latest/xbs/latest.xpi"
         ];
         Uninstall = [
           "amazondotcom@search.mozilla.org"
