@@ -17,6 +17,7 @@
   environment.systemPackages = with pkgs; [
     bat
     busybox
+    claude-code
     curl
     git
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
