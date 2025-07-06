@@ -62,7 +62,7 @@
       [Resolve]
       Cache=no-negative
     '';
-    dnssec = "allow-downgrade";
+    dnssec = "false";
     dnsovertls = "opportunistic";
     fallbackDns = [
       "1.1.1.1#one.one.one.one"
