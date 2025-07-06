@@ -11,7 +11,7 @@ in
 {
   imports = [
     ./modules/desktop.nix
-    ./modules/office-vpn.nix
+    ./modules/office-wg.nix
     ./laborari-hardware-configuration.nix
   ];
 
@@ -41,7 +41,7 @@ in
   networking.proxy.allProxy = socks5Proxy;
   networking.proxy.httpProxy = socks5Proxy;
   networking.proxy.httpsProxy = socks5Proxy;
-  networking.wg-quick.interfaces.office-band.configFile = config.age.secrets."office-band.conf".path;
+  networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
 
   programs.steam.enable = true;
 

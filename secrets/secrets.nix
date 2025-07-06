@@ -16,6 +16,7 @@ let
   secrets = [
     "officeVPN.ovpn.age"
     "officeVPN.auth.age"
+    "office.conf.age"
     "office-band.conf.age"
   ];
 in
