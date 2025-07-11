@@ -6,7 +6,7 @@
 }:
 let
   httpProxy = "http://127.0.0.1:20172";
-  socks5Proxy = "socks5://127.0.0.1:20170";
+  socks5Proxy = "socks5://127.0.0.1:20173";
 in
 {
   imports = [
