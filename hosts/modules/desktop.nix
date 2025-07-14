@@ -11,6 +11,11 @@
     XMODIFERS = "@im=fcitx";
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.ubuntu-mono
+    noto-fonts-cjk-sans
+  ];
+
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
@@ -55,6 +60,7 @@
           };
           "org/gnome/desktop/interface".color-scheme = "prefer-dark";
           "org/gnome/desktop/interface".enable-hot-corners = false;
+          "org/gnome/desktop/interface".font-name = "Noto Sans CJK SC, 13";
           "org/gnome/desktop/peripherals/keyboard".numlock-state = true;
           # Automatic Screen Blank (in seconds). (Set to 0 to disable)
           "org/gnome/desktop/session".idle-delay = mkUint32 600;

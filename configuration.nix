@@ -28,10 +28,6 @@
 
   environment.variables.EDITOR = "nvim";
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.ubuntu-mono
-  ];
-
   networking.resolvconf.enable = !(config.services.resolved.enable);
 
   nix.gc = {
