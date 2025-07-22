@@ -56,6 +56,11 @@ in
         http-proxy = httpProxy;
         https-proxy = httpProxy;
       };
+      registry-mirrors = [
+        "https://docker-0.unsee.tech"
+        "https://docker.mirrors.kclab.cloud/"
+        "https://docker.1panel.live"
+      ];
     };
     enable = true;
   };
