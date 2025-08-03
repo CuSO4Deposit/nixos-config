@@ -11,6 +11,10 @@
     XMODIFERS = "@im=fcitx";
   };
 
+  environment.systemPackages = with pkgs; [
+    brightnessctl
+  ];
+
   fonts.packages = with pkgs; [
     nerd-fonts.ubuntu-mono
     noto-fonts-cjk-sans
