@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+let
+  httpProxy = "http://127.0.0.1:20172";
+in
 {
   age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
     lib.attrNames (lib.attrsets.filterAttrs (n: v: v.isNormalUser) config.users.users)
@@ -20,9 +23,9 @@
 
   networking.hostName = "nightcord-dynamica";
   networking.networkmanager.enable = true;
-  networking.proxy.allProxy = "socks5://127.0.0.1:20170";
-  networking.proxy.httpProxy = "socks5://127.0.0.1:20170";
-  networking.proxy.httpsProxy = "socks5://127.0.0.1:20170";
+  networking.proxy.allProxy = httpProxy;
+  networking.proxy.httpProxy = httpProxy;
+  networking.proxy.httpsProxy = httpProxy;
 
   services.v2raya.enable = true;
 
