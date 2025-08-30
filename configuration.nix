@@ -117,6 +117,17 @@
 
     interactiveShellInit = ''
       eval "$(direnv hook zsh)"
+
+
+      check_dirs_empty() {
+        for dir in "$@"; do
+          if [ -d "$dir" ] && [ "$(ls -A "$dir" 2>/dev/null)" ]; then
+            echo -e "\e[1;33mwarning: $dir is not empty.\e[0m"
+          fi
+        done
+      }
+
+      check_dirs_empty "$HOME/Downloads"
     '';
 
     ohMyZsh =
