@@ -128,6 +128,21 @@
       }
 
       check_dirs_empty "$HOME/Downloads"
+
+
+      check_git_worktree_clean() {
+        for dir in "$@"; do
+          pushd $dir >/dev/null || continue
+          if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+            if git status --porcelain | grep -q .; then
+              echo -e "\e[1;33mwarning: git tree $dir is dirty.\e[0m"
+            fi
+          fi
+          popd >/dev/null
+        done
+      }
+
+      check_git_worktree_clean $HOME/temp
     '';
 
     ohMyZsh =
