@@ -132,17 +132,17 @@
 
       check_git_worktree_clean() {
         for dir in "$@"; do
-          pushd $dir >/dev/null || continue
+          pushd $dir >/dev/null 2>&1 || continue
           if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
             if git status --porcelain | grep -q .; then
               echo -e "\e[1;33mwarning: git tree $dir is dirty.\e[0m"
             fi
           fi
-          popd >/dev/null
+          popd >/dev/null 2>&1
         done
       }
 
-      check_git_worktree_clean $HOME/temp
+      check_git_worktree_clean $HOME/temp $HOME/.nixos
     '';
 
     ohMyZsh =
