@@ -118,6 +118,10 @@
     interactiveShellInit = ''
       eval "$(direnv hook zsh)"
 
+      # Remove command lines from the history list when the first character on the line is a space,
+      # or when one of the expanded aliases contains a leading space. 
+      setopt HIST_IGNORE_SPACE
+
 
       check_dirs_empty() {
         for dir in "$@"; do
