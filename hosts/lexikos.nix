@@ -1,5 +1,6 @@
 {
   networking.hostName = "nightcord-lexikos";
+  networking.proxy.allProxy = "http://172.29.144.1:10808";
 
   wsl.enable = true;
   wsl.defaultUser = "cuso4d";
