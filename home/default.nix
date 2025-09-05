@@ -30,7 +30,7 @@
     wechat-uos
     wemeet
     wofi
-    zeal-qt6
+    zeal
     zotero
 
     # utils
