@@ -27,6 +27,21 @@ in
   networking.proxy.httpProxy = httpProxy;
   networking.proxy.httpsProxy = httpProxy;
 
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      # governor = "powersave";
+      # turbo = "never";
+      governor = "performance";
+      turbo = "auto";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
+  # Conflicts with services.auto-cpufreq
+  services.power-profiles-daemon.enable = false;
   services.v2raya.enable = true;
 
   time.timeZone = "Etc/UTC";
