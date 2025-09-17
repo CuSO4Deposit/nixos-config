@@ -27,7 +27,7 @@
     #   this to run a feishu web app (feishu does not support firefox)
     ungoogled-chromium
     vlc
-    wechat-uos
+    wechat
     wemeet
     wofi
     zeal

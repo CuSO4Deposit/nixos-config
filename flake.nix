@@ -110,6 +110,7 @@
                   home-manager.useGlobalPkgs = true;
                   home-manager.useUserPackages = true;
                   home-manager.users.cuso4d = import ./home;
+                  nixpkgs.config.allowUnfree = true;
                 }
               ];
             };
