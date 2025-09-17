@@ -170,6 +170,7 @@
       nrb = "nixos-rebuild switch --flake .#$(hostname) --sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
       nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --sudo;";
       sudonvim = "sudo -E -s nvim";
+      t = "nohup ghostty >/dev/null 2>&1 &";
     };
   };
 }
