@@ -131,7 +131,7 @@
         done
       }
 
-      check_dirs_empty "$HOME/Downloads"
+      check_dirs_empty "$HOME/Downloads" "$HOME/empty"
 
 
       check_git_worktree_clean() {
