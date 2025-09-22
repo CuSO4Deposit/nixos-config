@@ -165,6 +165,7 @@
       bat = "bat --theme=base16";
       c = "clear";
       cc0 = "curl https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt -o ./LICENSE";
+      glr = "git pull --rebase";
       gmv = "git mv";
       gs = "git status --short";
       nrb = "nixos-rebuild switch --flake .#$(hostname) --sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
