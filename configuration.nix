@@ -23,6 +23,7 @@
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
     jq
     nixfmt-rfc-style
+    qwen-code
     tldr
   ];
 
