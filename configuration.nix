@@ -168,7 +168,7 @@
       cc0 = "curl https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt -o ./LICENSE";
       glr = "git pull --rebase";
       gmv = "git mv";
-      gs = "git status --short";
+      gs = "git status --short --branch";
       nrb = "nixos-rebuild switch --flake .#$(hostname) --sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
       nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --sudo;";
       sudonvim = "sudo -E -s nvim";
