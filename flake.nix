@@ -68,6 +68,22 @@
 
       nixosConfigurations =
         let
+          serverConfig =
+            hostname:
+            nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs;
+              };
+              modules = [
+                ./configuration.nix
+                ./hosts/${hostname}.nix
+                agenix.nixosModules.default
+              ];
+            };
+          serverHostnames = [
+            "proximo"
+          ];
           wslConfig =
             hostname:
             nixpkgs.lib.nixosSystem {
@@ -87,7 +103,6 @@
             };
           wslHostnames = [
             "lexikos"
-            "proximo"
           ];
           desktopConfig =
             hostname:
@@ -120,6 +135,12 @@
           ];
         in
         builtins.listToAttrs (
+          map (name: {
+            name = "nightcord-${name}";
+            value = serverConfig name;
+          }) serverHostnames
+        )
+        // builtins.listToAttrs (
           map (name: {
             name = "nightcord-${name}";
             value = wslConfig name;
