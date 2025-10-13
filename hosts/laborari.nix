@@ -36,6 +36,7 @@ in
     powerManagement.finegrained = false;
   };
 
+  networking.firewall.allowedTCPPorts = [ 22222 ];
   networking.hostName = "nightcord-laborari";
   networking.networkmanager.enable = true;
   networking.proxy.allProxy = socks5Proxy;
@@ -45,10 +46,21 @@ in
 
   programs.steam.enable = true;
 
+  services.openssh = {
+    enable = true;
+    ports = [ 22222 ];
+    settings.KbdInteractiveAuthentication = false;
+    settings.PasswordAuthentication = false;
+    settings.PermitRootLogin = "no";
+  };
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
 
   time.timeZone = "Etc/UTC";
+
+  users.users."cuso4d".openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4rWlDqIGqCRsXaF/QuYuMrWIvQ1fFLr8XyxCFQl07q cuso4d@nightcord-lexikos"
+  ];
 
   virtualisation.docker = {
     daemon.settings = {
