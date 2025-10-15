@@ -175,4 +175,6 @@
       t = "nohup ghostty >/dev/null 2>&1 &";
     };
   };
+
+  virtualisation.docker.enable = true;
 }
