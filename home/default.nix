@@ -18,6 +18,7 @@
     filezilla
     ghostty
     grim
+    keepassxc
     logseq
     obs-studio
     qq
