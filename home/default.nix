@@ -19,8 +19,8 @@
     ghostty
     grim
     logseq
-    netease-cloud-music-gtk
     obs-studio
+    qq
     slurp
     telegram-desktop
     # feishu crashes in hyprland with unknown reason. Before I fix this, use
