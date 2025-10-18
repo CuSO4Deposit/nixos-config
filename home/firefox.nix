@@ -8,6 +8,7 @@
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-wayland;
+    # https://mozilla.github.io/policy-templates
     policies = {
       AppUpdateURL = "https://localhost";
       DisableAppUpdate = true;
@@ -24,6 +25,10 @@
         Install = [
           # Dark Reader
           "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi"
+          # FoxyProxy Standard
+          "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/lateset.xpi"
+          # KeePassXC-Browser
+          "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/lateset.xpi"
           # uBlock Origin
           "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
           # Vimium
@@ -49,7 +54,7 @@
       Proxy = {
         HTTPProxy = "127.0.0.1:20171";
         Locked = false;
-        Mode = "manual";
+        Mode = "none";
         SOCKSProxy = "127.0.0.1:20170";
         SOCKSVersion = 5;
       };
@@ -121,6 +126,25 @@
               ];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@np" ];
+            };
+            "NixOS Options" = {
+              urls = [
+                {
+                  template = "https://search.nixos.org/options";
+                  params = [
+                    {
+                      name = "channel";
+                      value = "unstable";
+                    }
+                    {
+                      name = "query";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              definedAliases = [ "@no" ];
             };
           };
         };
