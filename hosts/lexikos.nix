@@ -22,6 +22,20 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
+  # https://nixos.wiki/wiki/Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+        FastConnectable = true;
+      };
+      Policy = {
+        AntoEnable = true;
+      };
+    };
+  };
   # OpenGL
   hardware.graphics.enable = true;
   hardware.nvidia = {
@@ -44,6 +58,11 @@ in
     ];
   };
 
+  environment.systemPackages = with pkgs; [
+    # Pipewire graphical tool
+    pavucontrol
+  ];
+
   networking.hostName = "nightcord-lexikos";
   networking.networkmanager.enable = true;
   networking.proxy.allProxy = socks5Proxy;
@@ -53,6 +72,7 @@ in
 
   programs.steam.enable = true;
 
+  services.blueman.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
 
