@@ -12,7 +12,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    at
     brightnessctl
     libnotify
   ];

@@ -15,6 +15,7 @@
 
 {
   environment.systemPackages = with pkgs; [
+    at
     bat
     busybox
     claude-code
@@ -53,6 +54,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  services.atd.enable = true;
   services.resolved = {
     enable = true;
     extraConfig = ''
