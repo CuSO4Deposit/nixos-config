@@ -101,9 +101,7 @@
                 }
               ];
             };
-          wslHostnames = [
-            "lexikos"
-          ];
+          wslHostnames = [ ];
           desktopConfig =
             hostname:
             nixpkgs.lib.nixosSystem {
@@ -132,6 +130,7 @@
           desktopHostnames = [
             "dynamica"
             "laborari"
+            "lexikos"
           ];
         in
         builtins.listToAttrs (
