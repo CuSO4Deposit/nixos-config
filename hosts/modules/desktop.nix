@@ -12,7 +12,9 @@
   };
 
   environment.systemPackages = with pkgs; [
+    at
     brightnessctl
+    libnotify
   ];
 
   fonts.packages = with pkgs; [
