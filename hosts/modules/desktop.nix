@@ -117,6 +117,9 @@
   };
   security.rtkit.enable = true;
 
+  # Enable hyprlock to perform authentication
+  security.pam.services.hyprlock.enable = true;
+
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
   # https://www.reddit.com/r/NixOS/comments/qfe9yr/how_can_i_wake_it_up_from_suspension_and/

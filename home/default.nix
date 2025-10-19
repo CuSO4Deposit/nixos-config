@@ -41,6 +41,7 @@
   imports = [
     ./dunst.nix
     ./hyprland.nix
+    ./hyprlock.nix
     ./hyprpaper.nix
     ./firefox.nix
     ./waybar.nix
