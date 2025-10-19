@@ -140,6 +140,8 @@
         "fcitx5-remote -r"
         "fcitx5 -d --replace &"
         "fcitx5-remote -r"
+        # https://wiki.hypr.land/Hypr-Ecosystem/hypridle/#configuration
+        "hypridle"
       ];
       general = {
         allow_tearing = false;
