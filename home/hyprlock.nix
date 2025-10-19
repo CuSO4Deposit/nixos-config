@@ -11,7 +11,7 @@
       background = {
         monitor = "";
         blur_passes = 1;
-        brightness = 0.5;
+        brightness = 0.25;
         path = lib.mkDefault "screenshot";
       };
       input-field = {
