@@ -22,6 +22,11 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
+  environment.systemPackages = with pkgs; [
+    localsend
+    pavucontrol # Pipewire graphical tool
+  ];
+
   # https://nixos.wiki/wiki/Bluetooth
   hardware.bluetooth = {
     enable = true;
@@ -58,12 +63,15 @@ in
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    # Pipewire graphical tool
-    pavucontrol
-  ];
-
   networking.hostName = "nightcord-lexikos";
+  networking.firewall = {
+    allowedTCPPorts = [
+      53317 # LocalSend
+    ];
+    allowedUDPPorts = [
+      53317 # LocalSend
+    ];
+  };
   networking.networkmanager.enable = true;
   networking.proxy.allProxy = socks5Proxy;
   networking.proxy.httpProxy = socks5Proxy;
