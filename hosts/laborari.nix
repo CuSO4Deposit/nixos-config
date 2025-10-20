@@ -36,6 +36,12 @@ in
     powerManagement.finegrained = false;
   };
 
+  home-manager.users.cuso4d.programs.hyprlock.settings = {
+    background = {
+      brightness = lib.mkForce 0.5;
+    };
+  };
+
   networking.firewall.allowedTCPPorts = [ 22222 ];
   networking.hostName = "nightcord-laborari";
   networking.networkmanager.enable = true;
