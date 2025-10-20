@@ -23,6 +23,8 @@ in
   boot.loader.systemd-boot.enable = true;
 
   environment.systemPackages = with pkgs; [
+    digikam
+    kdePackages.kdenlive
     localsend
     pavucontrol # Pipewire graphical tool
   ];
