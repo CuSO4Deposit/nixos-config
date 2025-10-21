@@ -15,6 +15,7 @@
   home.packages = with pkgs; [
     # GUI
     evolution
+    feishu
     filezilla
     ghostty
     grim
@@ -24,9 +25,6 @@
     qq
     slurp
     telegram-desktop
-    # feishu crashes in hyprland with unknown reason. Before I fix this, use
-    #   this to run a feishu web app (feishu does not support firefox)
-    ungoogled-chromium
     vlc
     wechat
     wemeet
@@ -51,14 +49,6 @@
   ];
 
   programs.home-manager.enable = true;
-
-  xdg.desktopEntries = {
-    feishu-web = {
-      name = "feishu-web";
-      exec = "chromium --no-proxy-server feishu.cn/messages";
-      terminal = false;
-    };
-  };
 
   xdg.portal = {
     enable = true;
