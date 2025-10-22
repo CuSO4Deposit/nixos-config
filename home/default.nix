@@ -50,6 +50,13 @@
 
   programs.home-manager.enable = true;
 
+  xdg.desktopEntries = {
+    feishu-env = {
+      name = "feishu-env";
+      exec = "QT_QPA_PLATFORM=wayland QT_IM_MODULE=fcitx IM_MODULE_CLASSNAME=fcitx::QFcitxPlatformInputContext bytedance-feishu";
+      terminal = false;
+    };
+  };
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
