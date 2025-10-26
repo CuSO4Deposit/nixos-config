@@ -62,9 +62,9 @@
       Cache=no-negative
     '';
     dnssec = "false";
-    dnsovertls = "opportunistic";
+    dnsovertls = "false";
     fallbackDns = [
-      "8.8.8.8#dns.google"
+      "8.8.8.8"
       "114.114.114.114"
     ];
   };

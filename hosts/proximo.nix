@@ -8,6 +8,7 @@
   boot.loader.systemd-boot.enable = true;
 
   imports = [
+    ./modules/server.nix
     ./proximo-hardware-configuration.nix
   ];
 
