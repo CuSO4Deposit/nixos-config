@@ -64,8 +64,8 @@
     dnssec = "false";
     dnsovertls = "opportunistic";
     fallbackDns = [
-      "1.1.1.1#one.one.one.one"
       "8.8.8.8#dns.google"
+      "114.114.114.114"
     ];
   };
 
