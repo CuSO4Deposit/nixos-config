@@ -1,4 +1,10 @@
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   boot.loader.systemd-boot.enable = true;
 
   imports = [
@@ -7,6 +13,11 @@
 
   networking.firewall.allowedTCPPorts = [ 7777 ];
   networking.hostName = "nightcord-proximo";
+
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+  };
 
   services.openssh = {
     enable = true;
