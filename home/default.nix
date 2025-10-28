@@ -29,7 +29,7 @@
     wechat
     wemeet
     wofi
-    zeal
+    # zeal  # https://nixpkgs-tracker.ocfox.me/?pr=455354
     zotero
 
     # utils
@@ -52,7 +52,7 @@
 
   xdg.desktopEntries = {
     feishu-env = {
-      name = "feishu-env";
+      name = "FeishuWithEnv";
       exec = "QT_QPA_PLATFORM=wayland QT_IM_MODULE=fcitx IM_MODULE_CLASSNAME=fcitx::QFcitxPlatformInputContext bytedance-feishu";
       terminal = false;
     };
