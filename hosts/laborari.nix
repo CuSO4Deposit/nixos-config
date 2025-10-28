@@ -6,7 +6,6 @@
 }:
 let
   httpProxy = "http://127.0.0.1:20172";
-  socks5Proxy = "socks5://127.0.0.1:20173";
 in
 {
   imports = [
@@ -45,9 +44,8 @@ in
   networking.firewall.allowedTCPPorts = [ 22222 ];
   networking.hostName = "nightcord-laborari";
   networking.networkmanager.enable = true;
-  networking.proxy.allProxy = socks5Proxy;
-  networking.proxy.httpProxy = socks5Proxy;
-  networking.proxy.httpsProxy = socks5Proxy;
+  networking.proxy.httpProxy = httpProxy;
+  networking.proxy.httpsProxy = httpProxy;
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
 
   programs.steam.enable = true;
