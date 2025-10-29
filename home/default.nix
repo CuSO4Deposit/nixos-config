@@ -16,6 +16,7 @@
     # GUI
     evolution
     feishu
+    (pkgs.callPackage ../derivations/feishu-fcitx5 { })
     filezilla
     ghostty
     grim
@@ -51,9 +52,10 @@
   programs.home-manager.enable = true;
 
   xdg.desktopEntries = {
-    feishu-env = {
-      name = "FeishuWithEnv";
-      exec = "QT_QPA_PLATFORM=wayland QT_IM_MODULE=fcitx IM_MODULE_CLASSNAME=fcitx::QFcitxPlatformInputContext bytedance-feishu";
+    feishu-fcitx5 = {
+      name = "FeishuFcitx5";
+      exec = "feishu-fcitx5 %U";
+      type = "Application";
       terminal = false;
     };
   };
