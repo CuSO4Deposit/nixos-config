@@ -56,6 +56,7 @@
       fcitx5-pinyin-zhwiki
       fcitx5-pinyin-moegirl
       fcitx5-tokyonight
+      kdePackages.fcitx5-qt
     ];
     type = "fcitx5";
     fcitx5.waylandFrontend = true;
