@@ -28,6 +28,7 @@
     vlc
     wechat
     wemeet
+    (pkgs.callPackage ../derivations/wemeet-nvidia { })
     wofi
     # zeal  # https://nixpkgs-tracker.ocfox.me/?pr=455354
     zotero
@@ -54,6 +55,12 @@
     feishu-env = {
       name = "FeishuWithEnv";
       exec = "QT_QPA_PLATFORM=wayland QT_IM_MODULE=fcitx IM_MODULE_CLASSNAME=fcitx::QFcitxPlatformInputContext bytedance-feishu";
+      terminal = false;
+    };
+    wemeet-nvidia = {
+      name = "WemeetAppNvidia";
+      exec = "wemeet-nvidia %u";
+      type = "Application";
       terminal = false;
     };
   };
