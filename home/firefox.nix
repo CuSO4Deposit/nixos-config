@@ -7,7 +7,6 @@
 {
   programs.firefox = {
     enable = true;
-    package = pkgs.firefox-wayland;
     # https://mozilla.github.io/policy-templates
     policies = {
       AppUpdateURL = "https://localhost";
