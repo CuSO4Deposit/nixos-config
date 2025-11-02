@@ -24,6 +24,7 @@ in
 
   environment.systemPackages = with pkgs; [
     digikam
+    hmcl
     kdePackages.kdenlive
     localsend
     pavucontrol # Pipewire graphical tool
