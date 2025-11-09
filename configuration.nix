@@ -23,6 +23,7 @@
     git
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
     jq
+    juicefs
     nixfmt-rfc-style
     qwen-code
     tldr

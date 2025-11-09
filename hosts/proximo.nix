@@ -15,6 +15,25 @@
   networking.firewall.allowedTCPPorts = [ 7777 ];
   networking.hostName = "nightcord-proximo";
 
+  services.duplicity = {
+    enable = true;
+    include = [
+      "/var/lib/minecraft"
+    ];
+    exclude = [
+      "**"
+    ];
+    extraFlags = [
+      "--no-encryption"
+    ];
+    frequency = "daily";
+    targetUrl = "file:///mnt/jfs/duplicity/proximo/var/lib/minecraft";
+    fullIfOlderThan = "1M";
+    cleanup = {
+      maxFull = 6;
+    };
+  };
+
   services.minecraft-server = {
     declarative = true;
     enable = true;
@@ -50,6 +69,9 @@
     settings.PermitRootLogin = "no";
   };
 
+  users.users."cuso4d".extraGroups = lib.mkAfter [
+    "minecraft"
+  ];
   users.users."cuso4d".openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJD6JpxiKFEThom4/HMchI8S08+Tuxvp04xSLxtMMLH cuso4d"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEgnoIeHJv3VVT9SgOELc0rlnPz+cv4uA2yESbLdJ7Vv cuso4d"
