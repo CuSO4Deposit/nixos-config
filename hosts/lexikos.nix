@@ -55,15 +55,20 @@ in
     powerManagement.finegrained = false;
   };
 
-  home-manager.users.cuso4d.wayland.windowManager.hyprland.settings = {
-    binde = lib.mkAfter [
-      '', XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d nvidia_0 ''
-      '', XF86MonBrightnessDown, exec, brightnessctl set 5%- -d nvidia_0 ''
-    ];
-    monitor = lib.mkForce [
-      "eDP-1,prefered,0x0,1"
-      "HDMI-A-1,prefered,1920x0,1"
-    ];
+  home-manager.users.cuso4d = {
+    wayland.windowManager.hyprland.settings = {
+      binde = lib.mkAfter [
+        '', XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d nvidia_0 ''
+        '', XF86MonBrightnessDown, exec, brightnessctl set 5%- -d nvidia_0 ''
+      ];
+      monitor = lib.mkForce [
+        "eDP-1,prefered,0x0,1"
+        "HDMI-A-1,prefered,1920x0,1"
+      ];
+    };
+    programs.waybar.settings.mainBar = {
+      network.interface = lib.mkForce "wlp4s0";
+    };
   };
 
   networking.hostName = "nightcord-lexikos";
