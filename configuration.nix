@@ -56,6 +56,7 @@
   nixpkgs.config.allowUnfree = true;
 
   services.atd.enable = true;
+  services.orca.enable = false;
   services.resolved = {
     enable = true;
     extraConfig = ''
