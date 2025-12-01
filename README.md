@@ -1,13 +1,13 @@
 # ❄ My NixOS Config ❄
 
 [![Made with NixVim](https://img.shields.io/badge/Made_with-NixVim-7eb6e1.svg?style=flat-square&logo=neovim&logoColor=white)](https://github.com/nix-community/nixvim)
-[![NixOS Unstable](https://img.shields.io/badge/NixOS-25.11-5277C3.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
+[![NixOS Unstable](https://img.shields.io/badge/NixOS-26.05-5277C3.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 
 ---
 
 This repository hosts the nix configurations that build my systems:
 
-1. NixOS Desktop: NixOS with home-manager, Gnome as DE, Hyprland as compositor.
+1. NixOS Desktops: NixOS with home-manager, Gnome as DE, Hyprland as compositor.
 2. ~~NixOS WSLs~~
 3. NixOS Servers
 
