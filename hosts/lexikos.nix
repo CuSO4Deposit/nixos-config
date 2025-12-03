@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  pkgs-nvidia-x11-580-95,
   ...
 }:
 let
@@ -20,6 +21,8 @@ in
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
+
+  boot.kernelPackages = pkgs-nvidia-x11-580-95.linuxPackages;
 
   environment.systemPackages = with pkgs; [
     digikam
@@ -49,7 +52,7 @@ in
     modesetting.enable = true;
     nvidiaSettings = true;
     open = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = pkgs-nvidia-x11-580-95.linuxPackages.nvidiaPackages.production;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
   };

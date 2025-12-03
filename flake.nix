@@ -15,6 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-nvidia-x11-580-95.url = "github:NixOS/nixpkgs/3652b3eb77483e02b018bbb8423a0523606f1291";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nur = {
       url = "github:nix-community/NUR";
@@ -34,6 +35,7 @@
       agenix,
       home-manager,
       nixpkgs,
+      nixpkgs-nvidia-x11-580-95,
       nixos-wsl,
       nur,
       ...
@@ -41,6 +43,10 @@
     let
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-nvidia-x11-580-95 = import nixpkgs-nvidia-x11-580-95 {
+        system = "${system}";
+        config.allowUnfree = true;
+      };
       system = "x86_64-linux";
       supportedSystems = [
         "x86_64-linux"
@@ -108,6 +114,7 @@
               inherit system;
               specialArgs = {
                 inherit inputs;
+                pkgs-nvidia-x11-580-95 = pkgs-nvidia-x11-580-95;
               };
               modules = [
                 ./configuration.nix

@@ -266,11 +266,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764636297,
-        "narHash": "sha256-S41K55kw+hWgDfgKmZ9/fMZ3F0BQDMvqFfE120fMHeE=",
+        "lastModified": 1764765981,
+        "narHash": "sha256-QbjsTmAsxSVPw/w3pN1ftlOYHpOZZkXVSgoWnj43j0A=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "ff067cfc619fdf6f82d50344e7d19ff2323f0827",
+        "rev": "43173abcb4a48adb1d56be30ed17d9afaf4310ae",
         "type": "github"
       },
       "original": {
@@ -316,11 +316,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1764591717,
-        "narHash": "sha256-T/HMA0Bb/O6UnlGQ0Xt+wGe1j8m7eyyQ5+vVcCJslsM=",
+        "lastModified": 1764730608,
+        "narHash": "sha256-FxKIa3OCSRVC23qrk7VT68vExUcmSruJ8OobVlSWOxc=",
         "owner": "nix-community",
         "repo": "NixOS-WSL",
-        "rev": "84d1dab290feb4865d0cfcffc7aa0cf9bc65c3b7",
+        "rev": "10124c58674360765adcb38c9a8b081fb72904e4",
         "type": "github"
       },
       "original": {
@@ -357,6 +357,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-nvidia-x11-580-95": {
+      "locked": {
+        "lastModified": 1762334375,
+        "narHash": "sha256-BPwQsXovgQ16BUZByBZbT3flgnQOcIy6WfXcuPDUl84=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3652b3eb77483e02b018bbb8423a0523606f1291",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3652b3eb77483e02b018bbb8423a0523606f1291",
         "type": "github"
       }
     },
@@ -452,11 +468,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764683664,
-        "narHash": "sha256-Mr5HKf/bjAJ8H7/H0qJSk2BEV/OILkDIFKrGK0dUVUk=",
+        "lastModified": 1764770223,
+        "narHash": "sha256-3H6m+/jJ6sYPO93ToxarxCDKniTHNJl59QL+ax5lFQ0=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b8b40e258cf4c959b06b7322648c87674633629b",
+        "rev": "f2eedf263b8d91d4eb1c811a817425a98a8f830f",
         "type": "github"
       },
       "original": {
@@ -536,6 +552,7 @@
         "home-manager": "home-manager_2",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_4",
+        "nixpkgs-nvidia-x11-580-95": "nixpkgs-nvidia-x11-580-95",
         "nur": "nur",
         "pre-commit-hooks": "pre-commit-hooks_2"
       }
