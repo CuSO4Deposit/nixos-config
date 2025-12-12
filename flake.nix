@@ -21,7 +21,7 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pre-commit-hooks.url = "github:cachix/git-hooks.nix/50b9238891e388c9fdc6a5c49e49c42533a1b5ce";
+    pre-commit-hooks.url = "github:cachix/git-hooks.nix";
   };
 
   nixConfig = {
