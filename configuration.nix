@@ -111,6 +111,9 @@
   programs.tmux = {
     clock24 = true;
     enable = true;
+    extraConfig = ''
+      set -g mouse on
+    '';
     keyMode = "vi";
     plugins = with pkgs.tmuxPlugins; [
       tokyo-night-tmux
