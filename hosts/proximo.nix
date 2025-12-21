@@ -12,7 +12,10 @@
     ./proximo-hardware-configuration.nix
   ];
 
-  networking.firewall.allowedTCPPorts = [ 7777 ];
+  networking.firewall.allowedTCPPorts = [
+    80
+    7777
+  ];
   networking.hostName = "nightcord-proximo";
 
   services.duplicity = {
@@ -61,6 +64,20 @@
     package = pkgs.mariadb;
   };
 
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "fava.internal" = {
+        locations."/".proxyPass = "http://127.0.0.1:5000";
+        locations."/".extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        '';
+      };
+    };
+  };
+
   services.openssh = {
     enable = true;
     ports = [ 22 ];
@@ -68,6 +85,62 @@
     settings.PasswordAuthentication = false;
     settings.PermitRootLogin = "no";
   };
+
+  systemd.user.services.git-pull-ledger =
+    let
+      ledgerPath = "/home/cuso4d/source/beancount";
+    in
+    {
+      description = "git pull ledger repo";
+      path = with pkgs; [
+        git
+        openssh
+      ];
+      script = ''
+        cd ${ledgerPath}
+        ${pkgs.git}/bin/git pull
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+        User = "cuso4d";
+        WorkingDirectory = "${ledgerPath}";
+        Environment = [ "HOME=/home/cuso4d" ];
+      };
+    };
+  systemd.user.timers.git-pull-ledger = {
+    description = "trigger git-pull-ledger daily";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+  };
+
+  systemd.user.services.fava-web =
+    let
+      package = pkgs.callPackage ../derivations/fava-with-dashboards { };
+    in
+    {
+      description = "Run Fava web interface with dashboards";
+      after = [
+        "network.target"
+        "git-pull-ledger.service"
+      ];
+      wants = [ "git-pull-ledger.service" ]; # pull before starting
+      script = ''
+        export HOME=/home/cuso4d
+        exec ${package}/bin/fava-with-dashboards \
+          --host 127.0.0.1 \
+          --port 5000 \
+          /home/cuso4d/source/beancount/main.beancount
+      '';
+      serviceConfig = {
+        Type = "simple";
+        User = "cuso4d";
+        WorkingDirectory = "/home/cuso4d/source/beancount";
+        Environment = [ "HOME=/home/cuso4d" ];
+      };
+    };
 
   users.users."cuso4d".extraGroups = lib.mkAfter [
     "minecraft"
@@ -79,7 +152,6 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzaVljG6lJvVE4u5h9p76FIgWm4HQuWjdBPD7P1bQ+t cuso4d"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJS3aK2ZMI10D0zQaLXzWXwxbWAUqvO55IYCBoAYFz1 cuso4d@nightcord-dynamica"
   ];
-
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
