@@ -62,6 +62,15 @@
     fcitx5.waylandFrontend = true;
   };
 
+  networking.firewall = {
+    allowedTCPPorts = [
+      53317 # LocalSend
+    ];
+    allowedUDPPorts = [
+      53317 # LocalSend
+    ];
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 

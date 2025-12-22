@@ -28,7 +28,6 @@ in
     digikam
     hmcl
     kdePackages.kdenlive
-    localsend
     pavucontrol # Pipewire graphical tool
   ];
 
@@ -76,14 +75,6 @@ in
   networking.hostName = "nightcord-lexikos";
   networking.hosts = {
     "192.168.1.104" = [ "fava.internal" ];
-  };
-  networking.firewall = {
-    allowedTCPPorts = [
-      53317 # LocalSend
-    ];
-    allowedUDPPorts = [
-      53317 # LocalSend
-    ];
   };
   networking.networkmanager.enable = true;
   networking.proxy.allProxy = httpProxy;

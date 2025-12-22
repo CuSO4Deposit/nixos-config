@@ -21,6 +21,7 @@
     ghostty
     grim
     keepassxc
+    localsend
     logseq
     obs-studio
     qq
