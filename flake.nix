@@ -2,6 +2,7 @@
   description = "A NixOS Configuration Flake Wrapper";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,133 +31,122 @@
   };
 
   outputs =
-    {
-      self,
-      agenix,
-      home-manager,
-      nixpkgs,
-      nixpkgs-nvidia-x11-580-95,
-      nixos-wsl,
-      nur,
-      ...
-    }@inputs:
-    let
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-      pkgs = nixpkgs.legacyPackages.${system};
-      pkgs-nvidia-x11-580-95 = import nixpkgs-nvidia-x11-580-95 {
-        system = "${system}";
-        config.allowUnfree = true;
-      };
-      system = "x86_64-linux";
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
-    in
-    {
-      checks = forAllSystems (system: {
-        inherit inputs;
-        pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            markdownlint.enable = true;
-            nixfmt-rfc-style.enable = true;
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
+
+      perSystem =
+        {
+          pkgs,
+          system,
+          inputs',
+          config,
+          ...
+        }:
+        {
+          checks.pre-commit-check = inputs'.pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              markdownlint.enable = true;
+              nixfmt-rfc-style.enable = true;
+            };
+          };
+
+          devShells.default = pkgs.mkShell {
+            inherit (config.checks.pre-commit-check) shellHook;
+            buildInputs = config.checks.pre-commit-check.enabledPackages;
           };
         };
-      });
 
-      devShells = forAllSystems (system: {
-        default = pkgs.mkShell {
-          inherit (self.checks.${system}.pre-commit-check) shellHook;
-          buildInputs = self.checks.${system}.pre-commit-check.enabledPackages;
-        };
-      });
+      flake = {
+        nixosConfigurations =
+          let
+            inherit (inputs)
+              agenix
+              home-manager
+              nixpkgs
+              nixpkgs-nvidia-x11-580-95
+              nixos-wsl
+              nur
+              ;
 
-      nixosConfigurations =
-        let
-          serverConfig =
-            hostname:
-            nixpkgs.lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs;
-              };
-              modules = [
-                ./configuration.nix
-                ./hosts/${hostname}.nix
-                agenix.nixosModules.default
-              ];
+            pkgs-nvidia-x11-580-95 = import nixpkgs-nvidia-x11-580-95 {
+              system = "x86_64-linux";
+              config.allowUnfree = true;
             };
-          serverHostnames = [
-            "proximo"
-          ];
-          wslConfig =
-            hostname:
-            nixpkgs.lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs;
+
+            mkServer =
+              hostname:
+              nixpkgs.lib.nixosSystem {
+                specialArgs = { inherit inputs; };
+                modules = [
+                  ./configuration.nix
+                  ./hosts/${hostname}.nix
+                  agenix.nixosModules.default
+                ];
               };
-              modules = [
-                ./configuration.nix
-                ./hosts/${hostname}.nix
-                agenix.nixosModules.default
-                nixos-wsl.nixosModules.wsl
-                {
-                  environment.systemPackages = [ agenix.packages.${system}.default ];
-                }
-              ];
-            };
-          wslHostnames = [ ];
-          desktopConfig =
-            hostname:
-            nixpkgs.lib.nixosSystem {
-              inherit system;
-              specialArgs = {
-                inherit inputs;
-                pkgs-nvidia-x11-580-95 = pkgs-nvidia-x11-580-95;
+
+            mkWSL =
+              hostname:
+              nixpkgs.lib.nixosSystem {
+                specialArgs = { inherit inputs; };
+                modules = [
+                  ./configuration.nix
+                  ./hosts/${hostname}.nix
+                  agenix.nixosModules.default
+                  nixos-wsl.nixosModules.wsl
+                  { environment.systemPackages = [ agenix.packages."x86_64-linux".default ]; }
+                ];
               };
-              modules = [
-                ./configuration.nix
-                ./hosts/${hostname}.nix
-                agenix.nixosModules.default
-                nur.modules.nixos.default # This adds the NUR overlay
-                home-manager.nixosModules.home-manager
-                {
-                  environment.systemPackages = [ agenix.packages.${system}.default ];
-                  home-manager.backupFileExtension = "backup";
-                  # https://github.com/ryantm/agenix/issues/305#issuecomment-2603003925
-                  home-manager.extraSpecialArgs.agenix = agenix;
-                  home-manager.useGlobalPkgs = true;
-                  home-manager.useUserPackages = true;
-                  home-manager.users.cuso4d = import ./home;
-                  nixpkgs.config.allowUnfree = true;
-                }
-              ];
-            };
-          desktopHostnames = [
-            "dynamica"
-            "laborari"
-            "lexikos"
-          ];
-        in
-        builtins.listToAttrs (
-          map (name: {
-            name = "nightcord-${name}";
-            value = serverConfig name;
-          }) serverHostnames
-        )
-        // builtins.listToAttrs (
-          map (name: {
-            name = "nightcord-${name}";
-            value = wslConfig name;
-          }) wslHostnames
-        )
-        // builtins.listToAttrs (
-          map (name: {
-            name = "nightcord-${name}";
-            value = desktopConfig name;
-          }) desktopHostnames
-        );
+
+            mkDesktop =
+              hostname:
+              nixpkgs.lib.nixosSystem {
+                specialArgs = {
+                  inherit inputs;
+                  pkgs-nvidia-x11-580-95 = pkgs-nvidia-x11-580-95;
+                };
+                modules = [
+                  ./configuration.nix
+                  ./hosts/${hostname}.nix
+                  agenix.nixosModules.default
+                  nur.modules.nixos.default
+                  home-manager.nixosModules.home-manager
+                  {
+                    environment.systemPackages = [ agenix.packages."x86_64-linux".default ];
+                    home-manager.backupFileExtension = "backup";
+                    home-manager.extraSpecialArgs.agenix = agenix;
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.users.cuso4d = import ./home;
+                    nixpkgs.config.allowUnfree = true;
+                  }
+                ];
+              };
+
+            serverHostnames = [ "proximo" ];
+            wslHostnames = [ ];
+            desktopHostnames = [
+              "dynamica"
+              "laborari"
+              "lexikos"
+            ];
+
+          in
+          builtins.listToAttrs (
+            (map (name: {
+              name = "nightcord-${name}";
+              value = mkServer name;
+            }) serverHostnames)
+            ++ (map (name: {
+              name = "nightcord-${name}";
+              value = mkWSL name;
+            }) wslHostnames)
+            ++ (map (name: {
+              name = "nightcord-${name}";
+              value = mkDesktop name;
+            }) desktopHostnames)
+          );
+      };
     };
 }
