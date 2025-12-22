@@ -24,6 +24,7 @@
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
     jq
     juicefs
+    just
     nixfmt-rfc-style
     qwen-code
     tldr
@@ -176,10 +177,8 @@
       glr = "git pull --rebase";
       gmv = "git mv";
       gs = "git status --short --branch";
-      nrb = "nixos-rebuild switch --flake .#$(hostname) --sudo; mv flake.lock locks/$(hostname | cut -d '-' -f 2); git add .; git commit -v;";
-      nrbt = "git add .; nixos-rebuild test --flake .#$(hostname) --sudo;";
+      j = "just";
       sudonvim = "sudo -E -s nvim";
-      t = "nohup ghostty >/dev/null 2>&1 &";
     };
   };
 
