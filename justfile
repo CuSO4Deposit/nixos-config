@@ -12,5 +12,6 @@ test:
   git add .
   nixos-rebuild test --flake .#$(hostname) --sudo
 
-alias s := switch
-alias t := test
+s: switch
+
+t: test
