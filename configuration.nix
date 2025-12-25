@@ -21,7 +21,7 @@
     curl
     gemini-cli
     git
-    inputs.cus-nixvim.packages."${pkgs.system}".nvim
+    inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
     jq
     juicefs
     just
