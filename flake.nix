@@ -41,8 +41,6 @@
       perSystem =
         {
           pkgs,
-          system,
-          inputs',
           config,
           ...
         }:
@@ -52,6 +50,7 @@
             hooks = {
               markdownlint.enable = true;
               nixfmt-rfc-style.enable = true;
+              deadnix.enable = true;
             };
           };
 

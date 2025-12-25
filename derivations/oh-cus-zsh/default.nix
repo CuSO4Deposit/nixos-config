@@ -1,6 +1,6 @@
 { fetchgit, oh-my-zsh, ... }:
 oh-my-zsh.overrideAttrs (
-  final: prev:
+  _: _:
   let
     cphoen-zsh-theme = fetchgit {
       deepClone = false;

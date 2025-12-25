@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ ... }:
 {
   networking.networkmanager.enable = true;
   networking.nameservers = [
