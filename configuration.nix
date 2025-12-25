@@ -18,8 +18,8 @@
     at
     bat
     busybox
-    claude-code
     curl
+    gemini-cli
     git
     inputs.cus-nixvim.packages."${pkgs.system}".nvim
     jq
