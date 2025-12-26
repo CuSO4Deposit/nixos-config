@@ -123,6 +123,16 @@
                     home-manager.useUserPackages = true;
                     home-manager.users.cuso4d = import ./home;
                     nixpkgs.config.allowUnfree = true;
+                    nixpkgs.overlays = [
+                      (_: super: {
+                        wechat = super.wechat.overrideAttrs (_: {
+                          src = super.fetchurl {
+                            url = "https://web.archive.org/web/20251205145349/https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_x86_64.AppImage";
+                            hash = "sha256-+r5Ebu40GVGG2m2lmCFQ/JkiDsN/u7XEtnLrB98602w=";
+                          };
+                        });
+                      })
+                    ];
                   }
                 ];
               };
