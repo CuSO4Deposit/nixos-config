@@ -21,6 +21,10 @@
           format = "{:%Y-%m-%d %H:%M %Z}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
         };
+        disk = {
+          interval = 30;
+          format = " {percentage_used}%";
+        };
         battery = {
           format = "{icon} {capacity}%";
           format-icons = [
@@ -48,6 +52,7 @@
           "wireplumber"
           "cpu"
           "memory"
+          "disk"
           "battery"
         ];
         network = {
