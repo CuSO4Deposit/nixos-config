@@ -85,6 +85,14 @@ in
   programs.steam.enable = true;
 
   services.blueman.enable = true;
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings.KbdInteractiveAuthentication = false;
+    settings.PasswordAuthentication = false;
+    settings.PermitRootLogin = "no";
+  };
+
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
 
