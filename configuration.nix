@@ -130,6 +130,7 @@
 
   programs.zsh = {
     enable = true;
+    histSize = 50000;
 
     interactiveShellInit = ''
       eval "$(direnv hook zsh)"
@@ -163,6 +164,8 @@
       }
 
       check_git_worktree_clean $HOME/temp $HOME/.nixos
+
+      SAVEHIST=50000
     '';
 
     ohMyZsh =
