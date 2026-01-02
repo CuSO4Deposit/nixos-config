@@ -10,6 +10,7 @@ in
 {
   imports = [
     ./modules/desktop.nix
+    ./modules/server.nix
     ./modules/office-wg.nix
     ./laborari-hardware-configuration.nix
   ];
