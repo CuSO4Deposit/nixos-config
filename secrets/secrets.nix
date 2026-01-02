@@ -20,6 +20,8 @@ let
     "officeVPN.auth.age"
     "office.conf.age"
     "office-band.conf.age"
+    "wg-proximo-priv.age"
+    "wg-laborari-priv.age"
   ];
 in
 builtins.listToAttrs (
