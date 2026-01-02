@@ -13,7 +13,20 @@
   ...
 }:
 
+let
+  pkgs-before-node-breaks = import inputs.nixpkgs-before-node-breaks {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+in
 {
+  nixpkgs.overlays = [
+    (_: _: {
+      gemini-cli = pkgs-before-node-breaks.gemini-cli;
+      qwen-code = pkgs-before-node-breaks.qwen-code;
+    })
+  ];
+
   environment.systemPackages = with pkgs; [
     at
     bat
