@@ -36,6 +36,17 @@ This project uses `just` as a command runner.
 shortcut for `nixos-rebuild switch --flake .#$(hostname) --sudo`.
 - `just test`: Test the NixOS configuration for the current host. This is a
 shortcut for `nixos-rebuild test --flake .#$(hostname) --sudo`.
+- `just switch-remote [host=<hostname>]`: Apply the NixOS configuration to a
+remote host. Defaults to `proximo`.
+- `just test-remote [host=<hostname>]`: Test the NixOS configuration for a
+remote host. Defaults to `proximo`.
+
+Aliases:
+
+- `s`: `switch`
+- `t`: `test`
+- `sr`: `switch-remote`
+- `tr`: `test-remote`
 
 ## Adding a New Host
 
