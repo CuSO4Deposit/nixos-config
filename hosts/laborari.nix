@@ -10,6 +10,7 @@ in
 {
   imports = [
     ./modules/desktop.nix
+    ./modules/juicefs-mount.nix
     ./modules/server.nix
     ./modules/office-wg.nix
     ./laborari-hardware-configuration.nix
@@ -47,6 +48,11 @@ in
       network.interface = lib.mkForce "wlp3s0";
     };
   };
+
+  juicefs-mount.dbHost = "10.20.0.1";
+  juicefs-mount.waitServices = [
+    "wireguard-wg2.service"
+  ];
 
   networking.firewall.allowedTCPPorts = [ 22222 ];
   networking.hostName = "nightcord-laborari";

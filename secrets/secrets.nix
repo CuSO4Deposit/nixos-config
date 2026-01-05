@@ -16,6 +16,7 @@ let
   all = hosts ++ users;
 
   secrets = [
+    "juicefs-password-env.age"
     "officeVPN.ovpn.age"
     "officeVPN.auth.age"
     "office.conf.age"

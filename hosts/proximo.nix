@@ -14,8 +14,14 @@
   boot.loader.systemd-boot.enable = true;
 
   imports = [
+    ./modules/juicefs-mount.nix
     ./modules/server.nix
     ./proximo-hardware-configuration.nix
+  ];
+
+  juicefs-mount.dbHost = "127.0.0.1";
+  juicefs-mount.waitServices = [
+    "mysql.service"
   ];
 
   networking.firewall.allowedTCPPorts = [
