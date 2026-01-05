@@ -25,6 +25,7 @@
   networking.firewall.allowedUDPPorts = [
     51820
   ];
+  networking.firewall.trustedInterfaces = [ "wg0" ];
   networking.hostName = "nightcord-proximo";
   networking.wireguard.interfaces.wg0 = {
     ips = [ "10.20.0.1/24" ];
