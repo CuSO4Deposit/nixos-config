@@ -118,6 +118,13 @@ in
   users.users."cuso4d".openssh.authorizedKeys.keys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4rWlDqIGqCRsXaF/QuYuMrWIvQ1fFLr8XyxCFQl07q cuso4d@nightcord-lexikos"
   ];
+  users.users."guest" = {
+    isNormalUser = true;
+    home = "/home/guest";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOIEu5dDs5aj4vo5cG7BFiGCDPAyQ6VEnijrO1X2m34v"
+    ];
+  };
 
   virtualisation.docker = {
     daemon.settings = {
