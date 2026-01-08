@@ -26,6 +26,12 @@ in
   networking.proxy.httpProxy = httpProxy;
   networking.proxy.httpsProxy = httpProxy;
 
+  services.openssh = {
+    enable = true;
+    settings.KbdInteractiveAuthentication = false;
+    settings.PasswordAuthentication = false;
+    settings.PermitRootLogin = "no";
+  };
   services.v2raya.enable = true;
 
   time.timeZone = "Etc/UTC";
