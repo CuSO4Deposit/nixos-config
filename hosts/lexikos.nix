@@ -28,7 +28,6 @@ in
     digikam
     hmcl
     kdePackages.kdenlive
-    pavucontrol # Pipewire graphical tool
   ];
 
   # https://nixos.wiki/wiki/Bluetooth

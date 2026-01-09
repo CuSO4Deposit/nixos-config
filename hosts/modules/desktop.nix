@@ -13,6 +13,7 @@
   environment.systemPackages = with pkgs; [
     brightnessctl
     libnotify
+    pavucontrol # Pipewire graphical tool
   ];
 
   fonts.packages = with pkgs; [
