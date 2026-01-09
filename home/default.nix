@@ -32,7 +32,6 @@
     wemeet
     (pkgs.callPackage ../derivations/wemeet-nvidia { })
     wofi
-    zathura # PDF viewer
     zeal
     zotero
 
@@ -53,6 +52,25 @@
   ];
 
   programs.home-manager.enable = true;
+  programs.zathura = {
+    enable = true;
+    mappings = {
+      u = "scroll half-up";
+      d = "scroll half-down";
+      "<C-d>" = "toggle_page_mode";
+    };
+    options = {
+      recolor = true;
+      recolor-darkcolor = "#c0caf5";
+      recolor-lightcolor = "#1a1b26";
+      selection-clipboard = "clipboard";
+    };
+    package = pkgs.zathura.override {
+      plugins = with pkgs.zathuraPkgs; [
+        zathura_pdf_mupdf
+      ];
+    };
+  };
 
   xdg.desktopEntries = {
     feishu-fcitx5 = {
