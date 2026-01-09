@@ -32,7 +32,8 @@
     wemeet
     (pkgs.callPackage ../derivations/wemeet-nvidia { })
     wofi
-    # zeal  # https://nixpkgs-tracker.ocfox.me/?pr=455354
+    zathura # PDF viewer
+    zeal
     zotero
 
     # utils
