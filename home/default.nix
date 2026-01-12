@@ -72,6 +72,11 @@
     };
   };
 
+  services.copyq = {
+    enable = true;
+    forceXWayland = false;
+  };
+
   xdg.desktopEntries = {
     feishu-fcitx5 = {
       name = "FeishuFcitx5";
