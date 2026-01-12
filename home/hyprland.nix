@@ -99,15 +99,15 @@
       ];
       binde = [
         '', XF86AudioMute, exec, "wpctl set-volume @DEFAULT_AUDIO_SINK@ toggle"''
-        '', XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+''
-        '', XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-''
-        '', XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d intel_backlight ''
-        '', XF86MonBrightnessDown, exec, brightnessctl set 5%- -d intel_backlight ''
-        '', code:97, exec, brightnessctl set 5%- -d intel_backlight''
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d intel_backlight "
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%- -d intel_backlight "
+        ", code:97, exec, brightnessctl set 5%- -d intel_backlight"
 
         # Another keybind for dynamica
-        '', muhenkan, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-''
-        '', henkan_mode, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+''
+        ", muhenkan, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-"
+        ", henkan_mode, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
       ];
       decoration = {
         active_opacity = 1.0;
@@ -171,8 +171,23 @@
       };
       monitor = ",prefered,auto,1";
       windowrule = [
-        "match:class .*, suppress_event maximize"
-        "match:class ^$, match:title ^$, match:xwayland 1, match:float 1, no_focus on"
+        {
+          # Ignore maximize requests from all apps.
+          name = "suppress-maximize-events";
+          "match:class" = ".*";
+          suppress_event = "maximize";
+        }
+        {
+          # Fix some dragging issues with XWayland
+          name = "fix-xwayland-drags";
+          "match:class" = "^$";
+          "match:title" = "^$";
+          "match:xwayland" = true;
+          "match:float" = true;
+          "match:fullscreen" = false;
+          "match:pin" = false;
+          "no_focus" = true;
+        }
       ];
 
       # variables
