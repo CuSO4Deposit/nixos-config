@@ -11,8 +11,9 @@ in
   imports = [
     ./modules/desktop.nix
     ./modules/juicefs-mount.nix
-    ./modules/server.nix
+    ./modules/minio-mount.nix
     ./modules/office-wg.nix
+    ./modules/server.nix
     ./laborari-hardware-configuration.nix
   ];
 
@@ -52,6 +53,10 @@ in
   juicefs-mount.dbHost = "10.20.0.1";
   juicefs-mount.waitServices = [
     "wireguard-wg2.service"
+  ];
+
+  rclone-minio.waitServices = [
+    "wg-quick-wg0.service"
   ];
 
   networking.firewall.allowedTCPPorts = [ 22222 ];
