@@ -16,7 +16,7 @@
   imports = [
     ./modules/juicefs-mount.nix
     ./modules/server.nix
-    ./proximo-hardware-configuration.nix
+    ./hardware-configuration/proximo.nix
   ];
 
   juicefs-mount.dbHost = "127.0.0.1";

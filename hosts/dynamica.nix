@@ -14,7 +14,7 @@ in
   imports = [
     ./modules/laptop.nix
     ./modules/office-wg.nix
-    ./dynamica-hardware-configuration.nix
+    ./hardware-configuration/dynamica.nix
   ];
 
   boot.loader.efi.canTouchEfiVariables = true;

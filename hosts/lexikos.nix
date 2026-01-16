@@ -12,7 +12,7 @@ in
   imports = [
     ./modules/laptop.nix
     ./modules/office-wg.nix
-    ./lexikos-hardware-configuration.nix
+    ./hardware-configuration/lexikos.nix
   ];
 
   age.secrets = {
@@ -58,8 +58,8 @@ in
   home-manager.users.cuso4d = {
     wayland.windowManager.hyprland.settings = {
       binde = lib.mkAfter [
-        '', XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d nvidia_0 ''
-        '', XF86MonBrightnessDown, exec, brightnessctl set 5%- -d nvidia_0 ''
+        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d nvidia_0 "
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%- -d nvidia_0 "
       ];
       monitor = lib.mkForce [
         "eDP-1,prefered,0x0,1"

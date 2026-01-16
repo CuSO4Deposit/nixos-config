@@ -14,7 +14,7 @@ in
     ./modules/minio-mount.nix
     ./modules/office-wg.nix
     ./modules/server.nix
-    ./laborari-hardware-configuration.nix
+    ./hardware-configuration/laborari.nix
   ];
 
   age.secrets = {
