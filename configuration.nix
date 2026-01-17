@@ -73,16 +73,6 @@ in
   services.orca.enable = false;
   services.resolved = {
     enable = true;
-    extraConfig = ''
-      [Resolve]
-      Cache=no-negative
-    '';
-    dnssec = "false";
-    dnsovertls = "false";
-    fallbackDns = [
-      "8.8.8.8"
-      "114.114.114.114"
-    ];
   };
 
   users.users.cuso4d = {
