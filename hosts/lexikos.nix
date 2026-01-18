@@ -17,6 +17,7 @@ in
 
   age.secrets = {
     "office-band.conf".file = ../secrets/office-band.conf.age;
+    "wg-lexikos.conf".file = ../secrets/wg-lexikos.conf.age;
   };
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -80,6 +81,7 @@ in
   networking.proxy.httpProxy = httpProxy;
   networking.proxy.httpsProxy = httpProxy;
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
+  networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-lexikos.conf".path;
 
   programs.steam.enable = true;
 
