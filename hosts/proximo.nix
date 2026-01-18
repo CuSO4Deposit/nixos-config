@@ -9,6 +9,12 @@
     "wg-proximo.conf".file = ../secrets/wg-proximo.conf.age;
   };
 
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.ipv4.conf.all.rp_filter" = 0;
+    "net.ipv4.conf.default.rp_filter" = 0;
+    "net.ipv4.conf.ens18.rp_filter" = 0;
+  };
   boot.loader.systemd-boot.enable = true;
 
   imports = [
@@ -22,12 +28,22 @@
     "mysql.service"
   ];
 
+  networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPorts = [
     80
     7777
   ];
-  networking.firewall.trustedInterfaces = [ "wg0" ];
+  networking.firewall.trustedInterfaces = [
+    "wg0"
+    "ens18"
+  ];
   networking.hostName = "nightcord-proximo";
+  networking.nat = {
+    enable = true;
+    externalInterface = "wg0";
+    internalInterfaces = [ "ens18" ];
+    internalIPs = [ "192.168.1.0/24" ];
+  };
   networking.wg-quick.interfaces.wg0.configFile = config.age.secrets."wg-proximo.conf".path;
 
   services.duplicity = {
