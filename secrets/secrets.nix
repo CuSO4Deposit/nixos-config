@@ -24,6 +24,9 @@ let
     "rclone.conf.age"
     "wg-proximo-priv.age"
     "wg-laborari-priv.age"
+    "wg-laborari.conf.age"
+    "wg-lexikos.conf.age"
+    "wg-proximo.conf.age"
   ];
 in
 builtins.listToAttrs (
