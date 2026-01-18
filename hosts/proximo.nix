@@ -5,10 +5,8 @@
   ...
 }:
 {
-  age.secrets.wg-proximo-priv = {
-    file = ../secrets/wg-proximo-priv.age;
-    mode = "400";
-    owner = "root";
+  age.secrets = {
+    "wg-proximo.conf".file = ../secrets/wg-proximo.conf.age;
   };
 
   boot.loader.systemd-boot.enable = true;
@@ -28,37 +26,9 @@
     80
     7777
   ];
-  networking.firewall.allowedUDPPorts = [
-    51820
-  ];
   networking.firewall.trustedInterfaces = [ "wg0" ];
   networking.hostName = "nightcord-proximo";
-  networking.wireguard.interfaces.wg0 = {
-    ips = [ "10.20.0.1/24" ];
-    listenPort = 51820;
-    privateKeyFile = config.age.secrets.wg-proximo-priv.path;
-
-    postSetup = ''
-      ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
-      ${pkgs.iptables}/bin/iptables -A FORWARD -i wg0 -j ACCEPT
-      ${pkgs.iptables}/bin/iptables -A FORWARD -o wg0 -j ACCEPT
-      ${pkgs.iptables}/bin/iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-    '';
-
-    postShutdown = ''
-      ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o ens18 -j MASQUERADE
-      ${pkgs.iptables}/bin/iptables -D FORWARD -i wg0 -j ACCEPT
-      ${pkgs.iptables}/bin/iptables -D FORWARD -o wg0 -j ACCEPT
-      ${pkgs.iptables}/bin/iptables -t mangle -D FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
-    '';
-
-    peers = [
-      {
-        publicKey = "esLilipPwoqxajyribZ/FAJdE7HeaOO1/u+pjoa5aWk=";
-        allowedIPs = [ "10.20.0.2/32" ];
-      }
-    ];
-  };
+  networking.wg-quick.interfaces.wg0.configFile = config.age.secrets."wg-proximo.conf".path;
 
   services.duplicity = {
     enable = true;

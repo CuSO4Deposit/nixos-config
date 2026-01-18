@@ -24,6 +24,10 @@ in
   boot.binfmt.emulatedSystems = [
     "loongarch64-linux"
   ];
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = 1;
+    "net.ipv4.conf.all.forwarding" = 1;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
@@ -59,6 +63,8 @@ in
   ];
 
   networking.firewall.allowedTCPPorts = [ 22222 ];
+  networking.firewall.allowedUDPPorts = [ 5182 ];
+  networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-laborari";
   networking.networkmanager.enable = true;
   networking.proxy.httpProxy = httpProxy;
