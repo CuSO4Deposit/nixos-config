@@ -158,6 +158,7 @@
         "git-pull-ledger.service"
       ];
       wants = [ "git-pull-ledger.service" ]; # pull before starting
+      wantedBy = [ "multi-user.target" ];
       script = ''
         export HOME=/home/cuso4d
         exec ${package}/bin/fava-with-dashboards \
