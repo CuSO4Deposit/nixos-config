@@ -89,9 +89,6 @@ in
 
   time.timeZone = "Etc/UTC";
 
-  users.users."cuso4d".openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4rWlDqIGqCRsXaF/QuYuMrWIvQ1fFLr8XyxCFQl07q cuso4d@nightcord-lexikos"
-  ];
   users.users."guest" = {
     isNormalUser = true;
     home = "/home/guest";
