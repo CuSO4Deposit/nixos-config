@@ -23,10 +23,13 @@
     ./hardware-configuration/proximo.nix
   ];
 
-  juicefs-mount.dbHost = "127.0.0.1";
-  juicefs-mount.waitServices = [
-    "mysql.service"
-  ];
+  juicefs-mount = {
+    dbHost = "127.0.0.1";
+    enable = true;
+    waitServices = [
+      "mysql.service"
+    ];
+  };
 
   networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPorts = [

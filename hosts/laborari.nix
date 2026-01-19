@@ -53,10 +53,13 @@ in
     };
   };
 
-  juicefs-mount.dbHost = "10.20.0.1";
-  juicefs-mount.waitServices = [
-    "wireguard-wg2.service"
-  ];
+  juicefs-mount = {
+    dbHost = "10.20.0.1";
+    enable = true;
+    waitServices = [
+      "wg-quick-wg2.service"
+    ];
+  };
 
   rclone-minio.waitServices = [
     "wg-quick-wg0.service"

@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ./modules/juicefs-mount.nix
     ./modules/laptop.nix
     ./modules/office-wg.nix
     ./hardware-configuration/lexikos.nix
@@ -70,6 +71,12 @@ in
     programs.waybar.settings.mainBar = {
       network.interface = lib.mkForce "wlp4s0";
     };
+  };
+
+  juicefs-mount = {
+    dbHost = "192.168.1.104";
+    enable = true;
+    waitServices = [ "wg-quick-wg2.service" ];
   };
 
   networking.hostName = "nightcord-lexikos";

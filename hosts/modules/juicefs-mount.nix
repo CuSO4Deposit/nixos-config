@@ -11,13 +11,14 @@
       type = lib.types.str;
       default = "10.20.0.1";
     };
+    enable = lib.mkEnableOption "JuiceFS mount service";
     waitServices = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ "network-online.target" ];
     };
   };
 
-  config = {
+  config = lib.mkIf config.juicefs-mount.enable {
     system.activationScripts.makeJfsMountPoint = ''
       mkdir -p /mnt/jfs
     '';
