@@ -48,6 +48,7 @@
     ./firefox.nix
     ./waybar.nix
     ./wofi.nix
+    ./xdg.nix
     agenix.homeManagerModules.default
   ];
 
@@ -75,28 +76,6 @@
   services.copyq = {
     enable = true;
     forceXWayland = false;
-  };
-
-  xdg.desktopEntries = {
-    feishu-fcitx5 = {
-      name = "FeishuFcitx5";
-      exec = "feishu-fcitx5 %U";
-      type = "Application";
-      terminal = false;
-    };
-    wemeet-nvidia = {
-      name = "WemeetAppNvidia";
-      exec = "wemeet-nvidia %u";
-      type = "Application";
-      terminal = false;
-    };
-  };
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-hyprland
-    ];
   };
 
   # This value determines the Home Manager release that your configuration is
