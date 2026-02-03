@@ -381,6 +381,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1770125870,
+        "narHash": "sha256-PnSBZ4+++m/toNQYsYH6wQXrQ7heqNn7aIZ3y0wvBK8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f811c165f0755e9c94be08bd4ec32f94a693b287",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-nvidia-x11-580-95": {
       "locked": {
         "lastModified": 1762334375,
@@ -489,11 +505,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770111190,
-        "narHash": "sha256-TskeLHLLf6uUOFY9dHxiwzITj5zI4rUirWFF3z0EIIU=",
+        "lastModified": 1770125189,
+        "narHash": "sha256-boDXS39FRXDhrQZoK9CvsogApXnLM8UR1qvevawKN/g=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "269f36a362b74593f318dbf2615976537fd07e34",
+        "rev": "6a5c8df1342ff2ba9f9c1a9a3ebd99393faafb54",
         "type": "github"
       },
       "original": {
@@ -532,6 +548,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-before-node-breaks": "nixpkgs-before-node-breaks",
+        "nixpkgs-master": "nixpkgs-master",
         "nixpkgs-nvidia-x11-580-95": "nixpkgs-nvidia-x11-580-95",
         "nur": "nur"
       }
