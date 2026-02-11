@@ -17,7 +17,6 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-before-node-breaks.url = "github:NixOS/nixpkgs/ce01d34b50dcbe7cd14286398b5fa9ec36ad6489";
-    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nixpkgs-nvidia-x11-580-95.url = "github:NixOS/nixpkgs/3652b3eb77483e02b018bbb8423a0523606f1291";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nur = {
@@ -127,15 +126,20 @@
                     nixpkgs.config.allowUnfree = true;
                   }
                   (
-                    { pkgs, ... }:
+                    { ... }:
                     {
                       nixpkgs.overlays = [
-                        (_: _: {
-                          terraria-server =
-                            (import inputs.nixpkgs-master {
-                              system = pkgs.stdenv.hostPlatform.system;
-                              config.allowUnfree = true;
-                            }).terraria-server;
+                        (final: prev: {
+                          terraria-server = (
+                            prev.terraria-server.overrideAttrs (_: rec {
+                              version = "1.4.5.5";
+                              urlVersion = final.lib.replaceStrings [ "." ] [ "" ] version;
+                              src = final.fetchurl {
+                                url = "https://terraria.org/api/download/pc-dedicated-server/terraria-server-${urlVersion}.zip";
+                                hash = "sha256-BmLT5ATBviSfYuc3Cx/aMHUNTBs6S56GHJF8YIJXhtU=";
+                              };
+                            })
+                          );
                         })
                       ];
                     }
