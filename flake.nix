@@ -125,25 +125,6 @@
                     home-manager.users.cuso4d = import ./home;
                     nixpkgs.config.allowUnfree = true;
                   }
-                  (
-                    { ... }:
-                    {
-                      nixpkgs.overlays = [
-                        (final: prev: {
-                          terraria-server = (
-                            prev.terraria-server.overrideAttrs (_: rec {
-                              version = "1.4.5.5";
-                              urlVersion = final.lib.replaceStrings [ "." ] [ "" ] version;
-                              src = final.fetchurl {
-                                url = "https://terraria.org/api/download/pc-dedicated-server/terraria-server-${urlVersion}.zip";
-                                hash = "sha256-BmLT5ATBviSfYuc3Cx/aMHUNTBs6S56GHJF8YIJXhtU=";
-                              };
-                            })
-                          );
-                        })
-                      ];
-                    }
-                  )
                 ];
               };
 
