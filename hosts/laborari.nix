@@ -69,6 +69,11 @@ in
   networking.firewall.allowedUDPPorts = [ 5182 ];
   networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-laborari";
+  networking.nat = {
+    enable = true;
+    internalInterfaces = [ "wg2" ];
+    externalInterface = "enp4s0";
+  };
   networking.networkmanager.enable = true;
   networking.proxy.httpProxy = httpProxy;
   networking.proxy.httpsProxy = httpProxy;
