@@ -31,6 +31,7 @@ in
     at
     bat
     busybox
+    claude-code
     curl
     gemini-cli
     git
@@ -39,7 +40,6 @@ in
     juicefs
     just
     nixfmt-rfc-style
-    qwen-code
     tldr
   ];
 
