@@ -41,6 +41,7 @@ in
     just
     nixfmt-rfc-style
     tldr
+    yq
   ];
 
   environment.variables.EDITOR = "nvim";
