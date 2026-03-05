@@ -19,6 +19,10 @@
     nixpkgs-before-node-breaks.url = "github:NixOS/nixpkgs/ce01d34b50dcbe7cd14286398b5fa9ec36ad6489";
     nixpkgs-nvidia-x11-580-95.url = "github:NixOS/nixpkgs/3652b3eb77483e02b018bbb8423a0523606f1291";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nix-ld = {
+      url = "github:Mic92/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +36,7 @@
   };
 
   outputs =
-    inputs@{ flake-parts, ... }:
+    inputs@{ flake-parts, nix-ld, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
@@ -87,6 +91,7 @@
                   ./configuration.nix
                   ./hosts/${hostname}.nix
                   agenix.nixosModules.default
+                  nix-ld.nixosModules.nix-ld
                 ];
               };
 
@@ -99,6 +104,7 @@
                   ./hosts/${hostname}.nix
                   agenix.nixosModules.default
                   nixos-wsl.nixosModules.wsl
+                  nix-ld.nixosModules.nix-ld
                   { environment.systemPackages = [ agenix.packages."x86_64-linux".default ]; }
                 ];
               };
@@ -114,6 +120,7 @@
                   ./configuration.nix
                   ./hosts/${hostname}.nix
                   agenix.nixosModules.default
+                  nix-ld.nixosModules.nix-ld
                   nur.modules.nixos.default
                   home-manager.nixosModules.home-manager
                   {
