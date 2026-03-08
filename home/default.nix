@@ -23,7 +23,6 @@
     keepassxc
     localsend
     logseq
-    obs-studio
     qq
     slurp
     telegram-desktop
@@ -53,6 +52,12 @@
   ];
 
   programs.home-manager.enable = true;
+  programs.obs-studio = {
+    enable = true;
+    package = pkgs.obs-studio.override {
+      cudaSupport = true;
+    };
+  };
   programs.zathura = {
     enable = true;
     mappings = {
