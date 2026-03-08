@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -109,6 +110,47 @@ in
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOIEu5dDs5aj4vo5cG7BFiGCDPAyQ6VEnijrO1X2m34v"
     ];
+  };
+
+  # Forward v2raya proxy to docker bridge so containers can reach it
+  systemd.services.v2raya-docker-forward = {
+    description = "Forward v2raya proxy to docker0 bridge";
+    after = [
+      "network.target"
+      "v2raya.service"
+      "docker.service"
+    ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:20172,bind=172.17.0.1,fork,reuseaddr TCP:127.0.0.1:20172";
+      Restart = "on-failure";
+      DynamicUser = true;
+    };
+  };
+  networking.firewall.interfaces."docker0".allowedTCPPorts = [ 20172 ];
+
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers.openclaw = {
+      image = "ghcr.io/openclaw/openclaw:main-amd64";
+      volumes = [
+        "/home/cuso4d/openclaw/data:/home/node/.openclaw"
+        "/home/cuso4d/openclaw/secrets/telegram-bot-token:/run/secrets/telegram-bot-token:ro"
+      ];
+      environmentFiles = [
+        "/home/cuso4d/openclaw/secrets/.env"
+      ];
+      environment = {
+        HTTP_PROXY = "http://172.17.0.1:20172";
+        HTTPS_PROXY = "http://172.17.0.1:20172";
+        NO_PROXY = "127.0.0.1,localhost";
+      };
+      ports = [
+        "127.0.0.1:18789:18789"
+        "127.0.0.1:18791:18791"
+      ];
+      extraOptions = [ "--pull=never" ];
+    };
   };
 
   virtualisation.docker = {
