@@ -1,7 +1,7 @@
 {
   lib,
-  pkgs,
   config,
+  inputs,
   ...
 }:
 let
@@ -20,6 +20,14 @@ in
   age.secrets = {
     "office-band.conf".file = ../secrets/office-band.conf.age;
     "wg-laborari.conf".file = ../secrets/wg-laborari.conf.age;
+    "openclaw-env" = {
+      file = ../secrets/openclaw-env.age;
+      owner = "cuso4d";
+    };
+    "telegram-bot-token" = {
+      file = ../secrets/telegram-bot-token.age;
+      owner = "cuso4d";
+    };
   };
 
   boot.binfmt.emulatedSystems = [
@@ -42,8 +50,12 @@ in
     powerManagement.enable = false;
     powerManagement.finegrained = false;
   };
-
   home-manager.users.cuso4d = {
+    imports = [
+      inputs.nix-openclaw.homeManagerModules.openclaw
+      ./modules/openclaw.nix
+    ];
+
     programs.hyprlock.settings = {
       background = {
         brightness = lib.mkForce 0.5;
@@ -81,6 +93,8 @@ in
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
 
+  nixpkgs.config.permittedInsecurePackages = [ "openclaw-2026.2.26" ];
+
   programs.steam.enable = true;
 
   services.openssh = {
@@ -112,47 +126,6 @@ in
     ];
   };
 
-  # Forward v2raya proxy to docker bridge so containers can reach it
-  systemd.services.v2raya-docker-forward = {
-    description = "Forward v2raya proxy to docker0 bridge";
-    after = [
-      "network.target"
-      "v2raya.service"
-      "docker.service"
-    ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:20172,bind=172.17.0.1,fork,reuseaddr TCP:127.0.0.1:20172";
-      Restart = "on-failure";
-      DynamicUser = true;
-    };
-  };
-  networking.firewall.interfaces."docker0".allowedTCPPorts = [ 20172 ];
-
-  virtualisation.oci-containers = {
-    backend = "docker";
-    containers.openclaw = {
-      image = "ghcr.io/openclaw/openclaw:main-amd64";
-      volumes = [
-        "/home/cuso4d/openclaw/data:/home/node/.openclaw"
-        "/home/cuso4d/openclaw/secrets/telegram-bot-token:/run/secrets/telegram-bot-token:ro"
-      ];
-      environmentFiles = [
-        "/home/cuso4d/openclaw/secrets/.env"
-      ];
-      environment = {
-        HTTP_PROXY = "http://172.17.0.1:20172";
-        HTTPS_PROXY = "http://172.17.0.1:20172";
-        NO_PROXY = "127.0.0.1,localhost";
-      };
-      ports = [
-        "127.0.0.1:18789:18789"
-        "127.0.0.1:18791:18791"
-      ];
-      extraOptions = [ "--pull=never" ];
-    };
-  };
-
   virtualisation.docker = {
     daemon.settings = {
       proxies = {
@@ -168,10 +141,9 @@ in
     enable = true;
   };
 
-  # List packages installed in system profile. To search, run:
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).

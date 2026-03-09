@@ -25,6 +25,8 @@ let
     "wg-laborari.conf.age"
     "wg-lexikos.conf.age"
     "wg-proximo.conf.age"
+    "telegram-bot-token.age"
+    "openclaw-env.age"
   ];
 in
 builtins.listToAttrs (
