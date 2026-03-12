@@ -64,11 +64,38 @@
         compaction.mode = "safeguard";
       };
 
+      skills = {
+        load = {
+          extraDirs = [
+            "~/.openclaw/data/workspace-yoshino/skills/arxiv-summarizer/skills"
+          ];
+          watch = true;
+        };
+        entries = {
+          "arxiv-search-collector" = {
+            enabled = true;
+          };
+          "arxiv-search-processor" = {
+            enabled = true;
+          };
+          "arxiv-search-reporter" = {
+            enabled = true;
+          };
+          "arxiv-summarizer-orchestrator" = {
+            enabled = true;
+          };
+        };
+      };
+
       tools = {
         web.fetch = {
           enabled = false;
           maxChars = 50000;
           timeoutSeconds = 30;
+        };
+        web.search = {
+          enabled = false;
+          maxResults = 5;
         };
         media.models = [
           {
@@ -78,10 +105,16 @@
         ];
       };
 
+      browser = {
+        enabled = true;
+        executablePath = "/etc/profiles/per-user/cuso4d/bin/google-chrome";
+        headless = true;
+      };
+
       commands = {
         native = "auto";
         nativeSkills = "auto";
-        restart = true;
+        restart = false;
         ownerDisplay = "raw";
       };
 
@@ -89,7 +122,11 @@
         enabled = true;
         dmPolicy = "pairing";
         proxy = "http://127.0.0.1:20172";
-        groups."*".requireMention = true;
+        groups."-1003886118286" = {
+          enabled = true;
+          groupPolicy = "open";
+          requireMention = true;
+        };
         allowFrom = [ 7058410044 ];
         groupPolicy = "allowlist";
         streaming = "partial";
@@ -147,6 +184,7 @@
 
   # For openclaw
   home.packages = with pkgs; [
-    gh
+    gh # GitHub Skill
+    google-chrome # Browser Tool
   ];
 }
