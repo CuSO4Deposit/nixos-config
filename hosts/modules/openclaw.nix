@@ -132,10 +132,22 @@
         streaming = "partial";
         accounts = {
           sayori = {
-            tokenFile = "/run/agenix/telegram-bot-token";
+            "dmPolicy" = "pairing";
+            "tokenFile" = "/run/agenix/telegram-bot-token";
+            "groupPolicy" = "allowlist";
           };
           yoshino = {
-            tokenFile = "/run/agenix/telegram-bot-token-yoshino";
+            "dmPolicy" = "pairing";
+            "tokenFile" = "/run/agenix/telegram-bot-token-yoshino";
+            "groupPolicy" = "allowlist";
+          };
+          default = {
+            "dmPolicy" = "pairing";
+            "allowFrom" = [
+              7058410044
+            ];
+            "groupPolicy" = "allowlist";
+            "streaming" = "partial";
           };
         };
       };
