@@ -26,6 +26,7 @@ let
     "wg-lexikos.conf.age"
     "wg-proximo.conf.age"
     "telegram-bot-token.age"
+    "telegram-bot-token-yoshino.age"
     "openclaw-env.age"
   ];
 in

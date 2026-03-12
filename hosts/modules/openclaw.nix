@@ -89,12 +89,48 @@
         enabled = true;
         dmPolicy = "pairing";
         proxy = "http://127.0.0.1:20172";
-        tokenFile = "/run/agenix/telegram-bot-token";
         groups."*".requireMention = true;
         allowFrom = [ 7058410044 ];
         groupPolicy = "allowlist";
         streaming = "partial";
+        accounts = {
+          sayori = {
+            tokenFile = "/run/agenix/telegram-bot-token";
+          };
+          yoshino = {
+            tokenFile = "/run/agenix/telegram-bot-token-yoshino";
+          };
+        };
       };
+
+      agents.list = [
+        {
+          id = "sayori";
+          default = true;
+          workspace = "/home/cuso4d/.openclaw/data/workspace";
+        }
+        {
+          id = "yoshino";
+          workspace = "/home/cuso4d/.openclaw/data/workspace-yoshino";
+        }
+      ];
+
+      bindings = [
+        {
+          agentId = "sayori";
+          match = {
+            channel = "telegram";
+            accountId = "sayori";
+          };
+        }
+        {
+          agentId = "yoshino";
+          match = {
+            channel = "telegram";
+            accountId = "yoshino";
+          };
+        }
+      ];
 
       # gateway.auth.token is intentionally absent here.
       # OPENCLAW_GATEWAY_TOKEN is injected at runtime via the systemd drop-in

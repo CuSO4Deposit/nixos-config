@@ -28,6 +28,10 @@ in
       file = ../secrets/telegram-bot-token.age;
       owner = "cuso4d";
     };
+    "telegram-bot-token-yoshino" = {
+      file = ../secrets/telegram-bot-token-yoshino.age;
+      owner = "cuso4d";
+    };
   };
 
   boot.binfmt.emulatedSystems = [
