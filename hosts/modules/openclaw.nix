@@ -68,6 +68,7 @@
         load = {
           extraDirs = [
             "~/.openclaw/data/workspace-yoshino/skills/arxiv-summarizer/skills"
+            "~/.openclaw/data/workspace-yoshino/skills/knowledge-archiver/skills"
           ];
           watch = true;
         };
@@ -82,6 +83,15 @@
             enabled = true;
           };
           "arxiv-summarizer-orchestrator" = {
+            enabled = true;
+          };
+          "arxiv-paper-processor" = {
+            enabled = true;
+          };
+          "arxiv-batch-reporter" = {
+            enabled = true;
+          };
+          "archive-knowledge" = {
             enabled = true;
           };
         };
