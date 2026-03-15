@@ -20,6 +20,7 @@ in
   age.secrets = {
     "office-band.conf".file = ../secrets/office-band.conf.age;
     "wg-laborari.conf".file = ../secrets/wg-laborari.conf.age;
+    # Openclaw
     "openclaw-env" = {
       file = ../secrets/openclaw-env.age;
       owner = "cuso4d";
@@ -30,6 +31,14 @@ in
     };
     "telegram-bot-token-yoshino" = {
       file = ../secrets/telegram-bot-token-yoshino.age;
+      owner = "cuso4d";
+    };
+    "zotero-api-key" = {
+      file = ../secrets/zotero-api-key.age;
+      owner = "cuso4d";
+    };
+    "zotero-user-id" = {
+      file = ../secrets/zotero-user-id.age;
       owner = "cuso4d";
     };
   };

@@ -21,13 +21,15 @@ let
     "officeVPN.auth.age"
     "office.conf.age"
     "office-band.conf.age"
+    "openclaw-env.age"
     "rclone.conf.age"
+    "telegram-bot-token.age"
+    "telegram-bot-token-yoshino.age"
     "wg-laborari.conf.age"
     "wg-lexikos.conf.age"
     "wg-proximo.conf.age"
-    "telegram-bot-token.age"
-    "telegram-bot-token-yoshino.age"
-    "openclaw-env.age"
+    "zotero-api-key.age"
+    "zotero-user-id.age"
   ];
 in
 builtins.listToAttrs (

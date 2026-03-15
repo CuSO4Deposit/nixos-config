@@ -14,6 +14,12 @@
     stateDir = "/home/cuso4d/.openclaw/data";
     workspaceDir = "/home/cuso4d/.openclaw/data/workspace";
     config = {
+      env = {
+        vars = {
+          ZOTERO_API_KEY_FILE = "/run/agenix/zotero-api-key";
+          ZOTERO_USER_ID_FILE = "/run/agenix/zotero-user-id";
+        };
+      };
       secrets.providers.secrets-host.source = "env";
 
       models.providers = {
@@ -69,6 +75,7 @@
           extraDirs = [
             "~/.openclaw/data/workspace-yoshino/skills/arxiv-summarizer/skills"
             "~/.openclaw/data/workspace-yoshino/skills/knowledge-archiver/skills"
+            "~/.openclaw/data/workspace-yoshino/skills/zotero"
           ];
           watch = true;
         };
@@ -92,6 +99,9 @@
             enabled = true;
           };
           "archive-knowledge" = {
+            enabled = true;
+          };
+          "zotero" = {
             enabled = true;
           };
         };
@@ -208,5 +218,6 @@
   home.packages = with pkgs; [
     gh # GitHub Skill
     google-chrome # Browser Tool
+    python314 # Zotero Skill
   ];
 }
