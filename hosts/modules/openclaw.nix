@@ -34,7 +34,15 @@
           api = "openai-completions";
           models = [
             {
+              id = "glm-5";
+              name = "glm-5";
+            }
+            {
               id = "qwen3.5-plus";
+              input = [
+                "text"
+                "image"
+              ];
               name = "qwen3.5-plus";
             }
             {
@@ -64,8 +72,12 @@
 
       agents.defaults = {
         model = {
-          primary = "bailian/qwen3.5-plus";
-          fallbacks = [ "bailian/qwen3-max-2026-01-23" ];
+          primary = "bailian/glm-5";
+          fallbacks = [
+            "bailian/qwen3.5-plus"
+            "bailian/qwen3-max-2026-01-23"
+            "bailian/qwen-vl-max"
+          ];
         };
         compaction.mode = "safeguard";
       };
@@ -76,6 +88,7 @@
             "~/.openclaw/data/workspace-yoshino/skills/arxiv-summarizer/skills"
             "~/.openclaw/data/workspace-yoshino/skills/knowledge-archiver/skills"
             "~/.openclaw/data/workspace-yoshino/skills/zotero"
+            "~/.openclaw/data/workspace/skills/caldav-calendar"
           ];
           watch = true;
         };
@@ -218,6 +231,8 @@
   home.packages = with pkgs; [
     gh # GitHub Skill
     google-chrome # Browser Tool
+    khal # caldav-calendar Skill
     python314 # Zotero Skill
+    vdirsyncer # caldav-calendar Skill
   ];
 }
