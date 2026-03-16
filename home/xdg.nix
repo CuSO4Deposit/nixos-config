@@ -24,6 +24,7 @@
       "image/jpeg" = "org.gnome.Loupe.desktop";
       "image/svg+xml" = "org.gnome.Loupe.desktop";
       "text/plain" = "org.gnome.TextEditor.desktop";
+      "application/pdf" = "org.pwmt.zathura.desktop";
     };
   };
   xdg.portal = {
