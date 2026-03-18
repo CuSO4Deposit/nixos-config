@@ -70,6 +70,19 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
+  # OOM configuration: prevent nix-daemon from freezing the system
+  # https://discourse.nixos.org/t/nix-build-ate-my-ram/35752
+  systemd = {
+    slices."nix-daemon".sliceConfig = {
+      ManagedOOMMemoryPressure = "kill";
+      ManagedOOMMemoryPressureLimit = "50%";
+    };
+    services."nix-daemon".serviceConfig = {
+      Slice = "nix-daemon.slice";
+      OOMScoreAdjust = 1000;
+    };
+  };
+
   services.atd.enable = true;
   services.orca.enable = false;
   services.resolved = {

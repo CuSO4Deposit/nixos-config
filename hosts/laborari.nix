@@ -103,6 +103,7 @@ in
   networking.networkmanager.enable = true;
   networking.proxy.httpProxy = httpProxy;
   networking.proxy.httpsProxy = httpProxy;
+  networking.proxy.noProxy = "127.0.0.1,localhost,mirrors.ustc.edu.cn,mirrors.tuna.tsinghua.edu.cn";
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
 
