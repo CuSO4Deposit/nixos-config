@@ -39,7 +39,7 @@ in
     jq
     juicefs
     just
-    nixfmt-rfc-style
+    nixfmt
     tldr
     yq
   ];
