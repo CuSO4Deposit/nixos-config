@@ -80,6 +80,7 @@ in
     services."nix-daemon".serviceConfig = {
       Slice = "nix-daemon.slice";
       OOMScoreAdjust = 1000;
+      CPUWeight = 50;
     };
   };
 
