@@ -90,6 +90,7 @@
             "~/.openclaw/data/workspace-yoshino/skills/zotero"
             "~/.openclaw/data/workspace/skills/caldav-calendar"
             "~/.openclaw/data/workspace/skills/miniflux-news"
+            "~/.openclaw/data/workspace/skills/logseq-todo"
           ];
           watch = true;
         };
