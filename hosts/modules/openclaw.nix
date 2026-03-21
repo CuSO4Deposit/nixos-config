@@ -84,42 +84,10 @@
 
       skills = {
         load = {
-          extraDirs = [
-            "~/.openclaw/data/workspace-yoshino/skills/arxiv-summarizer/skills"
-            "~/.openclaw/data/workspace-yoshino/skills/knowledge-archiver/skills"
-            "~/.openclaw/data/workspace-yoshino/skills/zotero"
-            "~/.openclaw/data/workspace/skills/caldav-calendar"
-            "~/.openclaw/data/workspace/skills/miniflux-news"
-            "~/.openclaw/data/workspace/skills/logseq-todo"
-          ];
+          extraDirs = [ ];
           watch = true;
         };
-        entries = {
-          "arxiv-search-collector" = {
-            enabled = true;
-          };
-          "arxiv-search-processor" = {
-            enabled = true;
-          };
-          "arxiv-search-reporter" = {
-            enabled = true;
-          };
-          "arxiv-summarizer-orchestrator" = {
-            enabled = true;
-          };
-          "arxiv-paper-processor" = {
-            enabled = true;
-          };
-          "arxiv-batch-reporter" = {
-            enabled = true;
-          };
-          "archive-knowledge" = {
-            enabled = true;
-          };
-          "zotero" = {
-            enabled = true;
-          };
-        };
+        entries = { };
       };
 
       tools = {
