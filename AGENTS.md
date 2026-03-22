@@ -83,3 +83,10 @@ every commit.
 
 To run the hooks manually, you can use the `pre-commit` command, for example:
 `pre-commit run --all-files`.
+
+## Reserved Workspaces in Hyprland
+
+- Workspace 101: Reserved for MagicMirror (Electron app running in Docker).
+  Bound to `eDP-1` (laptop screen). Configured via windowrule in
+  `home/hyprland.nix` — matches `class:Electron` + `title:MagicMirror`,
+  sends to workspace 101 silently with fullscreen.
