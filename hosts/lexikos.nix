@@ -93,6 +93,29 @@ in
   programs.steam.enable = true;
 
   services.blueman.enable = true;
+
+  services.duplicity = {
+    enable = true;
+    include = [
+      "/home/cuso4d/.local/share/Terraria" # Terraria Local Players and Worlds
+      "/home/cuso4d/.local/share/Steam/userdata/1113845821/105600" # Terraria Steam Remote
+      "/home/cuso4d/.local/share/hmcl" # Minecraft Player and Mod Data
+      "/home/cuso4d/Pictures" # Pictures
+    ];
+    exclude = [
+      "**"
+    ];
+    extraFlags = [
+      "--no-encryption"
+    ];
+    frequency = "daily";
+    targetUrl = "file:///mnt/jfs/duplicity/lexikos";
+    fullIfOlderThan = "1M";
+    cleanup = {
+      maxFull = 6;
+    };
+  };
+
   services.openssh = {
     enable = true;
     ports = [ 22 ];
