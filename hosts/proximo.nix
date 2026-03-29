@@ -61,7 +61,7 @@
       "--no-encryption"
     ];
     frequency = "daily";
-    targetUrl = "file:///mnt/jfs/duplicity/proximo/var/lib/minecraft";
+    targetUrl = "file:///mnt/jfs/duplicity/proximo";
     fullIfOlderThan = "1M";
     cleanup = {
       maxFull = 6;
