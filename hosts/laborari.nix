@@ -10,8 +10,10 @@ in
 {
   imports = [
     ./modules/desktop.nix
+    ./modules/internal-dns.nix
     ./modules/juicefs-mount.nix
     ./modules/minio-mount.nix
+    ./modules/nix-auto-build
     ./modules/office-wg.nix
     ./modules/server.nix
     ./hardware-configuration/laborari.nix
@@ -20,6 +22,7 @@ in
   age.secrets = {
     "office-band.conf".file = ../secrets/office-band.conf.age;
     "wg-laborari.conf".file = ../secrets/wg-laborari.conf.age;
+    "nix-cache-signing-key".file = ../secrets/nix-cache-signing-key.age;
     # Openclaw
     "openclaw-env" = {
       file = ../secrets/openclaw-env.age;
@@ -46,6 +49,12 @@ in
   boot.binfmt.emulatedSystems = [
     "loongarch64-linux"
   ];
+
+  nix-auto-build = {
+    enable = true;
+    cachePath = "/mnt/minio/nix-cache-54168";
+    cachePublicKey = "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0=";
+  };
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv4.conf.all.forwarding" = 1;

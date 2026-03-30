@@ -32,6 +32,7 @@ in
     bat
     busybox
     claude-code
+    codex
     curl
     gemini-cli
     git
@@ -62,6 +63,10 @@ in
   nix.settings.substituters = lib.mkForce [
     "https://mirrors.ustc.edu.cn/nix-channels/store"
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+  ];
+  nix.settings.extra-substituters = [ "http://nix-auto-build.internal" ];
+  nix.settings.extra-trusted-public-keys = [
+    "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0="
   ];
   nix.settings.trusted-users = [
     "cuso4d"
@@ -185,6 +190,19 @@ in
       }
 
       check_git_worktree_clean $HOME/temp $HOME/.nixos
+
+      check_nix_auto_build() {
+        local sf="/var/lib/nix-auto-build/status.json"
+        [ -f "$sf" ] || return
+        local failed=$(jq -r '.hosts|to_entries[]|select(.value.status=="failed")|.key' "$sf" 2>/dev/null)
+        if [ -n "$failed" ]; then
+          echo -e "\e[1;31mnix-auto-build: build failed for:\e[0m"
+          echo "$failed" | while read h; do echo "  - $h"; done
+        elif [ "$(jq -r '[.hosts[].status]|all(.=="success")' "$sf" 2>/dev/null)" = "true" ]; then
+          echo -e "\e[1;32mnix-auto-build: all hosts built successfully ($(jq -r .last_run "$sf")). Run 'just switch-cached' to apply.\e[0m"
+        fi
+      }
+      check_nix_auto_build
 
       SAVEHIST=50000
     '';

@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ./modules/internal-dns.nix
     ./modules/juicefs-mount.nix
     ./modules/laptop.nix
     ./modules/office-wg.nix
@@ -79,6 +80,7 @@ in
     waitServices = [ "wg-quick-wg2.service" ];
   };
 
+  networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-lexikos";
   networking.hosts = {
     "192.168.1.104" = [ "fava.internal" ];

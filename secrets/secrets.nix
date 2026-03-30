@@ -17,6 +17,7 @@ let
 
   secrets = [
     "juicefs-password-env.age"
+    "nix-cache-signing-key.age"
     "officeVPN.ovpn.age"
     "officeVPN.auth.age"
     "office.conf.age"

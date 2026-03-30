@@ -18,6 +18,7 @@
   boot.loader.systemd-boot.enable = true;
 
   imports = [
+    ./modules/internal-dns.nix
     ./modules/juicefs-mount.nix
     ./modules/server.nix
     ./hardware-configuration/proximo.nix
