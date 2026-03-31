@@ -50,14 +50,15 @@ let
     cd "$WORKTREE"
 
     # Update flake inputs
-    nix flake update 2>&1 || true
+    nix flake update --accept-flake-config 2>&1 || true
+    git -c safe.directory='*' add flake.lock 2>/dev/null || true
 
     # Build each host
     for h in $HOSTS; do
       update_status "$h" "building"
       echo "=== Building $h ==="
       if STORE_PATH=$(nix build ".#nixosConfigurations.$h.config.system.build.toplevel" \
-            --no-link --print-out-paths 2>&1); then
+            --no-link --print-out-paths --accept-flake-config); then
         echo "Signing $STORE_PATH"
         nix store sign --key-file "$SIGNING_KEY" -r "$STORE_PATH"
         echo "Copying to cache"
