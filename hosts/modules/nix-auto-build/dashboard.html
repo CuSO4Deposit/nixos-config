@@ -7,7 +7,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#1a1b26;color:#a9b1d6;font-family:monospace;padding:2rem}
-h1{color:#7aa2f7;margin-bottom:1rem}
+h1{color:#7aa2f7;margin-bottom:.5rem}
+h2{color:#7aa2f7;margin:1.5rem 0 .75rem;font-size:1rem}
 .meta{color:#565f89;margin-bottom:1.5rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
 .card{background:#24283b;border-radius:8px;padding:1rem;border-left:4px solid #565f89}
@@ -22,25 +23,59 @@ h1{color:#7aa2f7;margin-bottom:1rem}
 .badge.building{background:#e0af68;color:#1a1b26}
 .badge.pending{background:#565f89;color:#c0caf5}
 .detail{color:#565f89;font-size:.85rem;margin-top:.5rem;word-break:break-all}
+table{width:100%;border-collapse:collapse;background:#24283b;border-radius:8px;overflow:hidden}
+th{text-align:left;padding:.5rem .75rem;color:#565f89;border-bottom:1px solid #1a1b26;font-weight:normal}
+td{padding:.4rem .75rem;border-bottom:1px solid #1a1b26;font-size:.85rem}
+tr:last-child td{border-bottom:none}
+td.success{color:#9ece6a}
+td.failed{color:#f7768e}
 </style>
 </head>
 <body>
 <h1>nix-auto-build</h1>
 <div class="meta" id="meta">loading...</div>
+<h2>Current Status</h2>
 <div class="grid" id="grid"></div>
+<h2>Build History</h2>
+<div id="history"></div>
 <script>
 async function load(){
   try{
-    const r=await fetch('/status.json');
-    const d=await r.json();
+    var r=await fetch('/status.json');
+    var d=await r.json();
     document.getElementById('meta').textContent='Last run: '+(d.last_run||'never');
-    const g=document.getElementById('grid');
+    var g=document.getElementById('grid');
     g.innerHTML='';
-    for(const[h,v]of Object.entries(d.hosts||{})){
-      const s=v.status||'pending';
-      g.innerHTML+='<div class="card '+s+'"><span class="host">'+h+'</span><span class="badge '+s+'">'+s+'</span><div class="detail">'+(v.updated?'Updated: '+v.updated:'')+'</div>'+(v.store_path?'<div class="detail">'+v.store_path+'</div>':'')+(v.error?'<div class="detail" style="color:#f7768e">'+v.error+'</div>':'')+'</div>';
+    var hosts=d.hosts||{};
+    var keys=Object.keys(hosts);
+    for(var i=0;i<keys.length;i++){
+      var h=keys[i],v=hosts[h];
+      var s=v.status||'pending';
+      var html='<div class="card '+s+'">';
+      html+='<span class="host">'+h+'</span>';
+      html+='<span class="badge '+s+'">'+s+'</span>';
+      if(v.updated)html+='<div class="detail">Updated: '+v.updated+'</div>';
+      if(v.store_path)html+='<div class="detail">'+v.store_path+'</div>';
+      if(v.error)html+='<div class="detail" style="color:#f7768e">'+v.error+'</div>';
+      html+='</div>';
+      g.innerHTML+=html;
     }
-  }catch(e){document.getElementById('meta').textContent='Failed to load status'}
+    var hist=d.history||[];
+    var hDiv=document.getElementById('history');
+    if(hist.length===0){
+      hDiv.innerHTML='<div class="detail">No history yet</div>';
+    }else{
+      var t='<table><tr><th>Time</th><th>Host</th><th>Status</th><th>Detail</th></tr>';
+      for(var j=0;j<hist.length;j++){
+        var e=hist[j];
+        t+='<tr><td>'+e.time+'</td><td>'+e.host+'</td>';
+        t+='<td class="'+e.status+'">'+e.status+'</td>';
+        t+='<td class="detail">'+((e.detail||'').substring(0,80))+'</td></tr>';
+      }
+      t+='</table>';
+      hDiv.innerHTML=t;
+    }
+  }catch(e){document.getElementById('meta').textContent='Failed to load status: '+e}
 }
 load();setInterval(load,30000);
 </script>

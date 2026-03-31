@@ -21,9 +21,17 @@ let
 
     mkdir -p "$STATUS_DIR"
 
-    # Initialize status.json
+    # Load existing history or start fresh
+    if [ -f "$STATUS_DIR/status.json" ]; then
+      PREV_HISTORY=$(jq -c '.history // []' "$STATUS_DIR/status.json")
+    else
+      PREV_HISTORY="[]"
+    fi
+
+    # Initialize status.json preserving history
     now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-    jq -n --arg t "$now" '{last_run: $t, hosts: {}}' > "$STATUS_DIR/status.json"
+    jq -n --arg t "$now" --argjson hist "$PREV_HISTORY" \
+      '{last_run: $t, hosts: {}, history: $hist}' > "$STATUS_DIR/status.json"
 
     update_status() {
       local host="$1" status="$2" extra="''${3:-}"
@@ -32,6 +40,18 @@ let
       local expr=".hosts[\"$host\"].status = \"$status\" | .hosts[\"$host\"].updated = \"$ts\""
       [ -n "$extra" ] && expr="$expr | $extra"
       jq "$expr" "$STATUS_DIR/status.json" > "$STATUS_DIR/status.json.tmp"
+      mv "$STATUS_DIR/status.json.tmp" "$STATUS_DIR/status.json"
+    }
+
+    add_history() {
+      local host="$1" status="$2" detail="''${3:-}"
+      local ts
+      ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+      local entry
+      entry=$(jq -nc --arg h "$host" --arg s "$status" --arg t "$ts" --arg d "$detail" \
+        '{host: $h, status: $s, time: $t, detail: $d}')
+      jq --argjson e "$entry" '.history = ([$e] + .history)[:50]' \
+        "$STATUS_DIR/status.json" > "$STATUS_DIR/status.json.tmp"
       mv "$STATUS_DIR/status.json.tmp" "$STATUS_DIR/status.json"
     }
 
@@ -64,9 +84,11 @@ let
         echo "Copying to cache"
         nix copy --to "file://$CACHE" "$STORE_PATH"
         update_status "$h" "success" ".hosts[\"$h\"].store_path = \"$STORE_PATH\""
+        add_history "$h" "success" "$STORE_PATH"
         echo "=== $h succeeded ==="
       else
         update_status "$h" "failed" ".hosts[\"$h\"].error = \"build failed\""
+        add_history "$h" "failed" "build failed"
         echo "=== $h FAILED ==="
       fi
     done
