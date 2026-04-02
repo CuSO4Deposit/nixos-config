@@ -497,6 +497,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-logseq-electron-39": {
+      "locked": {
+        "lastModified": 1774086317,
+        "narHash": "sha256-lj+6HO9fOhpa/KIEyJ6mHcgnvEXroHLWArLx8DZ8RMs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a2c09b4c8254bf88503c9e475c92a4b46eb5e047",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a2c09b4c8254bf88503c9e475c92a4b46eb5e047",
+        "type": "github"
+      }
+    },
     "nixpkgs-nvidia-x11-580-95": {
       "locked": {
         "lastModified": 1762334375,
@@ -637,11 +653,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775112956,
-        "narHash": "sha256-A2JhA+KmN548eRN9zhPz42qJANgV1YEAMMyqVdFP4us=",
+        "lastModified": 1775118981,
+        "narHash": "sha256-STA07mneQ5vAbw54tjzF+5sSD76J4VptZNtj42ui8SE=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "21b96a3307aa68c401039f142731d5200bf66c13",
+        "rev": "58e62a05539064da00bdd352eef9b28e0cbbc471",
         "type": "github"
       },
       "original": {
@@ -683,6 +699,7 @@
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-before-node-breaks": "nixpkgs-before-node-breaks",
         "nixpkgs-claude-code-2-1-86": "nixpkgs-claude-code-2-1-86",
+        "nixpkgs-logseq-electron-39": "nixpkgs-logseq-electron-39",
         "nixpkgs-nvidia-x11-580-95": "nixpkgs-nvidia-x11-580-95",
         "nixpkgs-wemeet-system-132": "nixpkgs-wemeet-system-132",
         "nur": "nur"
