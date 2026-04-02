@@ -14,7 +14,15 @@
 }:
 
 let
+  pkgs-claude-code-2-1-86 = import inputs.nixpkgs-claude-code-2-1-86 {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
   pkgs-before-node-breaks = import inputs.nixpkgs-before-node-breaks {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+  pkgs-wemeet-system-132 = import inputs.nixpkgs-wemeet-system-132 {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
@@ -22,8 +30,13 @@ in
 {
   nixpkgs.overlays = [
     (_: _: {
+      claude-code = pkgs-claude-code-2-1-86.claude-code;
       gemini-cli = pkgs-before-node-breaks.gemini-cli;
       qwen-code = pkgs-before-node-breaks.qwen-code;
+      # Pin WeMeet to the nixpkgs revision used by system-132.
+      # Drop this after a newer nixpkgs build can screenshare via PipeWire
+      # without segfaulting during stream startup.
+      wemeet = pkgs-wemeet-system-132.wemeet;
     })
   ];
 
