@@ -38,6 +38,26 @@
     ];
   };
 
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/88b579a3-e45b-4ce0-af25-17c2dd614d7f";
+    fsType = "btrfs";
+    options = [
+      "subvol=@data"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
+  fileSystems."/data/.snapshots" = {
+    device = "/dev/disk/by-uuid/88b579a3-e45b-4ce0-af25-17c2dd614d7f";
+    fsType = "btrfs";
+    options = [
+      "subvol=@snapshots"
+      "compress=zstd"
+      "noatime"
+    ];
+  };
+
   swapDevices = [
     { device = "/dev/disk/by-uuid/0066fbd5-53fe-4061-b69f-d198677cdd09"; }
   ];
