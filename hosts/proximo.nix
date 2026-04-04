@@ -10,6 +10,21 @@ in
 {
   age.secrets = {
     "wg-proximo.conf".file = ../secrets/wg-proximo.conf.age;
+    "ghorg-github-token" = {
+      file = ../secrets/ghorg-github-token.age;
+      owner = "ghorg";
+      group = "ghorg";
+    };
+    "ghorg-github-token-sayori" = {
+      file = ../secrets/ghorg-github-token-sayori.age;
+      owner = "ghorg";
+      group = "ghorg";
+    };
+    "ghorg-work-0.yaml" = {
+      file = ../secrets/ghorg-work-0.yaml.age;
+      owner = "ghorg";
+      group = "ghorg";
+    };
   };
 
   boot.kernel.sysctl = {
@@ -73,6 +88,51 @@ in
     fullIfOlderThan = "1M";
     cleanup = {
       maxFull = 6;
+    };
+  };
+
+  services.ghorg = {
+    enable = true;
+    dataDir = "/data/ghorg";
+    dataDirMode = "0750";
+    startAt = "daily";
+
+    jobs = {
+      github-cuso4d = {
+        settings = {
+          cloneProtocol = "https";
+          cloneType = "user";
+          preserveDir = true;
+          preserveScmHostname = true;
+          scmType = "github";
+        };
+        tokenFile = config.age.secrets.ghorg-github-token.path;
+        args = [
+          "clone"
+          "CuSO4Deposit"
+        ];
+      };
+      github-sayori = {
+        settings = {
+          cloneProtocol = "https";
+          cloneType = "user";
+          preserveDir = true;
+          preserveScmHostname = true;
+          scmType = "github";
+        };
+        tokenFile = config.age.secrets.ghorg-github-token-sayori.path;
+        args = [
+          "clone"
+          "raincloud-in-a-bottle"
+        ];
+      };
+      work-0 = {
+        configFile = config.age.secrets."ghorg-work-0.yaml".path;
+        args = [
+          "clone"
+          "2985mN1"
+        ];
+      };
     };
   };
 
@@ -183,6 +243,7 @@ in
     };
 
   users.users."cuso4d".extraGroups = lib.mkAfter [
+    "ghorg"
     "minecraft"
   ];
   # This option defines the first version of NixOS you have installed on this particular machine,

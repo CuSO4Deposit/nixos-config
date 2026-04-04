@@ -34,6 +34,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nur-cuso4d = {
+      url = "github:CuSO4Deposit/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
@@ -43,7 +47,12 @@
   };
 
   outputs =
-    inputs@{ flake-parts, nix-ld, ... }:
+    inputs@{
+      flake-parts,
+      nix-ld,
+      nur-cuso4d,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" ];
 
@@ -99,6 +108,7 @@
                   ./hosts/${hostname}.nix
                   agenix.nixosModules.default
                   nix-ld.nixosModules.nix-ld
+                  nur-cuso4d.nixosModules.ghorg
                 ];
               };
 

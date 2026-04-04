@@ -16,6 +16,9 @@ let
   all = hosts ++ users;
 
   secrets = [
+    "ghorg-github-token.age"
+    "ghorg-github-token-sayori.age"
+    "ghorg-work-0.yaml.age"
     "juicefs-password-env.age"
     "nix-cache-signing-key.age"
     "officeVPN.ovpn.age"
