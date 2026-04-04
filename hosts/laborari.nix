@@ -19,6 +19,12 @@ in
     ./hardware-configuration/laborari.nix
   ];
 
+  nightcord.internal-dns = {
+    enable = true;
+    laborariAddress = "10.20.0.2";
+    proximoAddress = "10.20.0.1";
+  };
+
   age.secrets = {
     "office-band.conf".file = ../secrets/office-band.conf.age;
     "wg-laborari.conf".file = ../secrets/wg-laborari.conf.age;

@@ -17,6 +17,12 @@ in
     ./hardware-configuration/lexikos.nix
   ];
 
+  nightcord.internal-dns = {
+    enable = true;
+    laborariAddress = "10.20.0.2";
+    proximoAddress = "192.168.1.104";
+  };
+
   age.secrets = {
     "office-band.conf".file = ../secrets/office-band.conf.age;
     "wg-lexikos.conf".file = ../secrets/wg-lexikos.conf.age;
@@ -85,9 +91,6 @@ in
   '';
   networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-lexikos";
-  networking.hosts = {
-    "192.168.1.104" = [ "fava.internal" ];
-  };
   networking.networkmanager.enable = true;
   networking.proxy.allProxy = httpProxy;
   networking.proxy.httpProxy = httpProxy;

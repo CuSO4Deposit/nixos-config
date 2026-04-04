@@ -42,6 +42,12 @@ in
     ./hardware-configuration/proximo.nix
   ];
 
+  nightcord.internal-dns = {
+    enable = true;
+    laborariAddress = "10.20.0.2";
+    proximoAddress = "127.0.0.1";
+  };
+
   juicefs-mount = {
     dbHost = "127.0.0.1";
     enable = true;
@@ -174,6 +180,21 @@ in
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         '';
       };
+    };
+  };
+
+  services.cgit."git-ro" = {
+    enable = true;
+    group = "ghorg";
+    gitHttpBackend.enable = false;
+    scanPath = "/data/ghorg";
+    nginx.virtualHost = "git-ro.internal";
+    settings = {
+      clone-url = "http://git-ro.internal/$CGIT_REPO_URL";
+      enable-index-links = true;
+      remove-suffix = true;
+      root-desc = "Read-only view of /data/ghorg on proximo";
+      root-title = "git-ro.internal";
     };
   };
 
