@@ -122,7 +122,7 @@ in
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
 
-  nixpkgs.config.permittedInsecurePackages = [ "openclaw-2026.3.12" ];
+  nixpkgs.overlays = [ inputs.nix-openclaw.overlays.default ];
 
   programs.steam.enable = true;
 

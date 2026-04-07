@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # Inject API keys and gateway token at runtime via agenix-decrypted env file
   systemd.user.startServices = "sd-switch";
@@ -202,7 +202,7 @@
     gh # GitHub Skill
     google-chrome # Browser Tool
     khal # caldav-calendar Skill
-    python314 # Zotero Skill
+    (lib.hiPrio python314) # Zotero Skill; prefer standalone Python over openclaw's bundled python-config
     vdirsyncer # caldav-calendar Skill
   ];
 }
