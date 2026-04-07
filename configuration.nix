@@ -18,10 +18,6 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
-  pkgs-before-node-breaks = import inputs.nixpkgs-before-node-breaks {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
   pkgs-logseq-electron-39 = import inputs.nixpkgs-logseq-electron-39 {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
@@ -35,7 +31,6 @@ in
   nixpkgs.overlays = [
     (_: _: {
       claude-code = pkgs-claude-code-2-1-86.claude-code;
-      gemini-cli = pkgs-before-node-breaks.gemini-cli;
       # Pin Logseq to the selected nixpkgs revision, but keep the Electron
       # downgrade scoped to Logseq itself so other Electron apps still follow
       # the normal package set.
@@ -56,8 +51,8 @@ in
     claude-code
     codex
     curl
-    gemini-cli
     git
+    glow
     inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
     jq
     juicefs
