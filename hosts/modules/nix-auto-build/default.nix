@@ -58,9 +58,36 @@ let
     # Mark all hosts as pending
     for h in $HOSTS; do update_status "$h" "pending"; done
 
-    # Set up git worktree
+    # Refresh remote refs so builds track the source repository instead of a stale local HEAD.
+    REMOTE_NAME=origin
+    REMOTE_URL=$(git -c safe.directory='*' -C "$REPO" remote get-url "$REMOTE_NAME" 2>/dev/null || true)
+    FETCH_URL="$REMOTE_URL"
+    case "$REMOTE_URL" in
+      git@*:* )
+        FETCH_URL="https://''${REMOTE_URL#git@}"
+        FETCH_URL="''${FETCH_URL/:/\/}"
+        ;;
+      ssh://git@*/* )
+        FETCH_URL="https://''${REMOTE_URL#ssh://git@}"
+        ;;
+    esac
+    git -c safe.directory='*' -c "remote.$REMOTE_NAME.url=$FETCH_URL" -C "$REPO" fetch --prune "$REMOTE_NAME"
+
+    BUILD_REF=$(git -c safe.directory='*' -C "$REPO" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
+    if [ -z "$BUILD_REF" ]; then
+      CURRENT_BRANCH=$(git -c safe.directory='*' -C "$REPO" branch --show-current 2>/dev/null || true)
+      if [ -n "$CURRENT_BRANCH" ] && git -c safe.directory='*' -C "$REPO" show-ref --verify --quiet "refs/remotes/origin/$CURRENT_BRANCH"; then
+        BUILD_REF="origin/$CURRENT_BRANCH"
+      elif git -c safe.directory='*' -C "$REPO" show-ref --verify --quiet refs/remotes/origin/main; then
+        BUILD_REF="origin/main"
+      else
+        BUILD_REF="HEAD"
+      fi
+    fi
+
+    # Set up git worktree from the latest fetched ref.
     rm -rf "$WORKTREE"
-    git -c safe.directory='*' -C "$REPO" worktree add --detach "$WORKTREE" HEAD
+    git -c safe.directory='*' -C "$REPO" worktree add --detach "$WORKTREE" "$BUILD_REF"
 
     cleanup() {
       git -c safe.directory='*' -C "$REPO" worktree remove --force "$WORKTREE" 2>/dev/null || true
