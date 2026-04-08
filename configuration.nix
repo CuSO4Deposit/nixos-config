@@ -172,12 +172,11 @@ in
   };
 
   programs.zsh = {
+    autosuggestions.enable = true;
     enable = true;
     histSize = 50000;
 
     interactiveShellInit = ''
-      eval "$(direnv hook zsh)"
-
       # Remove command lines from the history list when the first character on the line is a space,
       # or when one of the expanded aliases contains a leading space. 
       setopt HIST_IGNORE_SPACE
@@ -231,7 +230,10 @@ in
       {
         enable = true;
         package = oh-cus-zsh;
-        plugins = [ "git" ];
+        plugins = [
+          "direnv"
+          "git"
+        ];
         theme = "cphoen";
       };
 
@@ -246,6 +248,7 @@ in
       j = "just";
       sudonvim = "sudo -E -s nvim";
     };
+    syntaxHighlighting.enable = true;
   };
 
   virtualisation.docker.enable = true;
