@@ -64,11 +64,16 @@ let
     FETCH_URL="$REMOTE_URL"
     case "$REMOTE_URL" in
       git@*:* )
-        FETCH_URL="https://''${REMOTE_URL#git@}"
-        FETCH_URL="''${FETCH_URL/:/\/}"
+        REMOTE_HOST="''${REMOTE_URL#git@}"
+        REMOTE_HOST="''${REMOTE_HOST%%:*}"
+        REMOTE_PATH="''${REMOTE_URL#*:}"
+        FETCH_URL="https://$REMOTE_HOST/$REMOTE_PATH"
         ;;
       ssh://git@*/* )
-        FETCH_URL="https://''${REMOTE_URL#ssh://git@}"
+        REMOTE_HOST_AND_PATH="''${REMOTE_URL#ssh://git@}"
+        REMOTE_HOST="''${REMOTE_HOST_AND_PATH%%/*}"
+        REMOTE_PATH="''${REMOTE_HOST_AND_PATH#*/}"
+        FETCH_URL="https://$REMOTE_HOST/$REMOTE_PATH"
         ;;
     esac
     git -c safe.directory='*' -c "remote.$REMOTE_NAME.url=$FETCH_URL" -C "$REPO" fetch --prune "$REMOTE_NAME"
