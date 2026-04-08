@@ -143,6 +143,7 @@
                   {
                     environment.systemPackages = [ agenix.packages."x86_64-linux".default ];
                     home-manager.backupFileExtension = "backup";
+                    home-manager.overwriteBackup = true;
                     home-manager.extraSpecialArgs.agenix = agenix;
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
