@@ -76,7 +76,8 @@ let
         FETCH_URL="https://$REMOTE_HOST/$REMOTE_PATH"
         ;;
     esac
-    git -c safe.directory='*' -c "remote.$REMOTE_NAME.url=$FETCH_URL" -C "$REPO" fetch --prune "$REMOTE_NAME"
+    git -c safe.directory='*' -C "$REPO" fetch --prune "$FETCH_URL" \
+      "+refs/heads/*:refs/remotes/$REMOTE_NAME/*"
 
     BUILD_REF=$(git -c safe.directory='*' -C "$REPO" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
     if [ -z "$BUILD_REF" ]; then
