@@ -19,7 +19,6 @@
       url = "github:openclaw/nix-openclaw";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs-claude-code-2-1-86.url = "github:NixOS/nixpkgs/8110df5ad7abf5d4c0f6fb0f8f978390e77f9685";
     nixpkgs-logseq-electron-39.url = "github:NixOS/nixpkgs/a2c09b4c8254bf88503c9e475c92a4b46eb5e047";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-before-node-breaks.url = "github:NixOS/nixpkgs/ce01d34b50dcbe7cd14286398b5fa9ec36ad6489";

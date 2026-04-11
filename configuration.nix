@@ -14,10 +14,6 @@
 }:
 
 let
-  pkgs-claude-code-2-1-86 = import inputs.nixpkgs-claude-code-2-1-86 {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
   pkgs-logseq-electron-39 = import inputs.nixpkgs-logseq-electron-39 {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
@@ -30,7 +26,6 @@ in
 {
   nixpkgs.overlays = [
     (_: _: {
-      claude-code = pkgs-claude-code-2-1-86.claude-code;
       # Pin Logseq to the selected nixpkgs revision, but keep the Electron
       # downgrade scoped to Logseq itself so other Electron apps still follow
       # the normal package set.
