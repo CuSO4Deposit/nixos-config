@@ -110,6 +110,8 @@ in
   networking.firewall.allowedUDPPorts = [ 5182 ];
   networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-laborari";
+  # Keep NetworkManager from changing the kernel's IPv4 forwarding state.
+  networking.networkmanager.settings.connection."ipv4.forwarding" = 3;
   networking.nat = {
     enable = true;
     internalInterfaces = [ "wg2" ];
