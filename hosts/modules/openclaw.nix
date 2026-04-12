@@ -132,7 +132,7 @@
         };
         allowFrom = [ 7058410044 ];
         groupPolicy = "allowlist";
-        streaming = "partial";
+        streaming.mode = "partial";
         accounts = {
           sayori = {
             "dmPolicy" = "pairing";
@@ -150,7 +150,7 @@
               7058410044
             ];
             "groupPolicy" = "allowlist";
-            "streaming" = "partial";
+            "streaming".mode = "partial";
           };
         };
       };
