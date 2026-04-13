@@ -342,11 +342,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775781825,
-        "narHash": "sha256-L5yKTpR+alrZU2XYYvIxCeCP4LBHU5jhwSj7H1VAavg=",
+        "lastModified": 1776015217,
+        "narHash": "sha256-PUb9TTfqsA1g+aHJt5s8tIP7QdX8xHeOtDMPVRuylfM=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e35c39fca04fee829cecdf839a50eb9b54d8a701",
+        "rev": "f6196e5b4d3f0168d09feab9ba678fa18ca58cbb",
         "type": "github"
       },
       "original": {
@@ -407,11 +407,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775830124,
-        "narHash": "sha256-su2B+UOQyVzfNXB3+OSoS4SXdon0rE/g7+Aply4DsXA=",
+        "lastModified": 1775955906,
+        "narHash": "sha256-q9mgAyN1df8j3gerC4xQJfBwQshGlRAwIrX46HBTODg=",
         "owner": "openclaw",
         "repo": "nix-openclaw",
-        "rev": "c2e8301f513a0539396e3311c0d735574dfb9bc7",
+        "rev": "13deaaf73ffb0ef567c83f7730320f6ee6b157b2",
         "type": "github"
       },
       "original": {
@@ -486,22 +486,6 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "ce01d34b50dcbe7cd14286398b5fa9ec36ad6489",
-        "type": "github"
-      }
-    },
-    "nixpkgs-claude-code-2-1-86": {
-      "locked": {
-        "lastModified": 1774709303,
-        "narHash": "sha256-D3Q07BbIA2KnTcSXIqqu9P586uWxN74zNoCH3h2ESHg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8110df5ad7abf5d4c0f6fb0f8f978390e77f9685",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8110df5ad7abf5d4c0f6fb0f8f978390e77f9685",
         "type": "github"
       }
     },
@@ -707,11 +691,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775847308,
-        "narHash": "sha256-8iDisaWzRnjRpZ5S1kvr42SP8GEnl3Poh6eFTVdqUWM=",
+        "lastModified": 1776019811,
+        "narHash": "sha256-LRAqsIjzpKKm1RFM2Dc+A4fbGoQLZIiQWIutKyQP3AY=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "ddc58fe62249655d2e1fa32a1ae04760b0599bef",
+        "rev": "60a99645cb7356136a5a1b054862cdaed5c57564",
         "type": "github"
       },
       "original": {
@@ -793,7 +777,6 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_6",
         "nixpkgs-before-node-breaks": "nixpkgs-before-node-breaks",
-        "nixpkgs-claude-code-2-1-86": "nixpkgs-claude-code-2-1-86",
         "nixpkgs-logseq-electron-39": "nixpkgs-logseq-electron-39",
         "nixpkgs-nvidia-x11-580-95": "nixpkgs-nvidia-x11-580-95",
         "nixpkgs-wemeet-system-132": "nixpkgs-wemeet-system-132",

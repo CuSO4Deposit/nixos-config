@@ -3,6 +3,11 @@
   # Inject API keys and gateway token at runtime via agenix-decrypted env file
   systemd.user.startServices = "sd-switch";
 
+  # nix-openclaw already renders openclaw.json via Home Manager home.file.
+  # Its additional activation relink rewrites that path to a non-HM store symlink,
+  # which causes the next activation to fail with "would be clobbered".
+  home.activation.openclawConfigFiles = lib.mkForce (lib.hm.dag.entryAfter [ "openclawDirs" ] "");
+
   systemd.user.services.openclaw-gateway = {
     Unit.After = [ "run-agenix.mount" ];
     Install.WantedBy = [ "default.target" ];
