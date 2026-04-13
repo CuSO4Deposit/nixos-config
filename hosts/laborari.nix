@@ -126,6 +126,7 @@ in
 
   nixpkgs.overlays = [ inputs.nix-openclaw.overlays.default ];
 
+  programs.mosh.enable = true;
   programs.steam.enable = true;
 
   services.openssh = {
