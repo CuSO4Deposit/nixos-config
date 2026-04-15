@@ -44,6 +44,8 @@
         "$mainMod, F, exec, firefox"
         "$mainMod, M, fullscreen, 1"
         "$mainMod, S, exec, logseq"
+        "$mainMod, backspace, exec, loginctl lock-session"
+        "$mainMod SHIFT, backspace, exec, loginctl lock-session && systemctl suspend"
 
         "$mainMod, left, movefocus, l"
         "$mainMod, right, movefocus, r"
