@@ -15,6 +15,10 @@
       turbo = "auto";
     };
   };
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandlePowerKey = "suspend";
+  };
   # Conflicts with services.auto-cpufreq
   services.power-profiles-daemon.enable = false;
 }
