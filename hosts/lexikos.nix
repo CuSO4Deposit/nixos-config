@@ -74,6 +74,18 @@ in
         "eDP-1,prefered,0x0,1"
         "HDMI-A-1,prefered,1920x0,1"
       ];
+      workspace = lib.mkAfter [
+        "101, monitor:eDP-1, default:true, persistent:true"
+      ];
+      windowrule = lib.mkAfter [
+        {
+          # MagicMirror fullscreen on eDP-1 (workspace 101 is default on eDP-1)
+          name = "magicmirror-fullscreen";
+          "match:class" = "Electron";
+          "match:title" = "MagicMirror.*";
+          fullscreen = 1;
+        }
+      ];
     };
     programs.waybar.settings.mainBar = {
       network.interface = lib.mkForce "wlp4s0";

@@ -172,9 +172,6 @@
         force_default_wallpaper = -1;
       };
       monitor = ",prefered,auto,1";
-      workspace = [
-        "101, monitor:eDP-1, default:true, persistent:true"
-      ];
       windowrule = [
         {
           # Ignore maximize requests from all apps.
@@ -192,13 +189,6 @@
           "match:fullscreen" = false;
           "match:pin" = false;
           "no_focus" = true;
-        }
-        {
-          # MagicMirror fullscreen on eDP-1 (workspace 101 is default on eDP-1)
-          name = "magicmirror-fullscreen";
-          "match:class" = "Electron";
-          "match:title" = "MagicMirror.*";
-          fullscreen = 1;
         }
       ];
 
