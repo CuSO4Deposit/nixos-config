@@ -96,11 +96,6 @@
       };
 
       tools = {
-        web.fetch = {
-          enabled = false;
-          maxChars = 50000;
-          timeoutSeconds = 30;
-        };
         web.search = {
           enabled = false;
           maxResults = 5;
