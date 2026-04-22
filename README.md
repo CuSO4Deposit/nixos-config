@@ -2,6 +2,7 @@
 
 [![Made with NixVim](https://img.shields.io/badge/Made_with-NixVim-7eb6e1.svg?style=flat-square&logo=neovim&logoColor=white)](https://github.com/nix-community/nixvim)
 [![NixOS Unstable](https://img.shields.io/badge/NixOS-26.05-5277C3.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
+[![Total Time](https://wakapi.depoze.xyz/api/badge/CuSO4D/interval:any/project:.nixos)](https://wakapi.dev)
 
 ---
 
