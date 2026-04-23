@@ -159,6 +159,8 @@ in
     enable = true;
     extraConfig = ''
       set -g mouse on
+      set -s extended-keys on
+      set -as terminal-features ',xterm*:extkeys'
     '';
     keyMode = "vi";
     plugins = with pkgs.tmuxPlugins; [
