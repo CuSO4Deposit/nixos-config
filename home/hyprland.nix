@@ -164,6 +164,10 @@
           natural_scroll = true;
         };
       };
+      device = {
+        name = "wacom-one-by-wacom-s-pen";
+        output = "HDMI-A-1";
+      };
       master = {
         new_status = "master";
       };
