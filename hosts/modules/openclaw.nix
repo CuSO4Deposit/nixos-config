@@ -7,276 +7,215 @@ let
   };
 in
 {
-  # OpenClaw runtime and docs still use channels.telegram, and
-  # `openclaw config validate` accepts it. The generated nix-openclaw Home
-  # Manager schema currently exposes only channels.defaults/modelByChannel, so
-  # this shim declares the missing Telegram channel option until upstream folds
-  # TelegramConfigSchema into the generated Nix options.
-  options.programs.openclaw.instances.default.config.channels.telegram = lib.mkOption {
-    type = lib.types.submodule {
-      freeformType = lib.types.attrs;
-      options = {
-        accounts = lib.mkOption {
-          type = lib.types.attrsOf lib.types.attrs;
-          default = { };
-        };
-        allowFrom = lib.mkOption {
-          type = lib.types.listOf (
-            lib.types.oneOf [
-              lib.types.int
-              lib.types.str
-            ]
-          );
-          default = [ ];
-        };
-        dmPolicy = lib.mkOption {
-          type = lib.types.enum [
-            "pairing"
-            "allowlist"
-            "open"
-            "disabled"
-          ];
-          default = "pairing";
-        };
-        enabled = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-        };
-        groupPolicy = lib.mkOption {
-          type = lib.types.enum [
-            "open"
-            "disabled"
-            "allowlist"
-          ];
-          default = "allowlist";
-        };
-        groups = lib.mkOption {
-          type = lib.types.attrsOf lib.types.attrs;
-          default = { };
-        };
-        proxy = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-        };
-        streaming.mode = lib.mkOption {
-          type = lib.types.enum [
-            "off"
-            "partial"
-            "block"
-          ];
-          default = "partial";
-        };
-      };
+  config = {
+    # Inject API keys and gateway token at runtime via agenix-decrypted env file
+    systemd.user.startServices = "sd-switch";
+
+    # nix-openclaw already renders openclaw.json via Home Manager home.file.
+    # Its additional activation relink rewrites that path to a non-HM store symlink,
+    # which causes the next activation to fail with "would be clobbered".
+    home.activation.openclawConfigFiles = lib.mkForce (lib.hm.dag.entryAfter [ "openclawDirs" ] "");
+
+    systemd.user.services.openclaw-gateway = {
+      Unit.After = [ "run-agenix.mount" ];
+      Install.WantedBy = [ "default.target" ];
+      Service.EnvironmentFile = "/run/agenix/openclaw-env";
     };
-  };
 
-  # Inject API keys and gateway token at runtime via agenix-decrypted env file
-  systemd.user.startServices = "sd-switch";
-
-  # nix-openclaw already renders openclaw.json via Home Manager home.file.
-  # Its additional activation relink rewrites that path to a non-HM store symlink,
-  # which causes the next activation to fail with "would be clobbered".
-  home.activation.openclawConfigFiles = lib.mkForce (lib.hm.dag.entryAfter [ "openclawDirs" ] "");
-
-  systemd.user.services.openclaw-gateway = {
-    Unit.After = [ "run-agenix.mount" ];
-    Install.WantedBy = [ "default.target" ];
-    Service.EnvironmentFile = "/run/agenix/openclaw-env";
-  };
-
-  programs.openclaw.instances.default = {
-    enable = true;
-    stateDir = "/home/cuso4d/.openclaw/data";
-    workspaceDir = "/home/cuso4d/.openclaw/data/workspace";
-    config = {
-      env = {
-        vars = {
-          ZOTERO_API_KEY_FILE = "/run/agenix/zotero-api-key";
-          ZOTERO_USER_ID_FILE = "/run/agenix/zotero-user-id";
-        };
-      };
-      secrets.providers.secrets-host.source = "env";
-
-      models.providers = {
-        bailian = {
-          baseUrl = "https://coding.dashscope.aliyuncs.com/v1";
-          apiKey = {
-            source = "env";
-            provider = "secrets-host";
-            id = "BAILIAN_API_KEY";
+    programs.openclaw.instances.default = {
+      enable = true;
+      stateDir = "/home/cuso4d/.openclaw/data";
+      workspaceDir = "/home/cuso4d/.openclaw/data/workspace";
+      config = {
+        env = {
+          vars = {
+            ZOTERO_API_KEY_FILE = "/run/agenix/zotero-api-key";
+            ZOTERO_USER_ID_FILE = "/run/agenix/zotero-user-id";
           };
-          auth = "api-key";
-          api = "openai-completions";
-          models = [
+        };
+        secrets.providers.secrets-host.source = "env";
+
+        models.providers = {
+          bailian = {
+            baseUrl = "https://coding.dashscope.aliyuncs.com/v1";
+            apiKey = {
+              source = "env";
+              provider = "secrets-host";
+              id = "BAILIAN_API_KEY";
+            };
+            auth = "api-key";
+            api = "openai-completions";
+            models = [
+              {
+                id = "glm-5";
+                name = "glm-5";
+              }
+              {
+                id = "qwen3.5-plus";
+                input = [
+                  "text"
+                  "image"
+                ];
+                name = "qwen3.5-plus";
+              }
+              {
+                id = "qwen3-max-2026-01-23";
+                name = "qwen3-max-2026-01-23";
+              }
+            ];
+          };
+
+          modelscope = {
+            baseUrl = "https://api-inference.modelscope.cn/v1";
+            apiKey = {
+              source = "env";
+              provider = "secrets-host";
+              id = "MODELSCOPE_API_KEY";
+            };
+            auth = "api-key";
+            api = "openai-completions";
+            models = [
+              {
+                id = "Qwen/Qwen3.5-397B-A17B";
+                name = "Qwen3.5-397B-A17B";
+              }
+            ];
+          };
+        };
+
+        agents.defaults = {
+          model = {
+            primary = "bailian/glm-5";
+            fallbacks = [
+              "bailian/qwen3.5-plus"
+              "bailian/qwen3-max-2026-01-23"
+              "bailian/qwen-vl-max"
+            ];
+          };
+          compaction.mode = "safeguard";
+        };
+
+        skills = {
+          load = {
+            extraDirs = [ ];
+            watch = true;
+          };
+          entries = { };
+        };
+
+        tools = {
+          web.search = {
+            enabled = false;
+            maxResults = 5;
+          };
+          media.models = [
             {
-              id = "glm-5";
-              name = "glm-5";
+              provider = "modelscope";
+              model = "Qwen/Qwen3.5-397B-A17B";
             }
-            {
-              id = "qwen3.5-plus";
-              input = [
-                "text"
-                "image"
+          ];
+        };
+
+        browser = {
+          enabled = true;
+          executablePath = "/etc/profiles/per-user/cuso4d/bin/google-chrome";
+          headless = true;
+        };
+
+        commands = {
+          native = "auto";
+          nativeSkills = "auto";
+          restart = false;
+          ownerDisplay = "raw";
+        };
+
+        channels.telegram = {
+          enabled = true;
+          dmPolicy = "pairing";
+          proxy = "http://127.0.0.1:20172";
+          groups."-1003886118286" = {
+            enabled = true;
+            groupPolicy = "open";
+            requireMention = true;
+          };
+          allowFrom = [ 7058410044 ];
+          groupPolicy = "allowlist";
+          streaming.mode = "partial";
+          accounts = {
+            sayori = telegramBotAccount "/run/agenix/telegram-bot-token";
+            yoshino = telegramBotAccount "/run/agenix/telegram-bot-token-yoshino";
+            yuuka = telegramBotAccount "/run/agenix/telegram-bot-token-yuuka";
+            default = {
+              dmPolicy = "pairing";
+              allowFrom = [
+                7058410044
               ];
-              name = "qwen3.5-plus";
-            }
-            {
-              id = "qwen3-max-2026-01-23";
-              name = "qwen3-max-2026-01-23";
-            }
-          ];
-        };
-
-        modelscope = {
-          baseUrl = "https://api-inference.modelscope.cn/v1";
-          apiKey = {
-            source = "env";
-            provider = "secrets-host";
-            id = "MODELSCOPE_API_KEY";
+              groupPolicy = "allowlist";
+              streaming.mode = "partial";
+            };
           };
-          auth = "api-key";
-          api = "openai-completions";
-          models = [
-            {
-              id = "Qwen/Qwen3.5-397B-A17B";
-              name = "Qwen3.5-397B-A17B";
-            }
-          ];
         };
-      };
 
-      agents.defaults = {
-        model = {
-          primary = "bailian/glm-5";
-          fallbacks = [
-            "bailian/qwen3.5-plus"
-            "bailian/qwen3-max-2026-01-23"
-            "bailian/qwen-vl-max"
-          ];
-        };
-        compaction.mode = "safeguard";
-      };
-
-      skills = {
-        load = {
-          extraDirs = [ ];
-          watch = true;
-        };
-        entries = { };
-      };
-
-      tools = {
-        web.search = {
-          enabled = false;
-          maxResults = 5;
-        };
-        media.models = [
+        agents.list = [
           {
-            provider = "modelscope";
-            model = "Qwen/Qwen3.5-397B-A17B";
+            id = "sayori";
+            default = true;
+            workspace = "/home/cuso4d/.openclaw/data/workspace";
+          }
+          {
+            id = "yoshino";
+            workspace = "/home/cuso4d/.openclaw/data/workspace-yoshino";
+          }
+          {
+            id = "yuuka";
+            workspace = "/home/cuso4d/.openclaw/data/workspace-yuuka";
           }
         ];
-      };
 
-      browser = {
-        enabled = true;
-        executablePath = "/etc/profiles/per-user/cuso4d/bin/google-chrome";
-        headless = true;
-      };
-
-      commands = {
-        native = "auto";
-        nativeSkills = "auto";
-        restart = false;
-        ownerDisplay = "raw";
-      };
-
-      channels.telegram = {
-        enabled = true;
-        dmPolicy = "pairing";
-        proxy = "http://127.0.0.1:20172";
-        groups."-1003886118286" = {
-          enabled = true;
-          groupPolicy = "open";
-          requireMention = true;
-        };
-        allowFrom = [ 7058410044 ];
-        groupPolicy = "allowlist";
-        streaming.mode = "partial";
-        accounts = {
-          sayori = telegramBotAccount "/run/agenix/telegram-bot-token";
-          yoshino = telegramBotAccount "/run/agenix/telegram-bot-token-yoshino";
-          yuuka = telegramBotAccount "/run/agenix/telegram-bot-token-yuuka";
-          default = {
-            dmPolicy = "pairing";
-            allowFrom = [
-              7058410044
-            ];
-            groupPolicy = "allowlist";
-            streaming.mode = "partial";
-          };
-        };
-      };
-
-      agents.list = [
-        {
-          id = "sayori";
-          default = true;
-          workspace = "/home/cuso4d/.openclaw/data/workspace";
-        }
-        {
-          id = "yoshino";
-          workspace = "/home/cuso4d/.openclaw/data/workspace-yoshino";
-        }
-        {
-          id = "yuuka";
-          workspace = "/home/cuso4d/.openclaw/data/workspace-yuuka";
-        }
-      ];
-
-      bindings = [
-        {
-          agentId = "sayori";
-          match = {
-            channel = "telegram";
-            accountId = "sayori";
-          };
-        }
-        {
-          agentId = "yoshino";
-          match = {
-            channel = "telegram";
-            accountId = "yoshino";
-          };
-        }
-        {
-          agentId = "yuuka";
-          match = {
-            channel = "telegram";
-            accountId = "yuuka";
-          };
-        }
-      ];
-
-      # gateway.auth.token is intentionally absent here.
-      # OPENCLAW_GATEWAY_TOKEN is injected at runtime via the systemd drop-in
-      # EnvironmentFile pointing to /run/agenix/openclaw-env.
-      gateway = {
-        mode = "local";
-        controlUi.allowedOrigins = [
-          "http://localhost:18789"
-          "http://127.0.0.1:18789"
+        bindings = [
+          {
+            agentId = "sayori";
+            match = {
+              channel = "telegram";
+              accountId = "sayori";
+            };
+          }
+          {
+            agentId = "yoshino";
+            match = {
+              channel = "telegram";
+              accountId = "yoshino";
+            };
+          }
+          {
+            agentId = "yuuka";
+            match = {
+              channel = "telegram";
+              accountId = "yuuka";
+            };
+          }
         ];
+
+        # gateway.auth.token is intentionally absent here.
+        # OPENCLAW_GATEWAY_TOKEN is injected at runtime via the systemd drop-in
+        # EnvironmentFile pointing to /run/agenix/openclaw-env.
+        gateway = {
+          mode = "local";
+          controlUi.allowedOrigins = [
+            "http://localhost:18789"
+            "http://127.0.0.1:18789"
+          ];
+        };
       };
     };
-  };
 
-  # For openclaw
-  home.packages = with pkgs; [
-    gh # GitHub Skill
-    google-chrome # Browser Tool
-    khal # caldav-calendar Skill
-    (lib.hiPrio python314) # Zotero Skill; prefer standalone Python over openclaw's bundled python-config
-    vdirsyncer # caldav-calendar Skill
-  ];
+    # For openclaw
+    home.packages = with pkgs; [
+      gh # GitHub Skill
+      google-chrome # Browser Tool
+      khal # caldav-calendar Skill
+      (lib.hiPrio python314) # Zotero Skill; prefer standalone Python over openclaw's bundled python-config
+      vdirsyncer # caldav-calendar Skill
+    ];
+  };
 }
