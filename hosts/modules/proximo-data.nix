@@ -51,6 +51,8 @@
             --vfs-cache-mode writes \
             --vfs-cache-max-size 1G \
             --allow-other \
+            --uid 1000 \
+            --gid 100 \
             --umask 0077 \
             --buffer-size 32M
         '';
