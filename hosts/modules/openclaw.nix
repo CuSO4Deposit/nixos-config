@@ -1,5 +1,68 @@
 { pkgs, lib, ... }:
 {
+  # OpenClaw runtime and docs still use channels.telegram, and
+  # `openclaw config validate` accepts it. The generated nix-openclaw Home
+  # Manager schema currently exposes only channels.defaults/modelByChannel, so
+  # this shim declares the missing Telegram channel option until upstream folds
+  # TelegramConfigSchema into the generated Nix options.
+  options.programs.openclaw.instances.default.config.channels.telegram = lib.mkOption {
+    type = lib.types.submodule {
+      freeformType = lib.types.attrs;
+      options = {
+        accounts = lib.mkOption {
+          type = lib.types.attrsOf lib.types.attrs;
+          default = { };
+        };
+        allowFrom = lib.mkOption {
+          type = lib.types.listOf (
+            lib.types.oneOf [
+              lib.types.int
+              lib.types.str
+            ]
+          );
+          default = [ ];
+        };
+        dmPolicy = lib.mkOption {
+          type = lib.types.enum [
+            "pairing"
+            "allowlist"
+            "open"
+            "disabled"
+          ];
+          default = "pairing";
+        };
+        enabled = lib.mkOption {
+          type = lib.types.bool;
+          default = true;
+        };
+        groupPolicy = lib.mkOption {
+          type = lib.types.enum [
+            "open"
+            "disabled"
+            "allowlist"
+          ];
+          default = "allowlist";
+        };
+        groups = lib.mkOption {
+          type = lib.types.attrsOf lib.types.attrs;
+          default = { };
+        };
+        proxy = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+        };
+        streaming.mode = lib.mkOption {
+          type = lib.types.enum [
+            "off"
+            "partial"
+            "block"
+          ];
+          default = "partial";
+        };
+      };
+    };
+  };
+
   # Inject API keys and gateway token at runtime via agenix-decrypted env file
   systemd.user.startServices = "sd-switch";
 
@@ -135,22 +198,22 @@
         streaming.mode = "partial";
         accounts = {
           sayori = {
-            "dmPolicy" = "pairing";
-            "tokenFile" = "/run/agenix/telegram-bot-token";
-            "groupPolicy" = "allowlist";
+            dmPolicy = "pairing";
+            tokenFile = "/run/agenix/telegram-bot-token";
+            groupPolicy = "allowlist";
           };
           yoshino = {
-            "dmPolicy" = "pairing";
-            "tokenFile" = "/run/agenix/telegram-bot-token-yoshino";
-            "groupPolicy" = "allowlist";
+            dmPolicy = "pairing";
+            tokenFile = "/run/agenix/telegram-bot-token-yoshino";
+            groupPolicy = "allowlist";
           };
           default = {
-            "dmPolicy" = "pairing";
-            "allowFrom" = [
+            dmPolicy = "pairing";
+            allowFrom = [
               7058410044
             ];
-            "groupPolicy" = "allowlist";
-            "streaming".mode = "partial";
+            groupPolicy = "allowlist";
+            streaming.mode = "partial";
           };
         };
       };
