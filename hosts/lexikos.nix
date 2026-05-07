@@ -14,6 +14,7 @@ in
     ./modules/juicefs-mount.nix
     ./modules/laptop.nix
     ./modules/office-wg.nix
+    ./modules/proximo-data.nix
     ./hardware-configuration/lexikos.nix
   ];
 
