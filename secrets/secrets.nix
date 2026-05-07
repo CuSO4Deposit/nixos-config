@@ -29,6 +29,7 @@ let
     "rclone.conf.age"
     "telegram-bot-token.age"
     "telegram-bot-token-yoshino.age"
+    "telegram-bot-token-yuuka.age"
     "wg-laborari.conf.age"
     "wg-lexikos.conf.age"
     "wg-proximo.conf.age"

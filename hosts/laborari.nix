@@ -42,6 +42,10 @@ in
       file = ../secrets/telegram-bot-token-yoshino.age;
       owner = "cuso4d";
     };
+    "telegram-bot-token-yuuka" = {
+      file = ../secrets/telegram-bot-token-yuuka.age;
+      owner = "cuso4d";
+    };
     "zotero-api-key" = {
       file = ../secrets/zotero-api-key.age;
       owner = "cuso4d";

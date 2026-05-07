@@ -1,4 +1,11 @@
 { pkgs, lib, ... }:
+let
+  telegramBotAccount = tokenFile: {
+    dmPolicy = "pairing";
+    inherit tokenFile;
+    groupPolicy = "allowlist";
+  };
+in
 {
   # OpenClaw runtime and docs still use channels.telegram, and
   # `openclaw config validate` accepts it. The generated nix-openclaw Home
@@ -197,16 +204,9 @@
         groupPolicy = "allowlist";
         streaming.mode = "partial";
         accounts = {
-          sayori = {
-            dmPolicy = "pairing";
-            tokenFile = "/run/agenix/telegram-bot-token";
-            groupPolicy = "allowlist";
-          };
-          yoshino = {
-            dmPolicy = "pairing";
-            tokenFile = "/run/agenix/telegram-bot-token-yoshino";
-            groupPolicy = "allowlist";
-          };
+          sayori = telegramBotAccount "/run/agenix/telegram-bot-token";
+          yoshino = telegramBotAccount "/run/agenix/telegram-bot-token-yoshino";
+          yuuka = telegramBotAccount "/run/agenix/telegram-bot-token-yuuka";
           default = {
             dmPolicy = "pairing";
             allowFrom = [
@@ -228,6 +228,10 @@
           id = "yoshino";
           workspace = "/home/cuso4d/.openclaw/data/workspace-yoshino";
         }
+        {
+          id = "yuuka";
+          workspace = "/home/cuso4d/.openclaw/data/workspace-yuuka";
+        }
       ];
 
       bindings = [
@@ -243,6 +247,13 @@
           match = {
             channel = "telegram";
             accountId = "yoshino";
+          };
+        }
+        {
+          agentId = "yuuka";
+          match = {
+            channel = "telegram";
+            accountId = "yuuka";
           };
         }
       ];
