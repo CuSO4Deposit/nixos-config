@@ -29,6 +29,11 @@ in
     "office-band.conf".file = ../secrets/office-band.conf.age;
     "wg-laborari.conf".file = ../secrets/wg-laborari.conf.age;
     "nix-cache-signing-key".file = ../secrets/nix-cache-signing-key.age;
+    "piwigo-nginx.conf" = {
+      file = ../secrets/piwigo-nginx.conf.age;
+      owner = "nginx";
+      group = "nginx";
+    };
     # Openclaw
     "openclaw-env" = {
       file = ../secrets/openclaw-env.age;
@@ -110,7 +115,10 @@ in
     "wg-quick-wg0.service"
   ];
 
-  networking.firewall.allowedTCPPorts = [ 22222 ];
+  networking.firewall.allowedTCPPorts = [
+    22222
+    2053
+  ];
   networking.firewall.allowedUDPPorts = [ 5182 ];
   networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-laborari";
@@ -139,6 +147,14 @@ in
     settings.KbdInteractiveAuthentication = false;
     settings.PasswordAuthentication = false;
     settings.PermitRootLogin = "no";
+  };
+  services.nginx = {
+    enable = true;
+    clientMaxBodySize = "512m";
+    recommendedProxySettings = true;
+    appendHttpConfig = ''
+      include ${config.age.secrets."piwigo-nginx.conf".path};
+    '';
   };
   services.terraria = {
     enable = true;
