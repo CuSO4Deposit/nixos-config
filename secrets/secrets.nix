@@ -28,6 +28,8 @@ let
     "openclaw-env.age"
     "piwigo-db-password.age"
     "piwigo-nginx.conf.age"
+    "piwigo-origin-cert.pem.age"
+    "piwigo-origin-key.pem.age"
     "rclone.conf.age"
     "telegram-bot-token.age"
     "telegram-bot-token-yoshino.age"

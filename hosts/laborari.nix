@@ -34,6 +34,16 @@ in
       owner = "nginx";
       group = "nginx";
     };
+    "piwigo-origin-cert.pem" = {
+      file = ../secrets/piwigo-origin-cert.pem.age;
+      owner = "nginx";
+      group = "nginx";
+    };
+    "piwigo-origin-key.pem" = {
+      file = ../secrets/piwigo-origin-key.pem.age;
+      owner = "nginx";
+      group = "nginx";
+    };
     # Openclaw
     "openclaw-env" = {
       file = ../secrets/openclaw-env.age;
