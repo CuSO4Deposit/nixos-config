@@ -6,6 +6,15 @@
 {
   programs.firefox = {
     enable = true;
+    # The default value of `programs.firefox.configPath` has changed from
+    # `".mozilla/firefox"` to `"${config.xdg.configHome}/mozilla/firefox"`. You
+    # are currently using the legacy default (`".mozilla/firefox"`) because
+    # `home.stateVersion` is less than "26.05". To silence this warning and
+    # keep legacy behavior, set:
+    #     programs.firefox.configPath = ".mozilla/firefox";
+    # To adopt the new default behavior, set:
+    #     programs.firefox.configPath = "${config.xdg.configHome}/mozilla/firefox";
+    configPath = ".mozilla/firefox";
     # https://mozilla.github.io/policy-templates
     policies = {
       AppUpdateURL = "https://localhost";
