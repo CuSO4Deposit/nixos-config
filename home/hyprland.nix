@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   wayland.windowManager.hyprland = {
+    configType = "lua";
     enable = true;
     package = pkgs.hyprland;
     settings = {
