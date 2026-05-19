@@ -5,7 +5,10 @@
 }:
 let
   cfg = config.nightcord.internal-dns;
-  laborariAliases = [ "nix-auto-build.internal" ];
+  laborariAliases = [
+    "nix-auto-build.internal"
+    "opencode.internal"
+  ];
   proximoAliases = [
     "fava.internal"
     "git-ro.internal"

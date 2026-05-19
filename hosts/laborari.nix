@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  inputs,
   ...
 }:
 let
@@ -14,6 +13,7 @@ in
     ./modules/juicefs-mount.nix
     ./modules/minio-mount.nix
     ./modules/nix-auto-build
+    ./modules/opencode-web.nix
     ./modules/office-wg.nix
     ./modules/server.nix
     ./hardware-configuration/laborari.nix
@@ -34,39 +34,23 @@ in
       owner = "nginx";
       group = "nginx";
     };
-    "piwigo-origin-cert.pem" = {
-      file = ../secrets/piwigo-origin-cert.pem.age;
+    "cloudflare-origin-cert.pem" = {
+      file = ../secrets/cloudflare-origin-cert.pem.age;
       owner = "nginx";
       group = "nginx";
     };
-    "piwigo-origin-key.pem" = {
-      file = ../secrets/piwigo-origin-key.pem.age;
+    "cloudflare-origin-key.pem" = {
+      file = ../secrets/cloudflare-origin-key.pem.age;
       owner = "nginx";
       group = "nginx";
     };
-    # Openclaw
-    "openclaw-env" = {
-      file = ../secrets/openclaw-env.age;
-      owner = "cuso4d";
+    "opencode-nginx.conf" = {
+      file = ../secrets/opencode-nginx.conf.age;
+      owner = "nginx";
+      group = "nginx";
     };
-    "telegram-bot-token" = {
-      file = ../secrets/telegram-bot-token.age;
-      owner = "cuso4d";
-    };
-    "telegram-bot-token-yoshino" = {
-      file = ../secrets/telegram-bot-token-yoshino.age;
-      owner = "cuso4d";
-    };
-    "telegram-bot-token-yuuka" = {
-      file = ../secrets/telegram-bot-token-yuuka.age;
-      owner = "cuso4d";
-    };
-    "zotero-api-key" = {
-      file = ../secrets/zotero-api-key.age;
-      owner = "cuso4d";
-    };
-    "zotero-user-id" = {
-      file = ../secrets/zotero-user-id.age;
+    "opencode-server-password" = {
+      file = ../secrets/opencode-server-password.age;
       owner = "cuso4d";
     };
   };
@@ -98,11 +82,6 @@ in
     powerManagement.finegrained = false;
   };
   home-manager.users.cuso4d = {
-    imports = [
-      inputs.nix-openclaw.homeManagerModules.openclaw
-      ./modules/openclaw.nix
-    ];
-
     programs.hyprlock.settings = {
       background = {
         brightness = lib.mkForce 0.5;
@@ -146,8 +125,6 @@ in
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
 
-  nixpkgs.overlays = [ inputs.nix-openclaw.overlays.default ];
-
   programs.mosh.enable = true;
   programs.steam.enable = true;
 
@@ -163,7 +140,18 @@ in
     clientMaxBodySize = "512m";
     recommendedProxySettings = true;
     appendHttpConfig = ''
+      server {
+        listen 2053 default_server;
+        server_name _;
+
+        ssl_certificate ${config.age.secrets."cloudflare-origin-cert.pem".path};
+        ssl_certificate_key ${config.age.secrets."cloudflare-origin-key.pem".path};
+
+        return 444;
+      }
+
       include ${config.age.secrets."piwigo-nginx.conf".path};
+      include ${config.age.secrets."opencode-nginx.conf".path};
     '';
   };
   services.terraria = {

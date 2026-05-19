@@ -53,6 +53,7 @@ in
     juicefs
     just
     nixfmt
+    opencode
     ripgrep
     tldr
     yq
