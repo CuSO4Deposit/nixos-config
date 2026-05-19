@@ -20,6 +20,7 @@ in
 
   nightcord.internal-dns = {
     enable = true;
+    hostOverrides = { };
     laborariAddress = "10.20.0.2";
     proximoAddress = "192.168.1.104";
   };

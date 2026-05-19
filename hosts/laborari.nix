@@ -21,7 +21,10 @@ in
 
   nightcord.internal-dns = {
     enable = true;
-    laborariAddress = "10.20.0.2";
+    hostOverrides = {
+      "10.20.0.2" = [ "nix-auto-build.internal" ];
+    };
+    laborariAddress = "127.0.0.1";
     proximoAddress = "10.20.0.1";
   };
 
