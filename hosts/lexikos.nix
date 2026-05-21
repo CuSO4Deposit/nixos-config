@@ -68,23 +68,52 @@ in
 
   home-manager.users.cuso4d = {
     wayland.windowManager.hyprland.settings = {
-      binde = lib.mkAfter [
-        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+ -d nvidia_0 "
-        ", XF86MonBrightnessDown, exec, brightnessctl set 5%- -d nvidia_0 "
+      bind = lib.mkAfter [
+        {
+          _args = [
+            "XF86MonBrightnessUp"
+            (lib.generators.mkLuaInline ''hl.dsp.exec_cmd("brightnessctl set 5%+ -d nvidia_0")'')
+            { repeating = true; }
+          ];
+        }
+        {
+          _args = [
+            "XF86MonBrightnessDown"
+            (lib.generators.mkLuaInline ''hl.dsp.exec_cmd("brightnessctl set 5%- -d nvidia_0")'')
+            { repeating = true; }
+          ];
+        }
       ];
       monitor = lib.mkForce [
-        "eDP-1,prefered,0x0,1"
-        "HDMI-A-1,prefered,1920x0,1"
+        {
+          output = "eDP-1";
+          mode = "preferred";
+          position = "0x0";
+          scale = 1;
+        }
+        {
+          output = "HDMI-A-1";
+          mode = "preferred";
+          position = "1920x0";
+          scale = 1;
+        }
       ];
-      workspace = lib.mkAfter [
-        "101, monitor:eDP-1, default:true, persistent:true"
+      workspace_rule = lib.mkAfter [
+        {
+          workspace = "101";
+          monitor = "eDP-1";
+          default = true;
+          persistent = true;
+        }
       ];
-      windowrule = lib.mkAfter [
+      window_rule = lib.mkAfter [
         {
           # MagicMirror fullscreen on eDP-1 (workspace 101 is default on eDP-1)
           name = "magicmirror-fullscreen";
-          "match:class" = "Electron";
-          "match:title" = "MagicMirror.*";
+          match = {
+            class = "Electron";
+            title = "MagicMirror.*";
+          };
           fullscreen = 1;
         }
       ];
