@@ -24,6 +24,16 @@ in
   };
 
   services.nginx.virtualHosts."${domain}" = {
+    listen = [
+      {
+        addr = "127.0.0.1";
+        port = 80;
+      }
+      {
+        addr = "10.20.0.2";
+        port = 80;
+      }
+    ];
     locations."/" = {
       proxyPass = "http://127.0.0.1:${toString port}";
       proxyWebsockets = true;
