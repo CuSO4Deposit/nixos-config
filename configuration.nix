@@ -140,6 +140,10 @@ in
   };
 
   programs.git = {
+    config = {
+      init.defaultBranch = "main";
+      rerere.enabled = true;
+    };
     enable = true;
     lfs.enable = true;
   };
