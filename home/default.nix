@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   agenix,
   ...
@@ -7,11 +6,7 @@
 {
   home.homeDirectory = "/home/cuso4d";
   home.username = "cuso4d";
-  home.file."${config.xdg.configHome}" = {
-    force = true;
-    source = ../files/.config;
-    recursive = true;
-  };
+
   home.packages = with pkgs; [
     # GUI
     evolution
@@ -40,6 +35,8 @@
 
   imports = [
     ./dunst.nix
+    ./fcitx5.nix
+    ./ghostty.nix
     ./hypridle.nix
     ./hyprland.nix
     ./hyprlock.nix
