@@ -4,9 +4,9 @@
 }:
 {
   imports = [
-    ./modules/laptop.nix
-    ./modules/office-wg.nix
-    ./hardware-configuration/dynamica.nix
+    ../modules/laptop.nix
+    ../modules/office-wg.nix
+    ../hardware-configuration/dynamica.nix
   ];
 
   nightcord.proxy = "http://127.0.0.1:20172";

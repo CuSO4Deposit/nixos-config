@@ -6,12 +6,12 @@
 }:
 {
   imports = [
-    ./modules/internal-dns.nix
-    ./modules/juicefs-mount.nix
-    ./modules/laptop.nix
-    ./modules/office-wg.nix
-    ./modules/proximo-data.nix
-    ./hardware-configuration/lexikos.nix
+    ../modules/internal-dns.nix
+    ../modules/juicefs-mount.nix
+    ../modules/laptop.nix
+    ../modules/office-wg.nix
+    ../modules/proximo-data.nix
+    ../hardware-configuration/lexikos.nix
   ];
 
   nightcord.internal-dns = {
@@ -22,8 +22,8 @@
   };
 
   age.secrets = {
-    "office-band.conf".file = ../secrets/office-band.conf.age;
-    "wg-lexikos.conf".file = ../secrets/wg-lexikos.conf.age;
+    "office-band.conf".file = ../../secrets/office-band.conf.age;
+    "wg-lexikos.conf".file = ../../secrets/wg-lexikos.conf.age;
   };
 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -63,7 +63,7 @@
   };
 
   home-manager.users.cuso4d = {
-    imports = [ ./modules/home/lexikos.nix ];
+    imports = [ ../modules/home/lexikos.nix ];
   };
 
   nightcord.juicefs-mount = {

@@ -9,24 +9,24 @@ let
 in
 {
   age.secrets = {
-    "wg-proximo.conf".file = ../secrets/wg-proximo.conf.age;
+    "wg-proximo.conf".file = ../../secrets/wg-proximo.conf.age;
     "piwigo-db-password" = {
-      file = ../secrets/piwigo-db-password.age;
+      file = ../../secrets/piwigo-db-password.age;
       owner = "mysql";
       group = "mysql";
     };
     "ghorg-github-token" = {
-      file = ../secrets/ghorg-github-token.age;
+      file = ../../secrets/ghorg-github-token.age;
       owner = "ghorg";
       group = "ghorg";
     };
     "ghorg-github-token-sayori" = {
-      file = ../secrets/ghorg-github-token-sayori.age;
+      file = ../../secrets/ghorg-github-token-sayori.age;
       owner = "ghorg";
       group = "ghorg";
     };
     "ghorg-work-0.yaml" = {
-      file = ../secrets/ghorg-work-0.yaml.age;
+      file = ../../secrets/ghorg-work-0.yaml.age;
       owner = "ghorg";
       group = "ghorg";
     };
@@ -41,10 +41,10 @@ in
   boot.loader.systemd-boot.enable = true;
 
   imports = [
-    ./modules/internal-dns.nix
-    ./modules/juicefs-mount.nix
-    ./modules/server.nix
-    ./hardware-configuration/proximo.nix
+    ../modules/internal-dns.nix
+    ../modules/juicefs-mount.nix
+    ../modules/server.nix
+    ../hardware-configuration/proximo.nix
   ];
 
   nightcord.internal-dns = {

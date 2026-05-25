@@ -4,15 +4,15 @@
 }:
 {
   imports = [
-    ./modules/desktop.nix
-    ./modules/internal-dns.nix
-    ./modules/juicefs-mount.nix
-    ./modules/minio-mount.nix
-    ./modules/nix-auto-build
-    ./modules/opencode-web.nix
-    ./modules/office-wg.nix
-    ./modules/server.nix
-    ./hardware-configuration/laborari.nix
+    ../modules/desktop.nix
+    ../modules/internal-dns.nix
+    ../modules/juicefs-mount.nix
+    ../modules/minio-mount.nix
+    ../modules/nix-auto-build
+    ../modules/opencode-web.nix
+    ../modules/office-wg.nix
+    ../modules/server.nix
+    ../hardware-configuration/laborari.nix
   ];
 
   nightcord.internal-dns = {
@@ -25,31 +25,31 @@
   };
 
   age.secrets = {
-    "office-band.conf".file = ../secrets/office-band.conf.age;
-    "wg-laborari.conf".file = ../secrets/wg-laborari.conf.age;
-    "nix-cache-signing-key".file = ../secrets/nix-cache-signing-key.age;
+    "office-band.conf".file = ../../secrets/office-band.conf.age;
+    "wg-laborari.conf".file = ../../secrets/wg-laborari.conf.age;
+    "nix-cache-signing-key".file = ../../secrets/nix-cache-signing-key.age;
     "piwigo-nginx.conf" = {
-      file = ../secrets/piwigo-nginx.conf.age;
+      file = ../../secrets/piwigo-nginx.conf.age;
       owner = "nginx";
       group = "nginx";
     };
     "cloudflare-origin-cert.pem" = {
-      file = ../secrets/cloudflare-origin-cert.pem.age;
+      file = ../../secrets/cloudflare-origin-cert.pem.age;
       owner = "nginx";
       group = "nginx";
     };
     "cloudflare-origin-key.pem" = {
-      file = ../secrets/cloudflare-origin-key.pem.age;
+      file = ../../secrets/cloudflare-origin-key.pem.age;
       owner = "nginx";
       group = "nginx";
     };
     "opencode-nginx.conf" = {
-      file = ../secrets/opencode-nginx.conf.age;
+      file = ../../secrets/opencode-nginx.conf.age;
       owner = "nginx";
       group = "nginx";
     };
     "opencode-server-password" = {
-      file = ../secrets/opencode-server-password.age;
+      file = ../../secrets/opencode-server-password.age;
       owner = "cuso4d";
     };
   };
@@ -82,7 +82,7 @@
     powerManagement.finegrained = false;
   };
   home-manager.users.cuso4d = {
-    imports = [ ./modules/home/laborari.nix ];
+    imports = [ ../modules/home/laborari.nix ];
   };
 
   nightcord.juicefs-mount = {

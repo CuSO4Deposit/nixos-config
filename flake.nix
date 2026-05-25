@@ -104,7 +104,7 @@
                 specialArgs = { inherit inputs; };
                 modules = [
                   ./configuration.nix
-                  ./hosts/${hostname}.nix
+                  ./hosts/${hostname}
                   agenix.nixosModules.default
                   nix-ld.nixosModules.nix-ld
                   nur-cuso4d.nixosModules.ghorg
@@ -117,7 +117,7 @@
                 specialArgs = { inherit inputs; };
                 modules = [
                   ./configuration.nix
-                  ./hosts/${hostname}.nix
+                  ./hosts/${hostname}
                   agenix.nixosModules.default
                   nixos-wsl.nixosModules.wsl
                   nix-ld.nixosModules.nix-ld
@@ -134,7 +134,7 @@
                 };
                 modules = [
                   ./configuration.nix
-                  ./hosts/${hostname}.nix
+                  ./hosts/${hostname}
                   agenix.nixosModules.default
                   nix-ld.nixosModules.nix-ld
                   nur.modules.nixos.default
