@@ -26,6 +26,8 @@ applications, dotfiles, and user-specific packages.
 at build time.
 - `derivations/`: Contains custom Nix derivations for packages not available
 in nixpkgs or that require customization.
+- `locks/`: Stores a copy of `flake.lock` for each host after `just switch`.
+This tracks which exact flake revision is deployed on each machine.
 - `justfile`: Provides convenient commands for common tasks.
 
 ## Common Tasks
