@@ -15,39 +15,53 @@ let
   ];
   all = hosts ++ users;
 
-  secrets = [
-    "ghorg-github-token.age"
-    "ghorg-github-token-sayori.age"
-    "ghorg-work-0.yaml.age"
-    "cloudflare-origin-cert.pem.age"
-    "cloudflare-origin-key.pem.age"
-    "juicefs-password-env.age"
-    "nix-cache-signing-key.age"
-    "officeVPN.ovpn.age"
-    "officeVPN.auth.age"
-    "office.conf.age"
-    "office-band.conf.age"
-    "opencode-nginx.conf.age"
-    "opencode-server-password.age"
-    "openclaw-env.age"
-    "piwigo-db-password.age"
-    "piwigo-nginx.conf.age"
-    "rclone.conf.age"
-    "telegram-bot-token.age"
-    "telegram-bot-token-yoshino.age"
-    "telegram-bot-token-yuuka.age"
-    "wg-laborari.conf.age"
-    "wg-lexikos.conf.age"
-    "wg-proximo.conf.age"
-    "zotero-api-key.age"
-    "zotero-user-id.age"
+  # Host-specific key groups
+  proximo = [
+    proximo-host
+    proximo-user
+  ];
+  laborari = [ laborari-user ];
+  lexikos = [ lexikos-user ];
+  dynamica = [ dynamica-user ];
+  desktops = [
+    dynamica-user
+    laborari-user
+    lexikos-user
   ];
 in
-builtins.listToAttrs (
-  map (name: {
-    name = "${name}";
-    value = {
-      publicKeys = all;
-    };
-  }) secrets
-)
+{
+  # proximo only
+  "ghorg-github-token.age".publicKeys = proximo;
+  "ghorg-github-token-sayori.age".publicKeys = proximo;
+  "ghorg-work-0.yaml.age".publicKeys = proximo;
+  "wg-proximo.conf.age".publicKeys = proximo;
+  "piwigo-db-password.age".publicKeys = proximo ++ laborari;
+
+  # laborari only
+  "cloudflare-origin-cert.pem.age".publicKeys = laborari;
+  "cloudflare-origin-key.pem.age".publicKeys = laborari;
+  "nix-cache-signing-key.age".publicKeys = laborari;
+  "opencode-nginx.conf.age".publicKeys = laborari;
+  "opencode-server-password.age".publicKeys = laborari;
+  "piwigo-nginx.conf.age".publicKeys = laborari;
+  "wg-laborari.conf.age".publicKeys = laborari;
+
+  # lexikos only
+  "wg-lexikos.conf.age".publicKeys = lexikos;
+
+  # shared across multiple hosts
+  "juicefs-password-env.age".publicKeys = proximo ++ laborari ++ lexikos;
+  "office.conf.age".publicKeys = dynamica ++ laborari ++ lexikos;
+  "office-band.conf.age".publicKeys = laborari ++ lexikos;
+  "officeVPN.ovpn.age".publicKeys = all;
+  "officeVPN.auth.age".publicKeys = all;
+  "rclone.conf.age".publicKeys = laborari ++ lexikos;
+
+  # openclaw / desktop hosts
+  "openclaw-env.age".publicKeys = desktops;
+  "telegram-bot-token.age".publicKeys = desktops;
+  "telegram-bot-token-yoshino.age".publicKeys = desktops;
+  "telegram-bot-token-yuuka.age".publicKeys = desktops;
+  "zotero-api-key.age".publicKeys = desktops;
+  "zotero-user-id.age".publicKeys = desktops;
+}
