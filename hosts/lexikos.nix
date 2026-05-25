@@ -123,7 +123,7 @@ in
     };
   };
 
-  juicefs-mount = {
+  nightcord.juicefs-mount = {
     dbHost = "192.168.1.104";
     enable = true;
     waitServices = [ "wg-quick-wg2.service" ];

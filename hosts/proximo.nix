@@ -54,7 +54,7 @@ in
     proximoAddress = "127.0.0.1";
   };
 
-  juicefs-mount = {
+  nightcord.juicefs-mount = {
     dbHost = "127.0.0.1";
     enable = true;
     waitServices = [

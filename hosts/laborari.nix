@@ -62,7 +62,7 @@ in
     "loongarch64-linux"
   ];
 
-  nix-auto-build = {
+  nightcord.nix-auto-build = {
     enable = true;
     cachePath = "/mnt/minio/nix-cache-54168";
     cachePublicKey = "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0=";
@@ -95,7 +95,7 @@ in
     };
   };
 
-  juicefs-mount = {
+  nightcord.juicefs-mount = {
     dbHost = "10.20.0.1";
     enable = true;
     waitServices = [
@@ -103,7 +103,7 @@ in
     ];
   };
 
-  rclone-minio.waitServices = [
+  nightcord.rclone-minio.waitServices = [
     "wg-quick-wg0.service"
   ];
 

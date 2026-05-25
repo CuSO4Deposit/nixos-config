@@ -6,7 +6,7 @@
 }:
 
 {
-  options.juicefs-mount = {
+  options.nightcord.juicefs-mount = {
     dbHost = lib.mkOption {
       type = lib.types.str;
       default = "10.20.0.1";
@@ -18,7 +18,7 @@
     };
   };
 
-  config = lib.mkIf config.juicefs-mount.enable {
+  config = lib.mkIf config.nightcord.juicefs-mount.enable {
     system.activationScripts.makeJfsMountPoint = ''
       mkdir -p /mnt/jfs
     '';
@@ -31,8 +31,8 @@
 
     systemd.services.juicefs-mount = {
       description = "JuiceFS Mount Service";
-      wants = [ "network-online.target" ] ++ config.juicefs-mount.waitServices;
-      after = [ "network-online.target" ] ++ config.juicefs-mount.waitServices;
+      wants = [ "network-online.target" ] ++ config.nightcord.juicefs-mount.waitServices;
+      after = [ "network-online.target" ] ++ config.nightcord.juicefs-mount.waitServices;
 
       serviceConfig = {
         Type = "simple";
@@ -41,7 +41,7 @@
           . ${config.age.secrets.juicefs-password-env.path}
 
           ${pkgs.juicefs}/bin/juicefs mount \
-            "mysql://juicefs:$JUICEFS_PASS@tcp(${config.juicefs-mount.dbHost}:3306)/juicefs" \
+            "mysql://juicefs:$JUICEFS_PASS@tcp(${config.nightcord.juicefs-mount.dbHost}:3306)/juicefs" \
             /mnt/jfs
         '';
         ExecStop = "${pkgs.fuse}/bin/fusermount -uz /mnt/jfs";

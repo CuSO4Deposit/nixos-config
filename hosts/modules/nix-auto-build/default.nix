@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.nix-auto-build;
+  cfg = config.nightcord.nix-auto-build;
 
   dashboardHtml = ./dashboard.html;
 
@@ -171,7 +171,7 @@ let
   '';
 in
 {
-  options.nix-auto-build = {
+  options.nightcord.nix-auto-build = {
     enable = lib.mkEnableOption "automatic background NixOS builds";
     repoPath = lib.mkOption {
       type = lib.types.str;
