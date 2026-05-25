@@ -13,6 +13,8 @@
     ../modules/office-wg.nix
     ../modules/server.nix
     ../hardware-configuration/laborari.nix
+    ./nginx.nix
+    ./terraria.nix
   ];
 
   nightcord.internal-dns = {
@@ -122,34 +124,6 @@
   programs.steam.enable = true;
 
   services.openssh.ports = [ 22222 ];
-  services.nginx = {
-    enable = true;
-    clientMaxBodySize = "512m";
-    recommendedProxySettings = true;
-    appendHttpConfig = ''
-      server {
-        listen 2053 default_server;
-        server_name _;
-
-        ssl_certificate ${config.age.secrets."cloudflare-origin-cert.pem".path};
-        ssl_certificate_key ${config.age.secrets."cloudflare-origin-key.pem".path};
-
-        return 444;
-      }
-
-      include ${config.age.secrets."piwigo-nginx.conf".path};
-      include ${config.age.secrets."opencode-nginx.conf".path};
-    '';
-  };
-  services.terraria = {
-    enable = true;
-    port = 14141;
-    password = "10001279";
-    openFirewall = true;
-    messageOfTheDay = "Welcome to Terraria 1.4.5! 我真幸运！";
-    maxPlayers = 4;
-    autoCreatedWorldSize = "medium";
-  };
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
 

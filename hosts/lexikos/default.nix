@@ -12,6 +12,9 @@
     ../modules/office-wg.nix
     ../modules/proximo-data.nix
     ../hardware-configuration/lexikos.nix
+    ./v2raya-lan-proxy.nix
+    ./cannot-sleep-m9.nix
+    ./mm-config-extract.nix
   ];
 
   nightcord.internal-dns = {
@@ -114,55 +117,6 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
-  systemd.services.v2raya-lan-http-proxy = {
-    description = "Expose v2rayA HTTP proxy to proximo only";
-    after = [ "v2raya.service" ];
-    wants = [ "v2raya.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:20172,bind=192.168.1.102,reuseaddr,fork TCP:127.0.0.1:20172";
-      Restart = "always";
-      RestartSec = 2;
-    };
-  };
-
-  systemd.timers."cannot-sleep-m9" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "15:00:00";
-      Unit = "cannot-sleep-m9.service";
-    };
-  };
-  systemd.services."cannot-sleep-m9" = {
-    # https://web.archive.org/web/20250805104854/https://forum.endeavouros.com/t/notify-when-network-is-up/69894/4
-    script = ''
-      systemd-run --user --machine=cuso4d@.host --user ${pkgs.libnotify}/bin/notify-send -t 10000 "This is ena..." "You cannot go to sleep! m9"
-    '';
-  };
-
-  systemd.timers."mm-config-extract" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnBootSec = "1min";
-      OnUnitActiveSec = "10min";
-      Unit = "mm-config-extract.service";
-    };
-  };
-  systemd.services."mm-config-extract" = {
-    path = with pkgs; [
-      bash
-      gawk
-      coreutils
-      gnugrep
-    ];
-    script = ''
-      bash /home/cuso4d/source/mm-config/scripts/extract-bestbefore.sh
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      User = "cuso4d";
-    };
-  };
 
   time.timeZone = "Etc/UTC";
 

@@ -45,6 +45,10 @@ in
     ../modules/juicefs-mount.nix
     ../modules/server.nix
     ../hardware-configuration/proximo.nix
+    ./cgit.nix
+    ./fava.nix
+    ./minecraft.nix
+    ./piwigo.nix
   ];
 
   nightcord.internal-dns = {
@@ -151,181 +155,15 @@ in
     };
   };
 
-  services.minecraft-server = {
-    declarative = true;
-    enable = true;
-    eula = true;
-    openFirewall = true;
-    serverProperties = {
-      allow-cheats = true;
-      difficulty = "hard";
-      gamemode = "survival";
-      level-name = "MOTION_SICKNESS_DEMO_MC_WO_SITAI";
-      max-players = 4;
-      motd = "点我放松一下";
-      online-mode = false;
-      server-port = 25565;
-      white-list = false;
-    };
-    package = pkgs.papermc;
-    whitelist = {
-      "CuSO4D" = "0f5f4275-656f-41e4-b2ef-1a7914c2e5df";
-    };
-  };
-
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
     settings.mysqld.skip-name-resolve = true;
   };
 
-  systemd.tmpfiles.rules = [
-    "d /data/piwigo 0750 cuso4d users -"
-    "d /data/piwigo/app 0750 cuso4d users -"
-    "d /data/piwigo/scripts 0750 cuso4d users -"
-  ];
-
-  systemd.services.piwigo-mysql-setup = {
-    description = "Create MariaDB database and user for Piwigo";
-    after = [ "mysql.service" ];
-    requires = [ "mysql.service" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      User = "mysql";
-      Group = "mysql";
-    };
-    script = ''
-      password="$(${pkgs.coreutils}/bin/cat ${config.age.secrets.piwigo-db-password.path})"
-      case "$password" in
-        *"'"*)
-          echo "piwigo-db-password must not contain single quotes" >&2
-          exit 1
-          ;;
-      esac
-
-      ${pkgs.mariadb}/bin/mysql --batch <<SQL
-      CREATE DATABASE IF NOT EXISTS piwigo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-      CREATE USER IF NOT EXISTS 'piwigo'@'%' IDENTIFIED BY '$password';
-      ALTER USER 'piwigo'@'%' IDENTIFIED BY '$password';
-      GRANT ALL PRIVILEGES ON piwigo.* TO 'piwigo'@'%';
-      FLUSH PRIVILEGES;
-      SQL
-    '';
-  };
-
-  virtualisation.oci-containers = {
-    backend = "docker";
-    containers.piwigo = {
-      image = "piwigo/piwigo:latest";
-      environment = {
-        TZ = "Etc/UTC";
-        PIWIGO_UID = "1000";
-        PIWIGO_GID = "100";
-      };
-      ports = [
-        "10.20.0.1:8080:80"
-      ];
-      volumes = [
-        "/data/piwigo/app:/var/www/html/piwigo"
-        "/data/piwigo/scripts:/usr/local/bin/scripts"
-      ];
-      extraOptions = [
-        "--add-host=host.docker.internal:host-gateway"
-      ];
-    };
-  };
-
-  systemd.services.docker-piwigo = {
-    after = [ "piwigo-mysql-setup.service" ];
-    requires = [ "piwigo-mysql-setup.service" ];
-  };
-
   services.nginx = {
     enable = true;
-    virtualHosts = {
-      "fava.internal" = {
-        locations."/".proxyPass = "http://127.0.0.1:5000";
-        locations."/".extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        '';
-      };
-    };
   };
-
-  services.cgit."git-ro" = {
-    enable = true;
-    group = "ghorg";
-    gitHttpBackend.enable = false;
-    scanPath = "/data/ghorg";
-    nginx.virtualHost = "git-ro.internal";
-    settings = {
-      clone-url = "http://git-ro.internal/$CGIT_REPO_URL";
-      enable-index-links = true;
-      remove-suffix = true;
-      root-desc = "Read-only view of /data/ghorg on proximo";
-      root-title = "git-ro.internal";
-    };
-  };
-
-  systemd.user.services.git-pull-ledger =
-    let
-      ledgerPath = "/home/cuso4d/source/beancount";
-    in
-    {
-      description = "git pull ledger repo";
-      path = with pkgs; [
-        git
-        openssh
-      ];
-      script = ''
-        cd ${ledgerPath}
-        ${pkgs.git}/bin/git pull
-      '';
-      serviceConfig = {
-        Type = "oneshot";
-        User = "cuso4d";
-        WorkingDirectory = "${ledgerPath}";
-        Environment = [ "HOME=/home/cuso4d" ];
-      };
-    };
-  systemd.user.timers.git-pull-ledger = {
-    description = "trigger git-pull-ledger daily";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "daily";
-      Persistent = true;
-    };
-  };
-
-  systemd.user.services.fava-web =
-    let
-      package = pkgs.callPackage ../derivations/fava-with-dashboards { };
-    in
-    {
-      description = "Run Fava web interface with dashboards";
-      after = [
-        "network.target"
-        "git-pull-ledger.service"
-      ];
-      wants = [ "git-pull-ledger.service" ]; # pull before starting
-      wantedBy = [ "default.target" ];
-      script = ''
-        export HOME=/home/cuso4d
-        exec ${package}/bin/fava-with-dashboards \
-          --host 127.0.0.1 \
-          --port 5000 \
-          /home/cuso4d/source/beancount/main.beancount
-      '';
-      serviceConfig = {
-        Type = "simple";
-        User = "cuso4d";
-        WorkingDirectory = "/home/cuso4d/source/beancount";
-        Environment = [ "HOME=/home/cuso4d" ];
-      };
-    };
 
   users.users."cuso4d".extraGroups = lib.mkAfter [
     "ghorg"
