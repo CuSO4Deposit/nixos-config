@@ -1,13 +1,9 @@
 {
-  lib,
   config,
   pkgs,
   ...
 }:
 {
-  age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
-    lib.attrNames (lib.attrsets.filterAttrs (_: v: v.isNormalUser) config.users.users)
-  );
   age.secrets = {
     "officeVPN.ovpn".file = ../../secrets/officeVPN.ovpn.age;
     "officeVPN.auth".file = ../../secrets/officeVPN.auth.age;

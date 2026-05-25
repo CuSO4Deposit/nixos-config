@@ -1,16 +1,10 @@
 {
-  lib,
-  config,
   ...
 }:
 let
   httpProxy = "http://127.0.0.1:20172";
 in
 {
-  age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
-    lib.attrNames (lib.attrsets.filterAttrs (_: v: v.isNormalUser) config.users.users)
-  );
-
   imports = [
     ./modules/laptop.nix
     ./modules/office-wg.nix
