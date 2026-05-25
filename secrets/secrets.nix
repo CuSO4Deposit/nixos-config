@@ -53,8 +53,8 @@ in
   "juicefs-password-env.age".publicKeys = proximo ++ laborari ++ lexikos;
   "office.conf.age".publicKeys = dynamica ++ laborari ++ lexikos;
   "office-band.conf.age".publicKeys = laborari ++ lexikos;
-  "officeVPN.ovpn.age".publicKeys = all;
-  "officeVPN.auth.age".publicKeys = all;
+  "office-vpn.ovpn.age".publicKeys = all;
+  "office-vpn.auth.age".publicKeys = all;
   "rclone.conf.age".publicKeys = laborari ++ lexikos;
 
   # openclaw / desktop hosts

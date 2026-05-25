@@ -5,8 +5,8 @@
 }:
 {
   age.secrets = {
-    "officeVPN.ovpn".file = ../../secrets/officeVPN.ovpn.age;
-    "officeVPN.auth".file = ../../secrets/officeVPN.auth.age;
+    "office-vpn.ovpn".file = ../../secrets/office-vpn.ovpn.age;
+    "office-vpn.auth".file = ../../secrets/office-vpn.auth.age;
   };
 
   environment.etc.openvpn.source = "${pkgs.update-systemd-resolved}/libexec/openvpn";
@@ -16,8 +16,8 @@
     # This is a possible workaround provided by tbaumann in:
     # https://github.com/NixOS/nixpkgs/issues/312283#issuecomment-2116102594
     config = ''
-      config ${config.age.secrets."officeVPN.ovpn".path}
-      auth-user-pass ${config.age.secrets."officeVPN.auth".path}
+      config ${config.age.secrets."office-vpn.ovpn".path}
+      auth-user-pass ${config.age.secrets."office-vpn.auth".path}
     '';
   };
 }
