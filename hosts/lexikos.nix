@@ -167,14 +167,6 @@ in
     };
   };
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings.KbdInteractiveAuthentication = false;
-    settings.PasswordAuthentication = false;
-    settings.PermitRootLogin = "no";
-  };
-
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
   systemd.services.v2raya-lan-http-proxy = {

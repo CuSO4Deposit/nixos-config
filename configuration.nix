@@ -80,6 +80,12 @@
   };
 
   services.atd.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.KbdInteractiveAuthentication = false;
+    settings.PasswordAuthentication = false;
+    settings.PermitRootLogin = "no";
+  };
   services.resolved = {
     enable = true;
   };

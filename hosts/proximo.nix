@@ -270,14 +270,6 @@ in
     };
   };
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22 ];
-    settings.KbdInteractiveAuthentication = false;
-    settings.PasswordAuthentication = false;
-    settings.PermitRootLogin = "no";
-  };
-
   systemd.user.services.git-pull-ledger =
     let
       ledgerPath = "/home/cuso4d/source/beancount";

@@ -131,13 +131,7 @@ in
   programs.mosh.enable = true;
   programs.steam.enable = true;
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22222 ];
-    settings.KbdInteractiveAuthentication = false;
-    settings.PasswordAuthentication = false;
-    settings.PermitRootLogin = "no";
-  };
+  services.openssh.ports = [ 22222 ];
   services.nginx = {
     enable = true;
     clientMaxBodySize = "512m";
