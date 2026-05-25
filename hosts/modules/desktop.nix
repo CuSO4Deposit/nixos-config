@@ -56,16 +56,7 @@ in
     ];
 
     home-manager.users.cuso4d = {
-      xdg.mimeApps = {
-        enable = true;
-        defaultApplications = {
-          "text/html" = "firefox.desktop";
-          "x-scheme-handler/http" = "firefox.desktop";
-          "x-scheme-handler/https" = "firefox.desktop";
-          "x-scheme-handler/about" = "firefox.desktop";
-          "x-scheme-handler/unknown" = "firefox.desktop";
-        };
-      };
+      imports = [ ./home/desktop.nix ];
     };
 
     i18n.defaultLocale = "en_US.UTF-8";
