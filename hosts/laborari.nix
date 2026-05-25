@@ -3,9 +3,6 @@
   config,
   ...
 }:
-let
-  httpProxy = "http://127.0.0.1:20172";
-in
 {
   imports = [
     ./modules/desktop.nix
@@ -67,6 +64,7 @@ in
     cachePath = "/mnt/minio/nix-cache-54168";
     cachePublicKey = "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0=";
   };
+  nightcord.proxy = "http://127.0.0.1:20172";
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;
     "net.ipv4.conf.all.forwarding" = 1;
@@ -122,8 +120,8 @@ in
     externalInterface = "enp4s0";
   };
   networking.networkmanager.enable = true;
-  networking.proxy.httpProxy = httpProxy;
-  networking.proxy.httpsProxy = httpProxy;
+  networking.proxy.httpProxy = config.nightcord.proxy;
+  networking.proxy.httpsProxy = config.nightcord.proxy;
   networking.proxy.noProxy = "127.0.0.1,localhost,mirrors.ustc.edu.cn,mirrors.tuna.tsinghua.edu.cn";
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
@@ -176,8 +174,8 @@ in
   virtualisation.docker = {
     daemon.settings = {
       proxies = {
-        http-proxy = httpProxy;
-        https-proxy = httpProxy;
+        http-proxy = config.nightcord.proxy;
+        https-proxy = config.nightcord.proxy;
       };
       registry-mirrors = [
         "https://docker-0.unsee.tech"

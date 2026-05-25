@@ -4,9 +4,6 @@
   pkgs,
   ...
 }:
-let
-  httpProxy = "http://192.168.1.102:20172";
-in
 {
   age.secrets = {
     "wg-proximo.conf".file = ../secrets/wg-proximo.conf.age;
@@ -62,6 +59,8 @@ in
     ];
   };
 
+  nightcord.proxy = "http://192.168.1.102:20172";
+
   networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPorts = [
     80
@@ -81,9 +80,9 @@ in
     internalInterfaces = [ "ens18" ];
     internalIPs = [ "192.168.1.0/24" ];
   };
-  networking.proxy.allProxy = httpProxy;
-  networking.proxy.httpProxy = httpProxy;
-  networking.proxy.httpsProxy = httpProxy;
+  networking.proxy.allProxy = config.nightcord.proxy;
+  networking.proxy.httpProxy = config.nightcord.proxy;
+  networking.proxy.httpsProxy = config.nightcord.proxy;
   networking.proxy.noProxy = "127.0.0.1,localhost,.internal,192.168.1.102";
   networking.wg-quick.interfaces.wg0.configFile = config.age.secrets."wg-proximo.conf".path;
 

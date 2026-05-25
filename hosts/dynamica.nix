@@ -1,9 +1,7 @@
 {
+  config,
   ...
 }:
-let
-  httpProxy = "http://127.0.0.1:20172";
-in
 {
   imports = [
     ./modules/laptop.nix
@@ -11,14 +9,16 @@ in
     ./hardware-configuration/dynamica.nix
   ];
 
+  nightcord.proxy = "http://127.0.0.1:20172";
+
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
   networking.hostName = "nightcord-dynamica";
   networking.networkmanager.enable = true;
-  networking.proxy.allProxy = httpProxy;
-  networking.proxy.httpProxy = httpProxy;
-  networking.proxy.httpsProxy = httpProxy;
+  networking.proxy.allProxy = config.nightcord.proxy;
+  networking.proxy.httpProxy = config.nightcord.proxy;
+  networking.proxy.httpsProxy = config.nightcord.proxy;
 
   services.v2raya.enable = true;
 
@@ -27,7 +27,7 @@ in
   # List packages installed in system profile. To search, run:
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).

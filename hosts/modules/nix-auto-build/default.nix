@@ -233,9 +233,9 @@ in
         "rclone-minio-mount.service"
         "network-online.target"
       ];
-      environment = {
-        http_proxy = "http://127.0.0.1:20172";
-        https_proxy = "http://127.0.0.1:20172";
+      environment = lib.optionalAttrs (config.nightcord.proxy != null) {
+        http_proxy = config.nightcord.proxy;
+        https_proxy = config.nightcord.proxy;
       };
       path = with pkgs; [
         git

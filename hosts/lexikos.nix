@@ -5,9 +5,6 @@
   pkgs-nvidia-x11-580-95,
   ...
 }:
-let
-  httpProxy = "http://127.0.0.1:20172";
-in
 {
   imports = [
     ./modules/internal-dns.nix
@@ -129,15 +126,17 @@ in
     waitServices = [ "wg-quick-wg2.service" ];
   };
 
+  nightcord.proxy = "http://127.0.0.1:20172";
+
   networking.firewall.extraCommands = ''
     iptables -A nixos-fw -p tcp -s 192.168.1.104 --dport 20172 -j ACCEPT
   '';
   networking.firewall.trustedInterfaces = [ "wg2" ];
   networking.hostName = "nightcord-lexikos";
   networking.networkmanager.enable = true;
-  networking.proxy.allProxy = httpProxy;
-  networking.proxy.httpProxy = httpProxy;
-  networking.proxy.httpsProxy = httpProxy;
+  networking.proxy.allProxy = config.nightcord.proxy;
+  networking.proxy.httpProxy = config.nightcord.proxy;
+  networking.proxy.httpsProxy = config.nightcord.proxy;
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-lexikos.conf".path;
 
@@ -224,8 +223,8 @@ in
   virtualisation.docker = {
     daemon.settings = {
       proxies = {
-        http-proxy = httpProxy;
-        https-proxy = httpProxy;
+        http-proxy = config.nightcord.proxy;
+        https-proxy = config.nightcord.proxy;
       };
       registry-mirrors = [
         "https://docker-0.unsee.tech"
