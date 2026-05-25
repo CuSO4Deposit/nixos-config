@@ -13,31 +13,7 @@
   ...
 }:
 
-let
-  pkgs-logseq-electron-39 = import inputs.nixpkgs-logseq-electron-39 {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
-  pkgs-wemeet-system-132 = import inputs.nixpkgs-wemeet-system-132 {
-    system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
-  };
-in
 {
-  nixpkgs.overlays = [
-    (_: _: {
-      # Pin Logseq to the selected nixpkgs revision, but keep the Electron
-      # downgrade scoped to Logseq itself so other Electron apps still follow
-      # the normal package set.
-      logseq = pkgs-logseq-electron-39.logseq.override {
-        electron = pkgs-logseq-electron-39.electron_39;
-      };
-      # Pin WeMeet to the nixpkgs revision used by system-132.
-      # Drop this after a newer nixpkgs build can screenshare via PipeWire
-      # without segfaulting during stream startup.
-      wemeet = pkgs-wemeet-system-132.wemeet;
-    })
-  ];
 
   environment.systemPackages = with pkgs; [
     at
@@ -104,7 +80,6 @@ in
   };
 
   services.atd.enable = true;
-  services.orca.enable = false;
   services.resolved = {
     enable = true;
   };
