@@ -14,238 +14,229 @@
 }:
 
 {
-  options.nightcord.proxy = lib.mkOption {
-    type = lib.types.nullOr lib.types.str;
-    default = null;
-    example = "http://127.0.0.1:20172";
-    description = "HTTP proxy address used by this host.";
+  age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
+    lib.attrNames (lib.attrsets.filterAttrs (_: v: v.isNormalUser) config.users.users)
+  );
+
+  environment.systemPackages = with pkgs; [
+    at
+    bat
+    busybox
+    claude-code
+    codex
+    curl
+    git
+    glow
+    inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
+    jq
+    juicefs
+    just
+    nixfmt
+    opencode
+    ripgrep
+    tldr
+    yq
+  ];
+
+  environment.variables.EDITOR = "nvim";
+
+  networking.resolvconf.enable = !(config.services.resolved.enable);
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
   };
 
-  config = {
-    age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
-      lib.attrNames (lib.attrsets.filterAttrs (_: v: v.isNormalUser) config.users.users)
-    );
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  # https://github.com/NixOS/nixpkgs/issues/158356#issuecomment-1556882689
+  nix.settings.substituters = lib.mkForce [
+    "https://mirrors.ustc.edu.cn/nix-channels/store"
+    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+  ];
+  nix.settings.extra-substituters = [ "http://nix-auto-build.internal" ];
+  nix.settings.extra-trusted-public-keys = [
+    "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0="
+  ];
+  nix.settings.trusted-users = [
+    "cuso4d"
+    "root"
+  ];
 
-    environment.systemPackages = with pkgs; [
-      at
-      bat
-      busybox
-      claude-code
-      codex
-      curl
-      git
-      glow
-      inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
-      jq
-      juicefs
-      just
-      nixfmt
-      opencode
-      ripgrep
-      tldr
-      yq
+  nixpkgs.config.allowUnfree = true;
+
+  # OOM configuration: prevent nix-daemon from freezing the system
+  # https://discourse.nixos.org/t/nix-build-ate-my-ram/35752
+  systemd = {
+    slices."nix-daemon".sliceConfig = {
+      ManagedOOMMemoryPressure = "kill";
+      ManagedOOMMemoryPressureLimit = "50%";
+    };
+    services."nix-daemon".serviceConfig = {
+      Slice = "nix-daemon.slice";
+      OOMScoreAdjust = 1000;
+      CPUWeight = 50;
+    };
+  };
+
+  services.atd.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.KbdInteractiveAuthentication = false;
+    settings.PasswordAuthentication = false;
+    settings.PermitRootLogin = "no";
+  };
+  services.resolved = {
+    enable = true;
+  };
+
+  users.users.cuso4d = {
+    isNormalUser = true;
+    home = "/home/cuso4d";
+    extraGroups = [
+      "wheel"
+      "networkmanager"
     ];
-
-    environment.variables.EDITOR = "nvim";
-
-    networking.resolvconf.enable = !(config.services.resolved.enable);
-
-    nix.gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 30d";
-    };
-
-    nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
+    linger = true;
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJD6JpxiKFEThom4/HMchI8S08+Tuxvp04xSLxtMMLH cuso4d"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEgnoIeHJv3VVT9SgOELc0rlnPz+cv4uA2yESbLdJ7Vv cuso4d"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILAuc62mBhz6WsjQ8A18hy4LhtmZpBtj/6vMsAUF0/gm cuso4d"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzaVljG6lJvVE4u5h9p76FIgWm4HQuWjdBPD7P1bQ+t cuso4d"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4rWlDqIGqCRsXaF/QuYuMrWIvQ1fFLr8XyxCFQl07q cuso4d@nightcord-lexikos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJS3aK2ZMI10D0zQaLXzWXwxbWAUqvO55IYCBoAYFz1 cuso4d@nightcord-dynamica"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEVOjjy6t6+Eo5CoGRAUM6VSO1Npik9E0UsOXIVMl90E cuso4d@nightcord-proximo"
     ];
-    # https://github.com/NixOS/nixpkgs/issues/158356#issuecomment-1556882689
-    nix.settings.substituters = lib.mkForce [
-      "https://mirrors.ustc.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+  };
+
+  users.defaultUserShell = pkgs.zsh;
+
+  programs.direnv = {
+    enable = true;
+    loadInNixShell = true;
+    nix-direnv = {
+      enable = true;
+      package = pkgs.nix-direnv;
+    };
+  };
+
+  programs.git = {
+    config = {
+      init.defaultBranch = "main";
+      rerere.enabled = true;
+    };
+    enable = true;
+    lfs.enable = true;
+  };
+
+  programs.htop = {
+    enable = true;
+    settings = {
+      hide_kernel_threads = true;
+      hide_userland_threads = true;
+      highlight_base_name = true;
+      highlight_megabytes = true;
+      show_program_path = false;
+      tree_view = false;
+    };
+  };
+
+  programs.tmux = {
+    clock24 = true;
+    enable = true;
+    extraConfig = ''
+      set -g mouse on
+      set -s extended-keys on
+      set -as terminal-features ',xterm*:extkeys'
+    '';
+    keyMode = "vi";
+    plugins = with pkgs.tmuxPlugins; [
+      tokyo-night-tmux
     ];
-    nix.settings.extra-substituters = [ "http://nix-auto-build.internal" ];
-    nix.settings.extra-trusted-public-keys = [
-      "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0="
-    ];
-    nix.settings.trusted-users = [
-      "cuso4d"
-      "root"
-    ];
+  };
 
-    nixpkgs.config.allowUnfree = true;
+  programs.zsh = {
+    autosuggestions.enable = true;
+    enable = true;
+    histSize = 50000;
 
-    # OOM configuration: prevent nix-daemon from freezing the system
-    # https://discourse.nixos.org/t/nix-build-ate-my-ram/35752
-    systemd = {
-      slices."nix-daemon".sliceConfig = {
-        ManagedOOMMemoryPressure = "kill";
-        ManagedOOMMemoryPressureLimit = "50%";
-      };
-      services."nix-daemon".serviceConfig = {
-        Slice = "nix-daemon.slice";
-        OOMScoreAdjust = 1000;
-        CPUWeight = 50;
-      };
-    };
-
-    services.atd.enable = true;
-    services.openssh = {
-      enable = true;
-      settings.KbdInteractiveAuthentication = false;
-      settings.PasswordAuthentication = false;
-      settings.PermitRootLogin = "no";
-    };
-    services.resolved = {
-      enable = true;
-    };
-
-    users.users.cuso4d = {
-      isNormalUser = true;
-      home = "/home/cuso4d";
-      extraGroups = [
-        "wheel"
-        "networkmanager"
-      ];
-      linger = true;
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJD6JpxiKFEThom4/HMchI8S08+Tuxvp04xSLxtMMLH cuso4d"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEgnoIeHJv3VVT9SgOELc0rlnPz+cv4uA2yESbLdJ7Vv cuso4d"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILAuc62mBhz6WsjQ8A18hy4LhtmZpBtj/6vMsAUF0/gm cuso4d"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzaVljG6lJvVE4u5h9p76FIgWm4HQuWjdBPD7P1bQ+t cuso4d"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4rWlDqIGqCRsXaF/QuYuMrWIvQ1fFLr8XyxCFQl07q cuso4d@nightcord-lexikos"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJS3aK2ZMI10D0zQaLXzWXwxbWAUqvO55IYCBoAYFz1 cuso4d@nightcord-dynamica"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEVOjjy6t6+Eo5CoGRAUM6VSO1Npik9E0UsOXIVMl90E cuso4d@nightcord-proximo"
-      ];
-    };
-
-    users.defaultUserShell = pkgs.zsh;
-
-    programs.direnv = {
-      enable = true;
-      loadInNixShell = true;
-      nix-direnv = {
-        enable = true;
-        package = pkgs.nix-direnv;
-      };
-    };
-
-    programs.git = {
-      config = {
-        init.defaultBranch = "main";
-        rerere.enabled = true;
-      };
-      enable = true;
-      lfs.enable = true;
-    };
-
-    programs.htop = {
-      enable = true;
-      settings = {
-        hide_kernel_threads = true;
-        hide_userland_threads = true;
-        highlight_base_name = true;
-        highlight_megabytes = true;
-        show_program_path = false;
-        tree_view = false;
-      };
-    };
-
-    programs.tmux = {
-      clock24 = true;
-      enable = true;
-      extraConfig = ''
-        set -g mouse on
-        set -s extended-keys on
-        set -as terminal-features ',xterm*:extkeys'
-      '';
-      keyMode = "vi";
-      plugins = with pkgs.tmuxPlugins; [
-        tokyo-night-tmux
-      ];
-    };
-
-    programs.zsh = {
-      autosuggestions.enable = true;
-      enable = true;
-      histSize = 50000;
-
-      interactiveShellInit = ''
-        # Remove command lines from the history list when the first character on the line is a space,
-        # or when one of the expanded aliases contains a leading space. 
-        setopt HIST_IGNORE_SPACE
+    interactiveShellInit = ''
+      # Remove command lines from the history list when the first character on the line is a space,
+      # or when one of the expanded aliases contains a leading space. 
+      setopt HIST_IGNORE_SPACE
 
 
-        check_dirs_empty() {
-          for dir in "$@"; do
-            if [ -d "$dir" ] && [ "$(ls -A "$dir" 2>/dev/null)" ]; then
-              echo -e "\e[1;33mwarning: $dir is not empty.\e[0m"
-            fi
-          done
-        }
-
-        check_dirs_empty "$HOME/Downloads" "$HOME/empty"
-
-
-        check_git_worktree_clean() {
-          for dir in "$@"; do
-            pushd $dir >/dev/null 2>&1 || continue
-            if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-              if git status --porcelain | grep -q .; then
-                echo -e "\e[1;33mwarning: git tree $dir is dirty.\e[0m"
-              fi
-            fi
-            popd >/dev/null 2>&1
-          done
-        }
-
-        check_git_worktree_clean $HOME/temp $HOME/.nixos
-
-        check_nix_auto_build() {
-          local sf="/var/lib/nix-auto-build/status.json"
-          [ -f "$sf" ] || return
-          local failed=$(jq -r '.hosts|to_entries[]|select(.value.status=="failed")|.key' "$sf" 2>/dev/null)
-          if [ -n "$failed" ]; then
-            echo -e "\e[1;31mnix-auto-build: build failed for:\e[0m"
-            echo "$failed" | while read h; do echo "  - $h"; done
-          elif [ "$(jq -r '[.hosts[].status]|all(.=="success")' "$sf" 2>/dev/null)" = "true" ]; then
-            echo -e "\e[1;32mnix-auto-build: all hosts built successfully ($(jq -r .last_run "$sf")). Run 'just switch-cached' to apply.\e[0m"
+      check_dirs_empty() {
+        for dir in "$@"; do
+          if [ -d "$dir" ] && [ "$(ls -A "$dir" 2>/dev/null)" ]; then
+            echo -e "\e[1;33mwarning: $dir is not empty.\e[0m"
           fi
-        }
-        check_nix_auto_build
+        done
+      }
 
-        SAVEHIST=50000
-      '';
+      check_dirs_empty "$HOME/Downloads" "$HOME/empty"
 
-      ohMyZsh =
-        let
-          oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh { };
-        in
-        {
-          enable = true;
-          package = oh-cus-zsh;
-          plugins = [
-            "direnv"
-            "git"
-          ];
-          theme = "cphoen";
-        };
 
-      shellAliases = {
-        alg = "alias | grep";
-        bat = "bat --theme=base16";
-        c = "clear";
-        cc0 = "curl https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt -o ./LICENSE";
-        glr = "git pull --rebase";
-        gmv = "git mv";
-        gs = "git status --short --branch";
-        j = "just";
-        sudonvim = "sudo -E -s nvim";
+      check_git_worktree_clean() {
+        for dir in "$@"; do
+          pushd $dir >/dev/null 2>&1 || continue
+          if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+            if git status --porcelain | grep -q .; then
+              echo -e "\e[1;33mwarning: git tree $dir is dirty.\e[0m"
+            fi
+          fi
+          popd >/dev/null 2>&1
+        done
+      }
+
+      check_git_worktree_clean $HOME/temp $HOME/.nixos
+
+      check_nix_auto_build() {
+        local sf="/var/lib/nix-auto-build/status.json"
+        [ -f "$sf" ] || return
+        local failed=$(jq -r '.hosts|to_entries[]|select(.value.status=="failed")|.key' "$sf" 2>/dev/null)
+        if [ -n "$failed" ]; then
+          echo -e "\e[1;31mnix-auto-build: build failed for:\e[0m"
+          echo "$failed" | while read h; do echo "  - $h"; done
+        elif [ "$(jq -r '[.hosts[].status]|all(.=="success")' "$sf" 2>/dev/null)" = "true" ]; then
+          echo -e "\e[1;32mnix-auto-build: all hosts built successfully ($(jq -r .last_run "$sf")). Run 'just switch-cached' to apply.\e[0m"
+        fi
+      }
+      check_nix_auto_build
+
+      SAVEHIST=50000
+    '';
+
+    ohMyZsh =
+      let
+        oh-cus-zsh = pkgs.callPackage ./derivations/oh-cus-zsh { };
+      in
+      {
+        enable = true;
+        package = oh-cus-zsh;
+        plugins = [
+          "direnv"
+          "git"
+        ];
+        theme = "cphoen";
       };
-      syntaxHighlighting.enable = true;
-    };
 
-    virtualisation.docker.enable = true;
+    shellAliases = {
+      alg = "alias | grep";
+      bat = "bat --theme=base16";
+      c = "clear";
+      cc0 = "curl https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt -o ./LICENSE";
+      glr = "git pull --rebase";
+      gmv = "git mv";
+      gs = "git status --short --branch";
+      j = "just";
+      sudonvim = "sudo -E -s nvim";
+    };
+    syntaxHighlighting.enable = true;
   };
+
+  virtualisation.docker.enable = true;
 }
