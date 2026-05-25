@@ -22,6 +22,10 @@ in
     description = "HTTP proxy address used by this host.";
   };
 
+  imports = [
+    ./opencode.nix
+  ];
+
   config = {
     nixpkgs.overlays = [
       (_: _: {
