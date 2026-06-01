@@ -94,3 +94,12 @@ To run the hooks manually, you can use the `pre-commit` command, for example:
   Hyprland `workspace` entry plus a `windowrule` that matches
   `class:Electron` + `title:MagicMirror` and makes it fullscreen on workspace
   101.
+
+## Internal WireGuard Network
+
+The following hosts are mutually reachable through the internal WireGuard
+network:
+
+- `laborari`: `10.20.0.2`
+- `proximo`: `10.20.0.1`
+- `lexikos`: `10.20.0.3`

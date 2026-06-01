@@ -11,6 +11,7 @@
     ../modules/laptop.nix
     ../modules/office-wg.nix
     ../modules/proximo-data.nix
+    ../modules/syncthing.nix
     ../hardware-configuration/lexikos.nix
     ./v2raya-lan-proxy.nix
     ./cannot-sleep-m9.nix
@@ -23,6 +24,8 @@
     laborariAddress = "10.20.0.2";
     proximoAddress = "192.168.1.104";
   };
+
+  nightcord.syncthing.deviceName = "nightcord-lexikos";
 
   age.secrets = {
     "office-band.conf".file = ../../secrets/office-band.conf.age;

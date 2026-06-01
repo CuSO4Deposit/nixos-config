@@ -12,6 +12,7 @@
     ../modules/opencode-web.nix
     ../modules/office-wg.nix
     ../modules/server.nix
+    ../modules/syncthing.nix
     ../hardware-configuration/laborari.nix
     ./nginx.nix
     ./terraria.nix
@@ -25,6 +26,8 @@
     laborariAddress = "127.0.0.1";
     proximoAddress = "10.20.0.1";
   };
+
+  nightcord.syncthing.deviceName = "nightcord-laborari";
 
   age.secrets = {
     "office-band.conf".file = ../../secrets/office-band.conf.age;
