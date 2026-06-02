@@ -45,7 +45,12 @@ in
           devices = peerNames;
         };
 
-        options.urAccepted = -1;
+        options = {
+          globalAnnounceEnabled = false;
+          natEnabled = false;
+          relaysEnabled = false;
+          urAccepted = -1;
+        };
       };
     };
 
@@ -59,8 +64,8 @@ in
 
     systemd.tmpfiles.rules = [
       "d /home/cuso4d/syncthing 0750 cuso4d users -"
-      "a+ /home/cuso4d - - - - u:syncthing:--x"
-      "A+ /home/cuso4d/syncthing - - - - u:cuso4d:rwX,u:syncthing:rwX,d:u:cuso4d:rwX,d:u:syncthing:rwX"
+      "a /home/cuso4d - - - - u::rwx,u:syncthing:--x,g::---,m::--x,o::---"
+      "A /home/cuso4d/syncthing - - - - u::rwx,u:cuso4d:rwX,u:syncthing:rwX,g::r-X,m::rwX,o::---,d:u::rwx,d:u:cuso4d:rwX,d:u:syncthing:rwX,d:g::rwX,d:m::rwX,d:o::---"
     ];
   };
 }
