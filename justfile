@@ -28,30 +28,30 @@ test-remote host="proximo":
 
 switch-cached:
   cp /var/lib/nix-auto-build/flake.lock flake.lock
-  git add .
+  git add flake.lock
   nixos-rebuild switch --flake .#$(hostname) --sudo --no-update-lock-file --no-write-lock-file
   mkdir -p locks
   mv flake.lock locks/$(hostname | cut -d'-' -f2)
-  git add .
+  git add -A flake.lock locks/$(hostname | cut -d'-' -f2)
   git commit -v
 
 test-cached:
   cp /var/lib/nix-auto-build/flake.lock flake.lock
-  git add .
+  git add flake.lock
   nixos-rebuild test --flake .#$(hostname) --sudo --no-update-lock-file --no-write-lock-file
 
 switch-remote-cached host="proximo":
   cp /var/lib/nix-auto-build/flake.lock flake.lock
-  git add .
+  git add flake.lock
   nixos-rebuild switch --flake .#nightcord-{{host}} --sudo --ask-sudo-password --target-host {{host}} --no-update-lock-file --no-write-lock-file
   mkdir -p locks
   mv flake.lock locks/{{host}}
-  git add .
+  git add -A flake.lock locks/{{host}}
   git commit -v
 
 test-remote-cached host="proximo":
   cp /var/lib/nix-auto-build/flake.lock flake.lock
-  git add .
+  git add flake.lock
   nixos-rebuild test --flake .#nightcord-{{host}} --sudo --ask-sudo-password --target-host {{host}} --no-update-lock-file --no-write-lock-file
 
 alias s := switch

@@ -17,6 +17,7 @@ let
     STATUS_DIR="${cfg.statusDir}"
     SIGNING_KEY="$CREDENTIALS_DIRECTORY/signing-key"
     HOSTS="${lib.concatStringsSep " " cfg.hosts}"
+    MIRROR_REPO="$STATUS_DIR/repo.git"
     WORKTREE="$STATUS_DIR/worktree"
 
     mkdir -p "$STATUS_DIR"
@@ -58,7 +59,8 @@ let
     # Mark all hosts as pending
     for h in $HOSTS; do update_status "$h" "pending"; done
 
-    # Refresh remote refs so builds track the source repository instead of a stale local HEAD.
+    # Keep service-owned git data under STATUS_DIR so the root service never
+    # writes objects into the user's working repository.
     REMOTE_NAME=origin
     REMOTE_URL=$(git -c safe.directory='*' -C "$REPO" remote get-url "$REMOTE_NAME" 2>/dev/null || true)
     FETCH_URL="$REMOTE_URL"
@@ -76,15 +78,20 @@ let
         FETCH_URL="https://$REMOTE_HOST/$REMOTE_PATH"
         ;;
     esac
-    git -c safe.directory='*' -C "$REPO" fetch --prune "$FETCH_URL" \
+
+    if [ ! -d "$MIRROR_REPO" ]; then
+      git init --bare "$MIRROR_REPO"
+    fi
+
+    git -c safe.directory='*' --git-dir="$MIRROR_REPO" fetch --prune "$FETCH_URL" \
       "+refs/heads/*:refs/remotes/$REMOTE_NAME/*"
 
     BUILD_REF=$(git -c safe.directory='*' -C "$REPO" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
     if [ -z "$BUILD_REF" ]; then
       CURRENT_BRANCH=$(git -c safe.directory='*' -C "$REPO" branch --show-current 2>/dev/null || true)
-      if [ -n "$CURRENT_BRANCH" ] && git -c safe.directory='*' -C "$REPO" show-ref --verify --quiet "refs/remotes/origin/$CURRENT_BRANCH"; then
+      if [ -n "$CURRENT_BRANCH" ] && git -c safe.directory='*' --git-dir="$MIRROR_REPO" show-ref --verify --quiet "refs/remotes/origin/$CURRENT_BRANCH"; then
         BUILD_REF="origin/$CURRENT_BRANCH"
-      elif git -c safe.directory='*' -C "$REPO" show-ref --verify --quiet refs/remotes/origin/main; then
+      elif git -c safe.directory='*' --git-dir="$MIRROR_REPO" show-ref --verify --quiet refs/remotes/origin/main; then
         BUILD_REF="origin/main"
       else
         BUILD_REF="HEAD"
@@ -93,10 +100,11 @@ let
 
     # Set up git worktree from the latest fetched ref.
     rm -rf "$WORKTREE"
-    git -c safe.directory='*' -C "$REPO" worktree add --detach "$WORKTREE" "$BUILD_REF"
+    git -c safe.directory='*' --git-dir="$MIRROR_REPO" worktree prune
+    git -c safe.directory='*' --git-dir="$MIRROR_REPO" worktree add --detach "$WORKTREE" "$BUILD_REF"
 
     cleanup() {
-      git -c safe.directory='*' -C "$REPO" worktree remove --force "$WORKTREE" 2>/dev/null || true
+      git -c safe.directory='*' --git-dir="$MIRROR_REPO" worktree remove --force "$WORKTREE" 2>/dev/null || true
     }
     trap cleanup EXIT
 
