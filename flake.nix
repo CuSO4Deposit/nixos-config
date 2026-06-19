@@ -21,10 +21,8 @@
     };
     nixpkgs-logseq-electron-39.url = "github:NixOS/nixpkgs/a2c09b4c8254bf88503c9e475c92a4b46eb5e047";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-before-node-breaks.url = "github:NixOS/nixpkgs/ce01d34b50dcbe7cd14286398b5fa9ec36ad6489";
-    nixpkgs-nvidia-x11-580-95.url = "github:NixOS/nixpkgs/3652b3eb77483e02b018bbb8423a0523606f1291";
     nixpkgs-wemeet-system-132.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nix-ld = {
       url = "github:Mic92/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -89,15 +87,10 @@
               agenix
               home-manager
               nixpkgs
-              nixpkgs-nvidia-x11-580-95
-              nixos-wsl
+              # nixos-wsl
               nur
               ;
 
-            pkgs-nvidia-x11-580-95 = import nixpkgs-nvidia-x11-580-95 {
-              system = "x86_64-linux";
-              config.allowUnfree = true;
-            };
             mkServer =
               hostname:
               nixpkgs.lib.nixosSystem {
@@ -119,7 +112,7 @@
                   ./configuration.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
-                  nixos-wsl.nixosModules.wsl
+                  # nixos-wsl.nixosModules.wsl
                   nix-ld.nixosModules.nix-ld
                   { environment.systemPackages = [ agenix.packages."x86_64-linux".default ]; }
                 ];
@@ -130,7 +123,6 @@
               nixpkgs.lib.nixosSystem {
                 specialArgs = {
                   inherit inputs;
-                  pkgs-nvidia-x11-580-95 = pkgs-nvidia-x11-580-95;
                 };
                 modules = [
                   ./configuration.nix
