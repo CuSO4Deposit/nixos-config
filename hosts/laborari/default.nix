@@ -16,6 +16,7 @@
     ../hardware-configuration/laborari.nix
     ./nginx.nix
     ./terraria.nix
+    ./duplicity.nix
   ];
 
   nightcord.internal-dns = {
