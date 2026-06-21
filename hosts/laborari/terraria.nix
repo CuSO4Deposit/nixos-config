@@ -2,11 +2,11 @@
 {
   services.terraria = {
     enable = true;
-    port = 14141;
-    password = "10001279";
+    port = 15554;
+    password = "untitled";
     openFirewall = true;
-    messageOfTheDay = "Welcome to Terraria 1.4.5! 我真幸运！";
+    messageOfTheDay = "私の声は、届かない――";
     maxPlayers = 4;
-    autoCreatedWorldSize = "medium";
+    worldPath = "/var/lib/terraria/kagirinaku_error_sekai_he.wld";
   };
 }
