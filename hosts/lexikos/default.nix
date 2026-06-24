@@ -77,7 +77,10 @@
 
   nightcord.proxy = "http://127.0.0.1:20172";
 
-  nightcord.rclone-webdav.enable = true;
+  nightcord.rclone-webdav = {
+    enable = true;
+    remotePath = "/webdav";
+  };
 
   networking.firewall.extraCommands = ''
     iptables -A nixos-fw -p tcp -s 192.168.1.104 --dport 20172 -j ACCEPT
@@ -117,10 +120,7 @@
     };
   };
 
-  systemd.services.duplicity = {
-    requires = [ "rclone-webdav-mount.service" ];
-    after = [ "rclone-webdav-mount.service" ];
-  };
+  systemd.services.duplicity.unitConfig.RequiresMountsFor = "/mnt/work0";
 
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;

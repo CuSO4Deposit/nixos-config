@@ -67,7 +67,10 @@ in
     ];
   };
 
-  nightcord.rclone-webdav.enable = true;
+  nightcord.rclone-webdav = {
+    enable = true;
+    remotePath = "/webdav";
+  };
 
   networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPorts = [
@@ -113,10 +116,7 @@ in
     };
   };
 
-  systemd.services.duplicity = {
-    requires = [ "rclone-webdav-mount.service" ];
-    after = [ "rclone-webdav-mount.service" ];
-  };
+  systemd.services.duplicity.unitConfig.RequiresMountsFor = "/mnt/work0";
 
   services.ghorg = {
     enable = true;
