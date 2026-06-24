@@ -43,6 +43,7 @@ in
   imports = [
     ../modules/internal-dns.nix
     ../modules/juicefs-mount.nix
+    ../modules/rclone-webdav-mount.nix
     ../modules/server.nix
     ../hardware-configuration/proximo.nix
     ./cgit.nix
@@ -65,6 +66,8 @@ in
       "mysql.service"
     ];
   };
+
+  nightcord.rclone-webdav.enable = true;
 
   networking.firewall.allowPing = true;
   networking.firewall.allowedTCPPorts = [
@@ -103,11 +106,16 @@ in
       "--no-encryption"
     ];
     frequency = "daily";
-    targetUrl = "file:///mnt/jfs/duplicity/proximo";
+    targetUrl = "file:///mnt/work0/duplicity/proximo";
     fullIfOlderThan = "1M";
     cleanup = {
       maxFull = 6;
     };
+  };
+
+  systemd.services.duplicity = {
+    requires = [ "rclone-webdav-mount.service" ];
+    after = [ "rclone-webdav-mount.service" ];
   };
 
   services.ghorg = {

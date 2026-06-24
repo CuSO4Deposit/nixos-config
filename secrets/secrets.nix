@@ -55,7 +55,7 @@ in
   "office-band.conf.age".publicKeys = laborari ++ lexikos;
   "office-vpn.ovpn.age".publicKeys = all;
   "office-vpn.auth.age".publicKeys = all;
-  "rclone.conf.age".publicKeys = laborari ++ lexikos;
+  "rclone.conf.age".publicKeys = proximo ++ laborari ++ lexikos;
 
   # openclaw / desktop hosts
   "openclaw-env.age".publicKeys = desktops;

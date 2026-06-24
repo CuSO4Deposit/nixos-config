@@ -8,6 +8,7 @@
     ../modules/internal-dns.nix
     ../modules/juicefs-mount.nix
     ../modules/minio-mount.nix
+    ../modules/rclone-webdav-mount.nix
     ../modules/nix-auto-build
     ../modules/opencode-web.nix
     ../modules/office-wg.nix
@@ -102,6 +103,11 @@
   nightcord.rclone-minio.waitServices = [
     "wg-quick-wg0.service"
   ];
+
+  nightcord.rclone-webdav = {
+    enable = true;
+    remotePath = "/webdav";
+  };
 
   networking.firewall.allowedTCPPorts = [
     22222

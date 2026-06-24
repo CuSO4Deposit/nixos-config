@@ -10,6 +10,7 @@
     ../modules/laptop.nix
     ../modules/office-wg.nix
     ../modules/proximo-data.nix
+    ../modules/rclone-webdav-mount.nix
     ../modules/syncthing.nix
     ../hardware-configuration/lexikos.nix
     ./v2raya-lan-proxy.nix
@@ -76,6 +77,8 @@
 
   nightcord.proxy = "http://127.0.0.1:20172";
 
+  nightcord.rclone-webdav.enable = true;
+
   networking.firewall.extraCommands = ''
     iptables -A nixos-fw -p tcp -s 192.168.1.104 --dport 20172 -j ACCEPT
   '';
@@ -107,11 +110,16 @@
       "--no-encryption"
     ];
     frequency = "daily";
-    targetUrl = "file:///mnt/jfs/duplicity/lexikos";
+    targetUrl = "file:///mnt/work0/duplicity/lexikos";
     fullIfOlderThan = "1M";
     cleanup = {
       maxFull = 6;
     };
+  };
+
+  systemd.services.duplicity = {
+    requires = [ "rclone-webdav-mount.service" ];
+    after = [ "rclone-webdav-mount.service" ];
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
