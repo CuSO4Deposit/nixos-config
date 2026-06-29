@@ -96,6 +96,7 @@
     isNormalUser = true;
     home = "/home/cuso4d";
     extraGroups = [
+      "docker"
       "wheel"
       "networkmanager"
     ];
