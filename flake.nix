@@ -15,6 +15,10 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kimi-cli = {
+      url = "github:MoonshotAI/kimi-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-openclaw = {
       url = "github:openclaw/nix-openclaw";
       inputs.nixpkgs.follows = "nixpkgs";
