@@ -4,6 +4,7 @@
     enable = true;
     include = [
       "/var/lib/terraria"
+      "/var/lib/terraria2"
     ];
     exclude = [
       "**"

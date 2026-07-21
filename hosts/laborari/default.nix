@@ -18,6 +18,7 @@
     ../hardware-configuration/laborari.nix
     ./nginx.nix
     ./terraria.nix
+    ./terraria2.nix
     ./duplicity.nix
   ];
 
