@@ -11,6 +11,7 @@
     ../modules/rclone-webdav-mount.nix
     ../modules/nix-auto-build
     ../modules/opencode-web.nix
+    ../modules/psi-agent.nix
     ../modules/office-wg.nix
     ../modules/server.nix
     ../modules/syncthing.nix
@@ -47,6 +48,16 @@
     };
     "cloudflare-origin-key.pem" = {
       file = ../../secrets/cloudflare-origin-key.pem.age;
+      owner = "nginx";
+      group = "nginx";
+    };
+    "haitun-htpasswd" = {
+      file = ../../secrets/haitun-htpasswd.age;
+      owner = "nginx";
+      group = "nginx";
+    };
+    "haitun-nginx.conf" = {
+      file = ../../secrets/haitun-nginx.conf.age;
       owner = "nginx";
       group = "nginx";
     };

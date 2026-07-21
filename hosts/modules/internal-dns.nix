@@ -8,6 +8,7 @@ let
   laborariAliases = [
     "nix-auto-build.internal"
     "opencode.internal"
+    "haitun.internal"
   ];
   proximoAliases = [
     "fava.internal"

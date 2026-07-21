@@ -17,6 +17,7 @@
 
       include ${config.age.secrets."piwigo-nginx.conf".path};
       include ${config.age.secrets."opencode-nginx.conf".path};
+      include ${config.age.secrets."haitun-nginx.conf".path};
     '';
   };
 }

@@ -40,6 +40,8 @@ in
   # laborari only
   "cloudflare-origin-cert.pem.age".publicKeys = laborari;
   "cloudflare-origin-key.pem.age".publicKeys = laborari;
+  "haitun-htpasswd.age".publicKeys = laborari;
+  "haitun-nginx.conf.age".publicKeys = laborari;
   "nix-cache-signing-key.age".publicKeys = laborari;
   "opencode-nginx.conf.age".publicKeys = laborari;
   "opencode-server-password.age".publicKeys = laborari;
