@@ -96,6 +96,11 @@
   users.users.cuso4d = {
     isNormalUser = true;
     home = "/home/cuso4d";
+    # 0700 would zero the POSIX ACL mask on /home/cuso4d (the group-class
+    # bits ARE the mask), silently dropping the u:syncthing:--x traverse
+    # entry set via tmpfiles and breaking Syncthing. 0710 keeps mask=--x so
+    # syncthing can traverse into ~/syncthing; other stays --- for privacy.
+    homeMode = "710";
     extraGroups = [
       "docker"
       "wheel"
