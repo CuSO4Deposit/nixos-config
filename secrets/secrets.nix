@@ -47,6 +47,8 @@ in
   "opencode-server-password.age".publicKeys = laborari;
   "piwigo-nginx.conf.age".publicKeys = laborari;
   "wg-laborari.conf.age".publicKeys = laborari;
+  "api-laborari-env.age".publicKeys = laborari;
+  "api-laborari-nginx.conf.age".publicKeys = laborari;
 
   # lexikos only
   "wg-lexikos.conf.age".publicKeys = lexikos;

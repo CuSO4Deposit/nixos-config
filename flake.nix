@@ -39,6 +39,10 @@
       url = "github:CuSO4Deposit/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    api-laborari = {
+      url = "github:CuSO4Deposit/ideal-spork";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
@@ -132,6 +136,7 @@
                   ./configuration.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
+                  inputs.api-laborari.nixosModules.default
                   nix-ld.nixosModules.nix-ld
                   nur.modules.nixos.default
                   home-manager.nixosModules.home-manager

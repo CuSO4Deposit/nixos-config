@@ -20,6 +20,7 @@
     ./terraria.nix
     ./terraria2.nix
     ./duplicity.nix
+    ./api-laborari.nix
   ];
 
   nightcord.internal-dns = {
