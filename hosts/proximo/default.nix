@@ -50,6 +50,7 @@ in
     ./fava.nix
     ./minecraft.nix
     ./piwigo.nix
+    ./redmi-backup.nix
   ];
 
   nightcord.internal-dns = {
@@ -101,6 +102,7 @@ in
     enable = true;
     include = [
       "/var/lib/minecraft"
+      "/data/redmi50"
     ];
     exclude = [
       "**"
