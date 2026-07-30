@@ -39,17 +39,6 @@
         persistent = true;
       }
     ];
-    window_rule = lib.mkAfter [
-      {
-        # MagicMirror fullscreen on eDP-1 (workspace 101 is default on eDP-1)
-        name = "magicmirror-fullscreen";
-        match = {
-          class = "Electron";
-          title = "MagicMirror.*";
-        };
-        fullscreen = 1;
-      }
-    ];
   };
   programs.waybar.settings.mainBar = {
     network.interface = lib.mkForce "wlp4s0";

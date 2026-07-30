@@ -43,6 +43,10 @@
       url = "github:CuSO4Deposit/ideal-spork";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mm-config = {
+      url = "github:CuSO4Deposit/automatic-rotary-phone";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
@@ -137,6 +141,7 @@
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   inputs.api-laborari.nixosModules.default
+                  inputs.mm-config.nixosModules.default
                   nix-ld.nixosModules.nix-ld
                   nur.modules.nixos.default
                   home-manager.nixosModules.home-manager

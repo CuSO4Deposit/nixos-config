@@ -52,6 +52,8 @@ in
 
   # lexikos only
   "wg-lexikos.conf.age".publicKeys = lexikos;
+  "magicmirror.env.age".publicKeys = lexikos;
+  "gh-logseq-token.age".publicKeys = lexikos;
 
   # shared across multiple hosts
   "juicefs-password-env.age".publicKeys = proximo ++ laborari ++ lexikos;

@@ -15,7 +15,6 @@
     ../hardware-configuration/lexikos.nix
     ./v2raya-lan-proxy.nix
     ./cannot-sleep-m9.nix
-    ./mm-config-extract.nix
   ];
 
   nightcord.internal-dns = {
@@ -30,6 +29,23 @@
   age.secrets = {
     "office-band.conf".file = ../../secrets/office-band.conf.age;
     "wg-lexikos.conf".file = ../../secrets/wg-lexikos.conf.age;
+    # MagicMirror: env file with MINIFLUX_API_KEY=... (substituted into config.js)
+    "magicmirror.env".file = ../../secrets/magicmirror.env.age;
+    # GitHub token (contents:read) for the private Logseq repo
+    "gh-logseq-token".file = ../../secrets/gh-logseq-token.age;
+  };
+
+  services.magicmirror = {
+    enable = true;
+    address = "0.0.0.0"; # expose on LAN/VPN; MM has no built-in auth
+    openFirewall = true;
+    environmentFile = config.age.secrets."magicmirror.env".path;
+    bestbefore = {
+      enable = true;
+      repo = "CuSO4Deposit/Logseq";
+      filePath = "pages/🗓️🥫 Best Before.md";
+      tokenFile = config.age.secrets."gh-logseq-token".path;
+    };
   };
 
   boot.loader.efi.canTouchEfiVariables = true;
