@@ -824,11 +824,11 @@
         "pre-commit-hooks": "pre-commit-hooks_4"
       },
       "locked": {
-        "lastModified": 1785461571,
-        "narHash": "sha256-7KQ9T46zG4w+/hzrur9Q007WXlKMpicA58Zs0eSBqO0=",
+        "lastModified": 1785474485,
+        "narHash": "sha256-grM+jZRwJeifGVbkbcImIiFVn2DFrPwhXUq2mvJiW/s=",
         "owner": "CuSO4Deposit",
         "repo": "fantastic-disco",
-        "rev": "565c5ef75aac50e49ecb6d8fc7a53aba12e01ca2",
+        "rev": "6c019d366e4b395c0fba4e0d7183cd1f5fad0104",
         "type": "github"
       },
       "original": {
