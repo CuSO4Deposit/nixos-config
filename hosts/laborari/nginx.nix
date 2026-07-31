@@ -19,6 +19,7 @@
       include ${config.age.secrets."opencode-nginx.conf".path};
       include ${config.age.secrets."haitun-nginx.conf".path};
       include ${config.age.secrets."api-laborari-nginx.conf".path};
+      include ${config.age.secrets."observable-nginx.conf".path};
     '';
   };
 }

@@ -21,6 +21,7 @@
     ./terraria2.nix
     ./duplicity.nix
     ./api-laborari.nix
+    ./observable.nix
   ];
 
   nightcord.internal-dns = {

@@ -49,6 +49,8 @@ in
   "wg-laborari.conf.age".publicKeys = laborari;
   "api-laborari-env.age".publicKeys = laborari;
   "api-laborari-nginx.conf.age".publicKeys = laborari;
+  "observable-htpasswd.age".publicKeys = laborari;
+  "observable-nginx.conf.age".publicKeys = laborari;
 
   # lexikos only
   "wg-lexikos.conf.age".publicKeys = lexikos;
