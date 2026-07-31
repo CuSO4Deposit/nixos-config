@@ -49,6 +49,7 @@ in
     ./cgit.nix
     ./fava.nix
     ./minecraft.nix
+    ./nginx.nix
     ./observable.nix
     ./piwigo.nix
     ./redmi-backup.nix
