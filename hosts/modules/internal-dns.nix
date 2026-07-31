@@ -13,6 +13,7 @@ let
   proximoAliases = [
     "fava.internal"
     "git-ro.internal"
+    "observable.internal"
   ];
   overrideAliases = builtins.concatLists (builtins.attrValues cfg.hostOverrides);
 in

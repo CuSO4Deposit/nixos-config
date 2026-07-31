@@ -43,6 +43,10 @@
       url = "github:CuSO4Deposit/ideal-spork";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    observable-cuso4d = {
+      url = "github:CuSO4Deposit/fantastic-disco";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
