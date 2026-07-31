@@ -35,6 +35,7 @@ in
   "ghorg-github-token-sayori.age".publicKeys = proximo;
   "ghorg-work-0.yaml.age".publicKeys = proximo;
   "wg-proximo.conf.age".publicKeys = proximo;
+  "observable-cuso4d-env.age".publicKeys = proximo;
   "piwigo-db-password.age".publicKeys = proximo ++ laborari;
 
   # laborari only

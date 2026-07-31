@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -10,9 +11,13 @@ let
   # itself only remembers the last time each video was played.
   exports = "/data/redmi50/app/InfinityLoop1309.NewPipeEnhanced/PipePipeData-*.zip";
 
+  # Gadgetbridge's backups arrive the same way. Accumulation matters for a different
+  # reason here: the rows are immutable and one backup already holds the full history,
+  # but the band only buffers about a week, so a stretch that was never synced is gone
+  # for good. Keeping every backup is what bounds the damage from a missed sync.
+  bandExports = "/data/redmi50/app/nodomain.freeyourgadget.gadgetbridge/gadgetbridge_*.zip";
+
   publishDir = "/var/lib/observable-cuso4d";
-  # Holds blocked.txt and fandoms.txt: they name uploaders and the things I follow,
-  # so they stay out of the store and off the repo.
   configDir = "/var/lib/observable-cuso4d/config";
 
   builder = inputs.observable-cuso4d.packages.${pkgs.stdenv.hostPlatform.system}.site;
@@ -26,11 +31,15 @@ in
     '';
   };
 
+  age.secrets."observable-cuso4d-env" = {
+    file = ../../secrets/observable-cuso4d-env.age;
+    owner = "cuso4d";
+    group = "users";
+  };
+
   systemd.tmpfiles.rules = [
-    # The published tree is a full copy of my watch history, so it is readable by
-    # nginx and nobody else.
     "d ${publishDir} 0750 cuso4d nginx -"
-    "d ${configDir} 0700 cuso4d cuso4d -"
+    "d ${configDir} 0700 cuso4d users -"
   ];
 
   systemd.services.observable-cuso4d = {
@@ -47,6 +56,8 @@ in
         "nginx"
       ];
       UMask = "0027";
+      Environment = [ "CPI_GADGETBRIDGE_EXPORTS=${bandExports}" ];
+      EnvironmentFile = config.age.secrets."observable-cuso4d-env".path;
       ExecStart = ''
         ${builder}/bin/observable-cuso4d-build '${exports}' '${publishDir}/current' '${configDir}'
       '';
