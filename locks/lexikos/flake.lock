@@ -54,11 +54,11 @@
         "pre-commit-hooks": "pre-commit-hooks_3"
       },
       "locked": {
-        "lastModified": 1785438802,
-        "narHash": "sha256-gHcj6Y66F3fxMioguWL3F4fbNTTkVVUdRQpeYA92bAU=",
+        "lastModified": 1785512216,
+        "narHash": "sha256-CAphtuIcH+8Fs+wxpGIULR7VoJF4UNMMKFMw1bBhzpk=",
         "owner": "CuSO4Deposit",
         "repo": "CPI",
-        "rev": "4c7365e989e544d9d10cbeeb897ee355babd5116",
+        "rev": "1fbe914bda0dd5036e40b04635ea4b2a1976c663",
         "type": "github"
       },
       "original": {
@@ -435,11 +435,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785472055,
-        "narHash": "sha256-xU44Kgp7RPedzBjyRf+z7j97BgZ2R1J4fiqWUl/JNxI=",
+        "lastModified": 1785531816,
+        "narHash": "sha256-vkMnV0JIyw+g/NmcfoajlGaAO+9a0ezia+FZohQJrik=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2e6715977106c498355a70bcefd2c78a33c94558",
+        "rev": "bf9ce9fec78f95f374e8dd3b503863a3ec128ebe",
         "type": "github"
       },
       "original": {
@@ -665,11 +665,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1785318670,
-        "narHash": "sha256-dN6Ou5x/+23FZLEpYP3IffO+NyJFzUlGumt1uu3MMaY=",
+        "lastModified": 1785571196,
+        "narHash": "sha256-KoTsyMQqnXQZq8deCEnu4QkyldkwH/bpMMhUcfMdGIw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0954f7ee2f6bb3dc7d4e3d0d8bcb8fd4bde4cfc5",
+        "rev": "148bab9c1c3c53136ecb44a6ea356a0ed5b39b06",
         "type": "github"
       },
       "original": {
@@ -755,11 +755,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785472144,
-        "narHash": "sha256-1TU9SbGed2u32e5u8g4CrZXo8PDsM0VmPg6DhAhRByw=",
+        "lastModified": 1785609271,
+        "narHash": "sha256-mvTgsdL/6zWODwt8nne3Nn55o6r+fHRj6gRaHP3vv8c=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "d251448ddea94b47ec54426f3c177ea348f42cd4",
+        "rev": "071ffd9688a21b1e30fc7451ddfe187bcc24b437",
         "type": "github"
       },
       "original": {
@@ -824,11 +824,11 @@
         "pre-commit-hooks": "pre-commit-hooks_4"
       },
       "locked": {
-        "lastModified": 1785474985,
-        "narHash": "sha256-oapyPXuxj64aOkN/f7Uv2fPb27WhlYaVapqdIDD/zas=",
+        "lastModified": 1785516956,
+        "narHash": "sha256-gT6DQzqU6NcIxVIEsIDgg5R7ndpNXmgWuQ4pblxHOg0=",
         "owner": "CuSO4Deposit",
         "repo": "fantastic-disco",
-        "rev": "ef0c22a4a3f87aef25c5f304637392ec8b8f908a",
+        "rev": "f5e57aafacb72c5ad53b8a1c0789eb1d4452b56b",
         "type": "github"
       },
       "original": {
@@ -926,11 +926,11 @@
         "uv2nix": "uv2nix_2"
       },
       "locked": {
-        "lastModified": 1785469450,
-        "narHash": "sha256-6HNBrSkU85WH4uVIcdPGX83ZaMk1Za6/O0VnnU4TH64=",
+        "lastModified": 1785568420,
+        "narHash": "sha256-ZxRjON/FV5gR2Muev3KPlM4aa6B7gI2Rw6oDWs36hEg=",
         "owner": "genuineknowledge",
         "repo": "psi-agent",
-        "rev": "19b745cd415402b08d2682f0e24fe6ac457c285e",
+        "rev": "2205f54978d92def66f4c5602a947822cd1f4ca1",
         "type": "github"
       },
       "original": {

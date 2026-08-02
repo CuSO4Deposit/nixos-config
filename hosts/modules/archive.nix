@@ -187,9 +187,20 @@ in
         serviceConfig = {
           Type = "oneshot";
           User = source.user;
-          # The outbox is owned by syncthing and group-writable; this is what lets a
-          # snapshot land there without loosening the directory itself.
-          SupplementaryGroups = [ "syncthing" ];
+          # Primary group, not a supplementary one, and this is the whole permission
+          # story. A file takes the creating process's *primary* group, and moving it
+          # within one filesystem is a rename, which carries that group along — no
+          # directory permission can change it, because rename never consults the
+          # destination directory. So `setgid` on the outbox does not help (it applies to
+          # creation, not rename) and neither does adding syncthing as a supplementary
+          # group: the artifact would still be born `cuso4d:users`, which syncthing cannot
+          # read. Running with syncthing as the primary group makes it born correct.
+          #
+          # This failure is silent in the worst way. The outbox is group-writable, so the
+          # move succeeds and this service reports success; only syncthing's own log shows
+          # `hashing: ... permission denied`, and the archive quietly stops growing.
+          Group = "syncthing";
+          # 0640 on files: readable by syncthing, and by nothing outside the group.
           UMask = "0027";
           ExecStart = "${runner name source}/bin/archive-${name} ${outboxOf name} ${hostName}";
         };
