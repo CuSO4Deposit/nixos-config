@@ -41,6 +41,8 @@ in
   boot.loader.systemd-boot.enable = true;
 
   imports = [
+    # No sources of its own; imported so the option the syncthing assertion reads exists.
+    ../modules/archive.nix
     ../modules/internal-dns.nix
     ../modules/juicefs-mount.nix
     ../modules/rclone-webdav-mount.nix
@@ -105,9 +107,15 @@ in
 
   services.duplicity = {
     enable = true;
+    # One entry per device that syncs an archive here. These are the second copy of
+    # data whose first copy is a phone or laptop that could be lost or reinstalled;
+    # syncthing's trashcan guards against deletion propagating, but not against losing
+    # proximo itself.
     include = [
       "/var/lib/minecraft"
       "/data/redmi50"
+      "/data/laborari"
+      "/data/lexikos"
     ];
     exclude = [
       "**"

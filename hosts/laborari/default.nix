@@ -14,6 +14,8 @@
     ../modules/psi-agent.nix
     ../modules/office-wg.nix
     ../modules/server.nix
+    ../modules/archive.nix
+    ../modules/archive-firefox.nix
     ../modules/syncthing.nix
     ../hardware-configuration/laborari.nix
     ./nginx.nix

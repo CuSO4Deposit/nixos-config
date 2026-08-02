@@ -35,51 +35,81 @@ let
     "nightcord-lexikos"
   ];
 
-  # Hosts that take Firefox snapshots. Each gets its own folder: one send-only copy on
-  # the machine that produced it, one receive-only copy on proximo. Per-host rather than
-  # one shared folder because ownership is what protects the archive — in a single
-  # bidirectional folder any machine could delete another's history, and every laptop
-  # would carry every other machine's snapshots.
-  snapshotHosts = [
-    "nightcord-laborari"
-    "nightcord-lexikos"
-  ];
+  # What each host archives, as `<device> -> [<source>]`. One syncthing folder per
+  # (device, source) pair: send-only on the machine that produced it, receive-only on
+  # proximo. Per-pair rather than one shared folder because ownership is what protects
+  # the archive — in a single bidirectional folder any machine could delete another's
+  # history, and every laptop would carry every other machine's snapshots.
+  #
+  # Declared for the whole fleet here, and not derived from `nightcord.archive.sources`,
+  # because proximo must build the receiving end of folders whose producing host it cannot
+  # evaluate. The two are cross-checked by an assertion below, so enabling a source and
+  # forgetting this map fails the build rather than quietly filling an outbox nothing
+  # collects.
+  #
+  # The phone's two folders are the same idea and live in redmi-backup.nix, which is
+  # proximo's alone. Its paths keep an extra `app/` segment, since on a phone the
+  # app-private directories are one kind of content among several (DCIM, Downloads);
+  # on a PC there is no such distinction to draw.
+  snapshotSources = {
+    nightcord-laborari = [ "firefox" ];
+    nightcord-lexikos = [ "firefox" ];
+  };
 
-  outbox = "/var/lib/snapshot-outbox";
+  device = host: lib.removePrefix "nightcord-" host;
 
-  folderId = host: "snapshots-${lib.removePrefix "nightcord-" host}";
+  # `redmi50-gadgetbridge` already established `<device>-<source>`; follow it.
+  folderId = host: source: "${device host}-${source}";
+
+  # On proximo every device sits directly under /data, one level, so a laptop and the
+  # phone are siblings — they are the same kind of thing. Deliberately not a shared
+  # `snapshots/` parent: that would put a category beside a device name, and /data
+  # already holds a root-owned `.snapshots` (filesystem snapshots) to be confused with.
+  archivePath = host: source: "/data/${device host}/${source}";
+
+  # From archive.nix, which creates these directories, so the two cannot disagree.
+  outboxPath = source: "${config.nightcord.archive.outboxRoot}/${source}";
 
   isProximo = cfg.deviceName == "nightcord-proximo";
 
-  # On proximo, one receive-only folder per producing host, all under /data/snapshots.
+  mySources = snapshotSources.${cfg.deviceName} or [ ];
+
   # trashcan versioning for the same reason the phone folders have it: this side must
   # never lose a snapshot because the producing side dropped it.
   archiveFolders = lib.listToAttrs (
-    map (host: {
-      name = "/data/snapshots/${lib.removePrefix "nightcord-" host}";
-      value = {
-        id = folderId host;
-        label = "snapshots ${lib.removePrefix "nightcord-" host}";
-        devices = [ host ];
-        type = "receiveonly";
-        versioning = {
-          type = "trashcan";
-          params.cleanoutDays = "0";
-        };
-      };
-    }) snapshotHosts
+    lib.flatten (
+      lib.mapAttrsToList (
+        host: sources:
+        map (source: {
+          name = archivePath host source;
+          value = {
+            id = folderId host source;
+            label = "${device host} ${source}";
+            devices = [ host ];
+            type = "receiveonly";
+            versioning = {
+              type = "trashcan";
+              params.cleanoutDays = "0";
+            };
+          };
+        }) sources
+      ) snapshotSources
+    )
   );
 
-  # On a producing host, exactly one send-only folder: its own. Send-only so a change
-  # on proximo can never travel back and rewrite the source of truth.
-  outboxFolder = lib.optionalAttrs (builtins.elem cfg.deviceName snapshotHosts) {
-    ${outbox} = {
-      id = folderId cfg.deviceName;
-      label = "snapshot outbox";
-      devices = [ "nightcord-proximo" ];
-      type = "sendonly";
-    };
-  };
+  # Send-only so a change on proximo can never travel back and rewrite the source of
+  # truth. One folder per source, so a later source cannot make this one resync.
+  outboxFolders = lib.listToAttrs (
+    map (source: {
+      name = outboxPath source;
+      value = {
+        id = folderId cfg.deviceName source;
+        label = "${source} outbox";
+        devices = [ "nightcord-proximo" ];
+        type = "sendonly";
+      };
+    }) mySources
+  );
 in
 {
   options.nightcord.syncthing = {
@@ -90,6 +120,22 @@ in
   };
 
   config = lib.mkIf (cfg.deviceName != null) {
+    # The two halves of a delivery must agree: a source that snapshots with no folder to
+    # carry it fills a directory nobody reads, and a folder with no source stays empty
+    # while looking configured. Neither shows up as a failure at runtime.
+    assertions = [
+      {
+        assertion =
+          lib.sort lib.lessThan (builtins.attrNames config.nightcord.archive.sources)
+          == lib.sort lib.lessThan mySources;
+        message =
+          "nightcord.archive.sources on ${cfg.deviceName} is "
+          + "${lib.concatStringsSep ", " (builtins.attrNames config.nightcord.archive.sources)}"
+          + " but hosts/modules/syncthing.nix lists ${lib.concatStringsSep ", " mySources}"
+          + " for it. Update snapshotSources so the snapshots have a folder to travel in.";
+      }
+    ];
+
     services.syncthing = {
       enable = true;
       openDefaultPorts = false;
@@ -116,7 +162,7 @@ in
               devices = builtins.filter (name: name != cfg.deviceName) passwordHosts;
             };
           }
-          // outboxFolder
+          // outboxFolders
           // lib.optionalAttrs isProximo archiveFolders;
 
         options = {
@@ -142,17 +188,18 @@ in
         "a /home/cuso4d - - - - u::rwx,u:syncthing:--x,g::---,m::--x,o::---"
         "A /home/cuso4d/syncthing - - - - u::rwx,u:cuso4d:rwX,u:syncthing:rwX,g::r-X,m::rwX,o::---,d:u::rwx,d:u:cuso4d:rwX,d:u:syncthing:rwX,d:g::rwX,d:m::rwX,d:o::---"
       ]
-      # The outbox is written by the snapshot timer and read by syncthing, so it is
-      # owned by syncthing and group-writable for the timer's user. Under /var/lib
-      # rather than the home directory to keep it clear of the ACL dance above.
-      ++ lib.optionals (builtins.elem cfg.deviceName snapshotHosts) [
-        "d ${outbox} 0770 syncthing syncthing -"
-      ]
+      # The outbox directories themselves belong to archive.nix, which creates one per
+      # source it defines.
       ++ lib.optionals isProximo (
-        [ "d /data/snapshots 0750 syncthing syncthing -" ]
-        ++ map (
-          host: "d /data/snapshots/${lib.removePrefix "nightcord-" host} 0750 syncthing syncthing -"
-        ) snapshotHosts
+        lib.flatten (
+          lib.mapAttrsToList (
+            host: sources:
+            [
+              "d /data/${device host} 0750 syncthing syncthing -"
+            ]
+            ++ map (source: "d ${archivePath host source} 0750 syncthing syncthing -") sources
+          ) snapshotSources
+        )
       );
   };
 }
