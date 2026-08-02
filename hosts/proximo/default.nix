@@ -45,6 +45,7 @@ in
     ../modules/juicefs-mount.nix
     ../modules/rclone-webdav-mount.nix
     ../modules/server.nix
+    ../modules/syncthing.nix
     ../hardware-configuration/proximo.nix
     ./cgit.nix
     ./fava.nix
@@ -54,6 +55,8 @@ in
     ./piwigo.nix
     ./redmi-backup.nix
   ];
+
+  nightcord.syncthing.deviceName = "nightcord-proximo";
 
   nightcord.internal-dns = {
     enable = true;

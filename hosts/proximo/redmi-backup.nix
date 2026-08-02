@@ -17,12 +17,10 @@ let
   };
 in
 {
+  # The mesh itself — device identities, the laptops' folders, and the receive-only
+  # counterparts of their snapshot outboxes — comes from the shared module. This file
+  # adds only the phone, which is proximo's alone: no other host talks to it.
   services.syncthing = {
-    enable = true;
-    openDefaultPorts = false;
-    overrideDevices = true;
-    overrideFolders = true;
-
     settings = {
       devices.redmi50 = {
         id = phoneDeviceId;
@@ -51,13 +49,11 @@ in
         };
       }) backupFolders;
 
-      options = {
-        localAnnounceEnabled = true;
-        globalAnnounceEnabled = false;
-        natEnabled = false;
-        relaysEnabled = false;
-        urAccepted = -1;
-      };
+      # The phone announces itself on the LAN rather than at a fixed address, so this
+      # is the one host in the mesh that needs local discovery. Set here because the
+      # shared module leaves it at its default for the laptops, which reach each other
+      # over wireguard at known addresses.
+      options.localAnnounceEnabled = true;
     };
   };
 
