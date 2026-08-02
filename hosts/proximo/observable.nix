@@ -17,6 +17,17 @@ let
   # for good. Keeping every backup is what bounds the damage from a missed sync.
   bandExports = "/data/redmi50/app/nodomain.freeyourgadget.gadgetbridge/gadgetbridge_*.zip";
 
+  # The laptops' places.sqlite snapshots, one file per machine per run, delivered by the
+  # per-(device, source) folders in modules/syncthing.nix. A glob across devices rather
+  # than a path: Firefox is the one source that genuinely runs on several machines, and
+  # CPI reads the host out of each filename to keep them apart. Naming a single device
+  # here would publish one laptop's browsing as if it were the whole record — a complete
+  # looking site that is quietly missing half its history.
+  #
+  # Kept in step with `archivePath` there, which is `/data/<device>/<source>`. A mismatch
+  # fails the build loudly: the loaders exit non-zero when the glob matches nothing.
+  firefoxExports = "/data/*/firefox/places-*.sqlite.xz";
+
   publishDir = "/var/lib/observable-cuso4d";
   configDir = "/var/lib/observable-cuso4d/config";
 
@@ -56,7 +67,13 @@ in
         "nginx"
       ];
       UMask = "0027";
-      Environment = [ "CPI_GADGETBRIDGE_EXPORTS=${bandExports}" ];
+      # Both optional to the builder, which drops a source's pages when its variable is
+      # unset. Set here rather than in the secret because a path under /data names
+      # nothing personal; CPI_LOCAL_TZ is in the secret precisely because it does.
+      Environment = [
+        "CPI_GADGETBRIDGE_EXPORTS=${bandExports}"
+        "CPI_FIREFOX_EXPORTS=${firefoxExports}"
+      ];
       EnvironmentFile = config.age.secrets."observable-cuso4d-env".path;
       ExecStart = ''
         ${builder}/bin/observable-cuso4d-build '${exports}' '${publishDir}/current' '${configDir}'
