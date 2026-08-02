@@ -32,6 +32,23 @@ in
         inherit (f) id label;
         devices = [ "redmi50" ];
         type = "receiveonly";
+
+        # `receiveonly` stops this side from pushing changes to the phone; it does
+        # not stop it from accepting deletions. Uninstalling the app or clearing its
+        # export directory would propagate here and remove archives that only exist
+        # here — for PipePipe those hold play timestamps the app itself has already
+        # overwritten, so there is nothing to re-export them from.
+        #
+        # trashcan rather than staggered: staggered thins old versions of a file,
+        # which suits something rewritten in place. Exports are immutable and
+        # uniquely named, so each path only ever has one version and there is
+        # nothing to thin — the only event to survive is deletion. cleanoutDays 0
+        # keeps them indefinitely, which is affordable because duplicity already
+        # holds these same files and the retention question is settled there.
+        versioning = {
+          type = "trashcan";
+          params.cleanoutDays = "0";
+        };
       }) backupFolders;
 
       options = {
