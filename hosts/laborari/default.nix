@@ -86,6 +86,7 @@
     cachePath = "/mnt/minio/nix-cache-54168";
     cachePublicKey = "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0=";
   };
+
   nightcord.proxy = "http://127.0.0.1:20172";
   boot.kernel.sysctl = {
     "net.ipv4.ip_forward" = 1;

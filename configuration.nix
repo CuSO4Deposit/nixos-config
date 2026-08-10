@@ -14,6 +14,10 @@
 }:
 
 {
+  imports = [
+    ./hosts/modules/internal-cache.nix
+  ];
+
   age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
     lib.attrNames (lib.attrsets.filterAttrs (_: v: v.isNormalUser) config.users.users)
   );
@@ -57,10 +61,8 @@
     "https://mirrors.ustc.edu.cn/nix-channels/store"
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];
-  nix.settings.extra-substituters = [ "http://nix-auto-build.internal" ];
-  nix.settings.extra-trusted-public-keys = [
-    "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0="
-  ];
+  # extra-substituters / extra-trusted-public-keys for the internal cache live
+  # in hosts/modules/internal-cache.nix so a host can opt out of it.
   nix.settings.trusted-users = [
     "cuso4d"
     "root"

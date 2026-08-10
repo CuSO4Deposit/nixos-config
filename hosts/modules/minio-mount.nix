@@ -7,6 +7,14 @@
 
 {
   options.nightcord.rclone-minio = {
+    # The S3 endpoint only resolves through the office WireGuard tunnel, so a
+    # broken wg0 turns this mount into a hung FUSE endpoint that blocks every
+    # reader of mountPoint. Set this to false to bring the host up without it.
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to mount the MinIO S3 bucket over rclone.";
+    };
     remoteName = lib.mkOption {
       type = lib.types.str;
       default = "minio";
@@ -22,7 +30,7 @@
     };
   };
 
-  config = {
+  config = lib.mkIf config.nightcord.rclone-minio.enable {
     systemd.tmpfiles.rules = [
       "d ${config.nightcord.rclone-minio.mountPoint} 0700 cuso4d users -"
     ];
