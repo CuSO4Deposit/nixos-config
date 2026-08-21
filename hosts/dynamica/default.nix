@@ -11,6 +11,8 @@
 
   nightcord.proxy = "http://127.0.0.1:20172";
 
+  nightcord.internal-cache.enable = false;
+
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.enable = true;
 
