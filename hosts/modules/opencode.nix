@@ -32,6 +32,40 @@
       };
     };
 
+    xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
+      "$schema" = "https://opencode.ai/config.json";
+      lsp = {
+        pyright = {
+          command = [
+            "${pkgs.pyright}/bin/pyright-langserver"
+            "--stdio"
+          ];
+          extensions = [
+            ".py"
+            ".pyi"
+          ];
+        };
+      };
+      formatter = {
+        prettier = {
+          command = [
+            "${pkgs.prettier}/bin/prettier"
+            "--write"
+            "$FILE"
+          ];
+          extensions = [
+            ".md"
+            ".json"
+            ".jsonc"
+            ".yaml"
+            ".yml"
+            ".html"
+            ".css"
+          ];
+        };
+      };
+    };
+
     xdg.configFile."opencode/AGENTS.md".text = ''
       # AGENTS.md
 
