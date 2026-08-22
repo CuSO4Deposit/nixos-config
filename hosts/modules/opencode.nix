@@ -32,6 +32,26 @@
       };
     };
 
+    xdg.configFile."opencode/AGENTS.md".text = ''
+      # AGENTS.md
+
+      ## Environment
+
+      - Unless explicitly stated otherwise for the current task, the machine running
+        this session is NixOS Linux with Nix Flakes enabled.
+      - To use a tool that is not already installed, run it ad hoc with
+        `nix shell nixpkgs#<package> -c <command>` instead of installing it globally.
+      - If several such tools are needed at once, combine them into a single
+        `nix shell nixpkgs#<pkg1> nixpkgs#<pkg2> -c ...` invocation.
+
+      ## Collaboration
+
+      - Other people you collaborate with do not use NixOS.
+      - Do not introduce NixOS-specific artifacts (e.g. `flake.nix`, `shell.nix`,
+        `nix develop`/`nix-shell`), or change shared build/tooling files to depend on
+        Nix, unless explicitly asked to.
+    '';
+
     xdg.configFile."opencode/agents/research.md".text = ''
       ---
       description: Research and investigate codebases, gather context, and answer questions without making changes
