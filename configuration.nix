@@ -36,6 +36,7 @@
     jq
     juicefs
     just
+    mosh
     nixfmt
     ripgrep
     tldr
