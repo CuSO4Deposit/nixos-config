@@ -189,6 +189,11 @@ in
     enable = true;
   };
 
+  systemd.services."wg-quick-wg0".path = [
+    pkgs.gawk
+    pkgs.coreutils
+  ];
+
   users.users."cuso4d".extraGroups = lib.mkAfter [
     "ghorg"
     "minecraft"
