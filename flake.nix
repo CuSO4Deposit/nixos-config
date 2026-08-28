@@ -47,6 +47,10 @@
       url = "github:CuSO4Deposit/fantastic-disco";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    vita-grid = {
+      url = "github:CuSO4Deposit/vita-grid";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
   };
 
@@ -141,6 +145,7 @@
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   inputs.api-laborari.nixosModules.default
+                  inputs.vita-grid.nixosModules.vitaGrid
                   nix-ld.nixosModules.nix-ld
                   nur.modules.nixos.default
                   home-manager.nixosModules.home-manager

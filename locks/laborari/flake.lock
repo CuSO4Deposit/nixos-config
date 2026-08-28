@@ -228,6 +228,24 @@
         "type": "github"
       }
     },
+    "flake-parts_10": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_8"
+      },
+      "locked": {
+        "lastModified": 1785627969,
+        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-parts_2": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib_2"
@@ -663,6 +681,21 @@
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
         "rev": "db3f255737b94216eb71cce308e2912cf6bc2d7c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib_8": {
+      "locked": {
+        "lastModified": 1785031560,
+        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
         "type": "github"
       },
       "original": {
@@ -1164,7 +1197,8 @@
         "nur": "nur",
         "nur-cuso4d": "nur-cuso4d",
         "observable-cuso4d": "observable-cuso4d",
-        "psi-agent": "psi-agent"
+        "psi-agent": "psi-agent",
+        "vita-grid": "vita-grid"
       }
     },
     "systems": {
@@ -1259,6 +1293,27 @@
       "original": {
         "owner": "pyproject-nix",
         "repo": "uv2nix",
+        "type": "github"
+      }
+    },
+    "vita-grid": {
+      "inputs": {
+        "flake-parts": "flake-parts_10",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787926770,
+        "narHash": "sha256-qwYSrs4+LyQJiZfPvyoB1qbN8CUbbvDvtdnImjUhj7A=",
+        "owner": "CuSO4Deposit",
+        "repo": "vita-grid",
+        "rev": "d25d1487d562718217e6163666a5352047589dd1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CuSO4Deposit",
+        "repo": "vita-grid",
         "type": "github"
       }
     },
