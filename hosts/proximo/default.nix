@@ -56,6 +56,7 @@ in
     ./observable.nix
     ./piwigo.nix
     ./redmi-backup.nix
+    ./vita-grid.nix
   ];
 
   nightcord.syncthing.deviceName = "nightcord-proximo";

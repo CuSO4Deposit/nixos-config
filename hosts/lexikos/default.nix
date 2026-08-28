@@ -18,6 +18,7 @@
     ./v2raya-lan-proxy.nix
     ./cannot-sleep-m9.nix
     ./mm-config-extract.nix
+    ./vita-grid.nix
   ];
 
   nightcord.internal-dns = {

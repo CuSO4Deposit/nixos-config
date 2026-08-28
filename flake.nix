@@ -115,6 +115,7 @@
                   ./configuration.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
+                  inputs.vita-grid.nixosModules.vitaGrid
                   nix-ld.nixosModules.nix-ld
                   nur-cuso4d.nixosModules.ghorg
                 ];
