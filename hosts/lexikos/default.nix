@@ -97,6 +97,14 @@
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-lexikos.conf".path;
 
+  # wg-lexikos.conf has a PostUp hook that uses awk/cut to pin a route to the
+  # endpoint. The wg-quick service PATH only includes wireguard-tools,
+  # iptables and openresolv, so awk/cut were not found and the hook failed.
+  systemd.services."wg-quick-wg2".path = [
+    pkgs.gawk
+    pkgs.coreutils
+  ];
+
   programs.steam.enable = true;
 
   services.blueman.enable = true;
