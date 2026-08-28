@@ -201,6 +201,7 @@
   };
   services.vitaGrid.aggregator = {
     enable = true;
+    proxy = "http://127.0.0.1:20172";
     configFile = pkgs.writeText "vita-grid-aggregator.json" (
       builtins.toJSON {
         listen = ":8080";

@@ -1304,11 +1304,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787929129,
-        "narHash": "sha256-zaVik5C9JiRnEQAsZYEpaGwvqbMBWrFchlkU9yU5Xts=",
+        "lastModified": 1787929545,
+        "narHash": "sha256-f/RXw6AvilY0onT31bu11WGdt9dQfpy+8Wt6BV21KoE=",
         "owner": "CuSO4Deposit",
         "repo": "vita-grid",
-        "rev": "09479127069fd94f1ea5b1cee6cc156a0578ea3b",
+        "rev": "6142958f27e2b76c270b47de702b99b558e131e1",
         "type": "github"
       },
       "original": {
