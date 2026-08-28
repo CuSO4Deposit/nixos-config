@@ -876,11 +876,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787856788,
-        "narHash": "sha256-3ps2uKqfNKDUFKPQedjCnKWysKwRosebRfNPfodQJaU=",
+        "lastModified": 1787928955,
+        "narHash": "sha256-IJCuFDhP8X3wUziFhKYTTAjvP6kQCNOgUYp56ea+CIc=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "d9d9a53aea926b915bd81e4c8a0ba1b1bc64d9ab",
+        "rev": "863c8a5f82b7a587def92b2313800ef9d2a1658d",
         "type": "github"
       },
       "original": {
@@ -1068,11 +1068,11 @@
         "uv2nix": "uv2nix_2"
       },
       "locked": {
-        "lastModified": 1787821143,
-        "narHash": "sha256-lRBIh+kqkp5f9XEgLD+w7jKyDC+nEkSDXwQ3TjgJ/vE=",
+        "lastModified": 1787898466,
+        "narHash": "sha256-cCb2Tvb4+EO6vB/FkM7bUx8poPY1byKeb0BXFwf8KhM=",
         "owner": "genuineknowledge",
         "repo": "psi-agent",
-        "rev": "ea7dcd40a077000100d9ccb6e7486ba22c143885",
+        "rev": "86d5f7556ff7e58e3c80712f1df9862f5df409d5",
         "type": "github"
       },
       "original": {
@@ -1304,11 +1304,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787926770,
-        "narHash": "sha256-qwYSrs4+LyQJiZfPvyoB1qbN8CUbbvDvtdnImjUhj7A=",
+        "lastModified": 1787929129,
+        "narHash": "sha256-zaVik5C9JiRnEQAsZYEpaGwvqbMBWrFchlkU9yU5Xts=",
         "owner": "CuSO4Deposit",
         "repo": "vita-grid",
-        "rev": "d25d1487d562718217e6163666a5352047589dd1",
+        "rev": "09479127069fd94f1ea5b1cee6cc156a0578ea3b",
         "type": "github"
       },
       "original": {
