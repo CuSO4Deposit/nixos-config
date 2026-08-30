@@ -1,4 +1,10 @@
 { pkgs, ... }:
+let
+  authmeJar = pkgs.fetchurl {
+    url = "https://github.com/AuthMe/AuthMeReloaded/releases/download/6.0.0/AuthMe-6.0.0-Paper.jar";
+    hash = "sha256-WJSPy8aXSXUGJX0J2KeQm/SN5q7+e+xrpatMQb5Bt7g=";
+  };
+in
 {
   services.minecraft-server = {
     declarative = true;
@@ -21,4 +27,9 @@
       "CuSO4D" = "0f5f4275-656f-41e4-b2ef-1a7914c2e5df";
     };
   };
+
+  systemd.tmpfiles.rules = [
+    "d /var/lib/minecraft/plugins 0750 minecraft minecraft - -"
+    "L+ /var/lib/minecraft/plugins/AuthMe.jar - - - - ${authmeJar}"
+  ];
 }
