@@ -131,6 +131,7 @@
     22222
     2053
     8080
+    25599
   ];
   networking.firewall.allowedUDPPorts = [ 5182 ];
   networking.firewall.trustedInterfaces = [ "wg2" ];

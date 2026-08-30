@@ -4,6 +4,12 @@
     enable = true;
     clientMaxBodySize = "512m";
     recommendedProxySettings = true;
+    streamConfig = ''
+      server {
+        listen 25599;
+        proxy_pass 10.20.0.1:25565;
+      }
+    '';
     appendHttpConfig = ''
       server {
         listen 2053 default_server;
