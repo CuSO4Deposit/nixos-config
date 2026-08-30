@@ -4,6 +4,10 @@ let
     url = "https://github.com/AuthMe/AuthMeReloaded/releases/download/6.0.0/AuthMe-6.0.0-Paper.jar";
     hash = "sha256-WJSPy8aXSXUGJX0J2KeQm/SN5q7+e+xrpatMQb5Bt7g=";
   };
+  skinsRestorerJar = pkgs.fetchurl {
+    url = "https://github.com/SkinsRestorer/SkinsRestorer/releases/download/15.12.5/SkinsRestorer.jar";
+    hash = "sha256-vxP/7pu0iBQbfsmWA+vIq6xomTPXLbFeZk/rC03u/GA=";
+  };
 in
 {
   services.minecraft-server = {
@@ -31,5 +35,6 @@ in
   systemd.tmpfiles.rules = [
     "d /var/lib/minecraft/plugins 0750 minecraft minecraft - -"
     "L+ /var/lib/minecraft/plugins/AuthMe.jar - - - - ${authmeJar}"
+    "L+ /var/lib/minecraft/plugins/SkinsRestorer.jar - - - - ${skinsRestorerJar}"
   ];
 }
