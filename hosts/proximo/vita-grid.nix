@@ -4,6 +4,13 @@
   ...
 }:
 {
+  services.nginx.streamConfig = ''
+    server {
+      listen 192.168.1.104:8080;
+      proxy_pass 10.20.0.2:8080;
+    }
+  '';
+
   services.vitaGrid.package = inputs.vita-grid.packages.${pkgs.stdenv.hostPlatform.system}.vita-grid;
   services.vitaGrid.statusd = {
     enable = true;
