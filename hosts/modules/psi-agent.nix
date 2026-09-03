@@ -21,7 +21,7 @@ in
         "HOME=/home/cuso4d"
         "NO_PROXY=127.0.0.1,localhost"
       ];
-      ExecStart = "${psi-agent}/bin/psi-agent gateway --listen http://127.0.0.1:${toString port}";
+      ExecStart = "${psi-agent}/bin/psi-agent gateway --gateway desktop --listen http://127.0.0.1:${toString port}";
       Restart = "on-failure";
       RestartSec = 5;
     };
