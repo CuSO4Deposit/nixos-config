@@ -32,7 +32,6 @@
     git
     glow
     inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
-    inputs.kimi-cli.packages."${pkgs.stdenv.hostPlatform.system}".kimi-cli
     jq
     juicefs
     just
