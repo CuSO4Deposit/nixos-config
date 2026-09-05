@@ -107,7 +107,7 @@
     powerManagement.finegrained = false;
   };
   home-manager.users.cuso4d = {
-    imports = [ ../modules/home/laborari.nix ];
+    imports = [ ./home.nix ];
   };
 
   nightcord.juicefs-mount = {

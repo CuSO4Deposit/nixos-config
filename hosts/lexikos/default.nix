@@ -69,7 +69,7 @@
   };
 
   home-manager.users.cuso4d = {
-    imports = [ ../modules/home/lexikos.nix ];
+    imports = [ ./home.nix ];
   };
 
   nightcord.juicefs-mount = {
