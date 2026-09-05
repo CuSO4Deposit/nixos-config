@@ -233,6 +233,7 @@
       };
 
     shellAliases = {
+      a = "opencode --auto"; # a for agent
       alg = "alias | grep";
       bat = "bat --theme=base16";
       c = "clear";
