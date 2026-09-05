@@ -5,8 +5,8 @@
 }:
 {
   age.secrets = {
-    "office-vpn.ovpn".file = ../../secrets/office-vpn.ovpn.age;
-    "office-vpn.auth".file = ../../secrets/office-vpn.auth.age;
+    "office-vpn.ovpn".file = ../secrets/office-vpn.ovpn.age;
+    "office-vpn.auth".file = ../secrets/office-vpn.auth.age;
   };
 
   environment.etc.openvpn.source = "${pkgs.update-systemd-resolved}/libexec/openvpn";

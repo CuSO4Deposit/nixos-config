@@ -15,7 +15,7 @@
 
 {
   imports = [
-    ./hosts/modules/internal-cache.nix
+    ./modules/internal-cache.nix
   ];
 
   age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
@@ -62,7 +62,7 @@
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];
   # extra-substituters / extra-trusted-public-keys for the internal cache live
-  # in hosts/modules/internal-cache.nix so a host can opt out of it.
+  # in modules/internal-cache.nix so a host can opt out of it.
   nix.settings.trusted-users = [
     "cuso4d"
     "root"

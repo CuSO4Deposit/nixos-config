@@ -32,7 +32,7 @@
       "d ${config.nightcord.rclone-proximo-data.mountPoint} 0700 cuso4d users -"
     ];
 
-    age.secrets."rclone.conf".file = ../../secrets/rclone.conf.age;
+    age.secrets."rclone.conf".file = ../secrets/rclone.conf.age;
 
     systemd.services.rclone-proximo-data-mount = {
       description = "Rclone Mount Proximo /data Service";

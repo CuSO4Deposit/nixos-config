@@ -60,6 +60,6 @@ in
       ];
     };
 
-    age.secrets."rclone.conf".file = ../../secrets/rclone.conf.age;
+    age.secrets."rclone.conf".file = ../secrets/rclone.conf.age;
   };
 }

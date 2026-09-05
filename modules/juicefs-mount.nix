@@ -27,7 +27,7 @@
       "d /mnt/jfs 0700 cuso4d users -"
     ];
 
-    age.secrets.juicefs-password-env.file = ../../secrets/juicefs-password-env.age;
+    age.secrets.juicefs-password-env.file = ../secrets/juicefs-password-env.age;
 
     systemd.services.juicefs-mount = {
       description = "JuiceFS Mount Service";

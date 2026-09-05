@@ -35,7 +35,7 @@
       "d ${config.nightcord.rclone-minio.mountPoint} 0700 cuso4d users -"
     ];
 
-    age.secrets."rclone.conf".file = ../../secrets/rclone.conf.age;
+    age.secrets."rclone.conf".file = ../secrets/rclone.conf.age;
 
     systemd.services.rclone-minio-mount = {
       description = "Rclone Mount MinIO Service";

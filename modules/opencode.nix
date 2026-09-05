@@ -4,7 +4,7 @@
   ...
 }:
 let
-  serper-mcp = pkgs.callPackage ../../derivations/serper-search-scrape-mcp { };
+  serper-mcp = pkgs.callPackage ../derivations/serper-search-scrape-mcp { };
   serper-mcp-with-key = pkgs.writeShellScriptBin "serper-mcp" ''
     secretFile=${config.age.secrets."serper-api-key".path}
     if [ -z "''${SERPER_API_KEY:-}" ]; then
@@ -15,7 +15,7 @@ let
 in
 {
   age.secrets."serper-api-key" = {
-    file = ../../secrets/serper-api-key.age;
+    file = ../secrets/serper-api-key.age;
     owner = "cuso4d";
   };
 

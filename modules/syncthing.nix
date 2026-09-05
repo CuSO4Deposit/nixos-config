@@ -131,7 +131,7 @@ in
         message =
           "nightcord.archive.sources on ${cfg.deviceName} is "
           + "${lib.concatStringsSep ", " (builtins.attrNames config.nightcord.archive.sources)}"
-          + " but hosts/modules/syncthing.nix lists ${lib.concatStringsSep ", " mySources}"
+          + " but modules/syncthing.nix lists ${lib.concatStringsSep ", " mySources}"
           + " for it. Update snapshotSources so the snapshots have a folder to travel in.";
       }
     ];
