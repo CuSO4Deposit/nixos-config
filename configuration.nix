@@ -218,6 +218,8 @@
       }
       check_nix_auto_build
 
+      rgp() { command rg --color=always "$@" | less -R; }
+
       SAVEHIST=50000
     '';
 
