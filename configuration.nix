@@ -42,7 +42,10 @@
     yq
   ];
 
-  environment.variables.EDITOR = "nvim";
+  environment.variables = {
+    EDITOR = "nvim";
+    LESS = "-R -F -X";
+  };
 
   networking.resolvconf.enable = !(config.services.resolved.enable);
 
