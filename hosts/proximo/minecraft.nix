@@ -26,8 +26,31 @@ let
     motd = "D is for Depoze";
     online-mode = false;
     server-port = 25566;
-    white-list = false;
+    white-list = true;
+    enforce-whitelist = true;
   };
+
+  # Offline-mode servers derive a player's UUID from
+  # "OfflinePlayer:<name>", so whitelist/ops entries must carry those
+  # offline UUIDs (not the Mojang ones) for matching to work.
+  dsmpOps = [
+    {
+      name = "CuSO4D";
+      uuid = "e6b625a9-7682-37d5-a116-bc7a19425cde";
+      level = 4;
+      bypassesPlayerLimit = false;
+    }
+  ];
+  dsmpWhitelist = [
+    {
+      name = "CuSO4D";
+      uuid = "e6b625a9-7682-37d5-a116-bc7a19425cde";
+    }
+    {
+      name = "Axiom_of_Choice1";
+      uuid = "ce5314d9-1b21-3f6f-990b-cbbb247a81b6";
+    }
+  ];
 
   cfgToString = v: if builtins.isBool v then lib.boolToString v else toString v;
 
@@ -40,6 +63,9 @@ let
     "# server.properties managed by NixOS configuration\n"
     + lib.concatStringsSep "\n" (lib.mapAttrsToList (n: v: "${n}=${cfgToString v}") dsmpProperties)
   );
+
+  dsmpOpsFile = pkgs.writeText "dsmp-ops.json" (builtins.toJSON dsmpOps);
+  dsmpWhitelistFile = pkgs.writeText "dsmp-whitelist.json" (builtins.toJSON dsmpWhitelist);
 
   dsmpStop = pkgs.writeShellScript "minecraft2-stop" ''
     echo stop > /run/minecraft2.stdin
@@ -112,6 +138,10 @@ in
       cp -f ${dsmpPropertiesFile} server.properties
       # Paper rewrites server.properties on start; the store file is read-only.
       chmod +w server.properties
+      cp -f ${dsmpOpsFile} ops.json
+      chmod +w ops.json
+      cp -f ${dsmpWhitelistFile} whitelist.json
+      chmod +w whitelist.json
     '';
 
     serviceConfig = {
