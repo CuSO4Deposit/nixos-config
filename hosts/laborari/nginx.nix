@@ -4,10 +4,16 @@
     enable = true;
     clientMaxBodySize = "512m";
     recommendedProxySettings = true;
+    # External TCP entries into the papermc instances on proximo. Minecraft is
+    # plaintext TCP, so nginx stream forwards one external port per server.
     streamConfig = ''
       server {
         listen 25599;
         proxy_pass 10.20.0.1:25565;
+      }
+      server {
+        listen 25598;
+        proxy_pass 10.20.0.1:25566;
       }
     '';
     appendHttpConfig = ''

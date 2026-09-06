@@ -114,6 +114,7 @@ in
     # proximo itself.
     include = [
       "/var/lib/minecraft"
+      "/var/lib/minecraft2"
       "/data/redmi50"
       "/data/laborari"
       "/data/lexikos"
