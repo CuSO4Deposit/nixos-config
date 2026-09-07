@@ -64,6 +64,8 @@ in
   "office-vpn.auth.age".publicKeys = all;
   "rclone.conf.age".publicKeys = proximo ++ laborari ++ lexikos;
 
+  "nixvim-minuet-deepseek-api-key.age".publicKeys = all;
+
   # openclaw / desktop hosts
   "openclaw-env.age".publicKeys = desktops;
   "serper-api-key.age".publicKeys = desktops;

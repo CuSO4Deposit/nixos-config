@@ -47,6 +47,24 @@
     LESS = "-R -F -X";
   };
 
+  age.secrets."nixvim-minuet-deepseek-api-key" = {
+    file = ./secrets/nixvim-minuet-deepseek-api-key.age;
+    mode = "0444";
+  };
+
+  environment.etc."zshenv.local".text = ''
+    secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}
+    if [ -r "$secret_path" ]; then
+      export NIXVIM_MINUET_DEEPSEEK_API_KEY="$(cat "$secret_path")"
+    fi
+  '';
+  environment.etc."profile.local".text = ''
+    secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}
+    if [ -r "$secret_path" ]; then
+      export NIXVIM_MINUET_DEEPSEEK_API_KEY="$(cat "$secret_path")"
+    fi
+  '';
+
   networking.resolvconf.enable = !(config.services.resolved.enable);
 
   nix.gc = {
