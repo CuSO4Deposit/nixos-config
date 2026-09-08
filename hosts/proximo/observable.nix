@@ -31,6 +31,11 @@ let
   publishDir = "/var/lib/observable-cuso4d";
   configDir = "/var/lib/observable-cuso4d/config";
 
+  yOfflineDb = "/home/cuso4d/archive/y_offline.db";
+  arcSongDb = "/home/cuso4d/source/ArcaeaSongDatabase/arcsong.db";
+  pjskMusics = "/home/cuso4d/source/sekai-master-db-diff/musics.json";
+  pjskDifficulties = "/home/cuso4d/source/sekai-master-db-diff/musicDifficulties.json";
+
   builder = inputs.observable-cuso4d.packages.${pkgs.stdenv.hostPlatform.system}.site;
 in
 {
@@ -73,6 +78,10 @@ in
       Environment = [
         "CPI_GADGETBRIDGE_EXPORTS=${bandExports}"
         "CPI_FIREFOX_EXPORTS=${firefoxExports}"
+        "YOFFLINE_DB=${yOfflineDb}"
+        "ARCSONG_DB=${arcSongDb}"
+        "PJSK_MUSICS_JSON=${pjskMusics}"
+        "PJSK_DIFFICULTIES_JSON=${pjskDifficulties}"
       ];
       EnvironmentFile = config.age.secrets."observable-cuso4d-env".path;
       ExecStart = ''
