@@ -1,5 +1,49 @@
-{ ... }:
 {
+  pkgs,
+  ...
+}:
+let
+  nowplaying = pkgs.writeShellApplication {
+    name = "nowplaying-waybar";
+    runtimeInputs = with pkgs; [
+      curl
+      jq
+    ];
+    text = ''
+      url="''${NOWPLAYING_URL:-}"
+      if [ -z "$url" ] && [ -r /run/agenix/nowplaying-url ]; then
+        url="$(cat /run/agenix/nowplaying-url)"
+      fi
+      if [ -z "$url" ]; then
+        echo '{"text":""}'
+        exit 0
+      fi
+
+      resp="$(curl -fsS --max-time 5 -- "$url" 2>/dev/null)" || {
+        echo '{"text":""}'
+        exit 0
+      }
+
+      line="$(printf '%s' "$resp" | jq -r '.music | select(. != null and .songname != "") | [.artist, .songname, .album] | @tsv' 2>/dev/null)"
+      if [ -z "$line" ]; then
+        echo '{"text":""}'
+        exit 0
+      fi
+
+      artist="$(printf '%s' "$line" | cut -f1)"
+      song="$(printf '%s' "$line" | cut -f2)"
+      album="$(printf '%s' "$line" | cut -f3)"
+      tooltip="$song - $artist"
+      if [ -n "$album" ]; then
+        tooltip="$tooltip · $album"
+      fi
+      jq -nc --arg text "$song - $artist" --arg tooltip "$tooltip" '{text: $text, tooltip: $tooltip}'
+    '';
+  };
+in
+{
+  home.packages = [ nowplaying ];
+
   programs.waybar = {
     enable = true;
     settings = {
@@ -48,6 +92,7 @@
           "clock"
         ];
         modules-right = [
+          "custom/nowplaying"
           "network"
           "wireplumber"
           "cpu"
@@ -55,6 +100,15 @@
           "disk"
           "battery"
         ];
+        "custom/nowplaying" = {
+          exec = "${nowplaying}/bin/nowplaying-waybar";
+          return-type = "json";
+          hide-empty-text = true;
+          interval = 60;
+          format = "♪ {text}";
+          max-length = 50;
+          escape = true;
+        };
         network = {
           interface = "wlp2s0";
           format = "{ifname}";
@@ -168,6 +222,7 @@
       #custom-cpu_speed,
       #custom-powermenu,
       #custom-spotify,
+      #custom-nowplaying,
       #custom-weather,
       #custom-mail,
       #custom-media {
@@ -179,6 +234,10 @@
       #clock {
           margin:     0px 16px 0px 10px;
           min-width:  140px;
+      }
+
+      #custom-nowplaying {
+          color: #7aa2f7;
       }
 
       #battery.warning {

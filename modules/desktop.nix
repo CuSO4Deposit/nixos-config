@@ -27,6 +27,11 @@ in
   ];
 
   config = {
+    age.secrets."nowplaying-url" = {
+      file = ../secrets/nowplaying-url.age;
+      mode = "0444";
+    };
+
     nixpkgs.overlays = [
       (_: _: {
         # Pin Logseq to the selected nixpkgs revision, but keep the Electron

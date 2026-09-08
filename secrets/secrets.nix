@@ -68,6 +68,7 @@ in
 
   # openclaw / desktop hosts
   "openclaw-env.age".publicKeys = desktops;
+  "nowplaying-url.age".publicKeys = desktops;
   "serper-api-key.age".publicKeys = desktops;
   "telegram-bot-token.age".publicKeys = desktops;
   "telegram-bot-token-yoshino.age".publicKeys = desktops;
