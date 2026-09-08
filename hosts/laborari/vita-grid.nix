@@ -7,7 +7,7 @@ let
   sensorIO = {
     sda = 21;
     scl = 22;
-    offLux = 20;
+    offLux = 50;
   };
   boardBase = {
     version = 1;
@@ -111,31 +111,27 @@ let
         index = 22;
       }
       {
-        name = "lexikos";
+        name = "lexikos:duplicity";
         index = 24;
       }
       {
-        name = "lexikos:duplicity";
+        name = "lexikos:v2raya";
         index = 25;
       }
       {
-        name = "lexikos:v2raya";
+        name = "lexikos:mm-config-extract";
         index = 26;
       }
       {
-        name = "lexikos:mm-config-extract";
-        index = 27;
-      }
-      {
-        name = "proximo";
+        name = "proximo:duplicity";
         index = 32;
       }
       {
-        name = "proximo:duplicity";
+        name = "proximo:minecraft";
         index = 33;
       }
       {
-        name = "proximo:minecraft";
+        name = "proximo:minecraft2";
         index = 34;
       }
       {

@@ -31,6 +31,11 @@
             target = "minecraft-server.service";
           }
           {
+            name = "minecraft2";
+            kind = "systemd-active";
+            target = "minecraft2.service";
+          }
+          {
             name = "piwigo";
             kind = "systemd-active";
             target = "docker-piwigo.service";
