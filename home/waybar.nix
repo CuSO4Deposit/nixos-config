@@ -104,7 +104,7 @@ in
           exec = "${nowplaying}/bin/nowplaying-waybar";
           return-type = "json";
           hide-empty-text = true;
-          interval = 60;
+          interval = 30;
           format = "♪ {text}";
           max-length = 50;
           escape = true;
