@@ -47,112 +47,104 @@ let
         index = 0;
       }
       {
-        name = "API Next";
+        name = "Blog";
         index = 1;
       }
       {
-        name = "AI Chat";
+        name = "Status";
         index = 2;
       }
       {
-        name = "Blog";
+        name = "Bookmark";
         index = 3;
       }
       {
-        name = "Status";
+        name = "RSS";
         index = 4;
       }
       {
-        name = "Bookmark";
-        index = 8;
-      }
-      {
-        name = "RSS";
-        index = 9;
-      }
-      {
         name = "RSSHub";
-        index = 10;
+        index = 5;
       }
       {
         name = "Wakapi";
-        index = 11;
+        index = 6;
       }
       {
         name = "ef-3-e69-f0";
-        index = 12;
+        index = 7;
       }
       {
         name = "laborari";
-        index = 16;
+        index = 8;
       }
       {
         name = "laborari:duplicity";
-        index = 17;
+        index = 9;
       }
       {
         name = "laborari:nix-auto-build";
-        index = 18;
+        index = 10;
       }
       {
         name = "laborari:terraria";
-        index = 19;
+        index = 11;
       }
       {
         name = "laborari:terraria2";
-        index = 20;
+        index = 12;
       }
       {
         name = "laborari:syncthing";
-        index = 21;
+        index = 13;
       }
       {
         name = "laborari:rclone-minio-mount";
-        index = 22;
+        index = 14;
       }
       {
         name = "lexikos:duplicity";
-        index = 24;
+        index = 16;
       }
       {
         name = "lexikos:v2raya";
-        index = 25;
+        index = 17;
       }
       {
         name = "lexikos:mm-config-extract";
-        index = 26;
+        index = 18;
       }
       {
         name = "proximo:duplicity";
-        index = 32;
+        index = 24;
       }
       {
         name = "proximo:minecraft";
-        index = 33;
+        index = 25;
       }
       {
         name = "proximo:minecraft2";
-        index = 34;
+        index = 26;
       }
       {
         name = "proximo:piwigo";
-        index = 35;
+        index = 27;
       }
       {
         name = "proximo:observable";
-        index = 36;
+        index = 28;
       }
       {
         name = "proximo:ghorg";
-        index = 37;
+        index = 29;
       }
       {
         name = "proximo:syncthing";
-        index = 38;
+        index = 30;
       }
       {
         name = "proximo:nginx";
-        index = 39;
+        index = 31;
       }
     ];
   };
