@@ -24,7 +24,7 @@ let
         exit 0
       }
 
-      line="$(printf '%s' "$resp" | jq -r '.music | select(. != null and .songname != "") | [.artist, .songname, .album] | @tsv' 2>/dev/null)"
+      line="$(printf '%s' "$resp" | jq -r '.data.music | select(. != null and .songname != "") | [.artist, .songname, .album] | @tsv' 2>/dev/null)"
       if [ -z "$line" ]; then
         echo '{"text":""}'
         exit 0

@@ -54,11 +54,11 @@
         "pre-commit-hooks": "pre-commit-hooks_3"
       },
       "locked": {
-        "lastModified": 1785512216,
-        "narHash": "sha256-CAphtuIcH+8Fs+wxpGIULR7VoJF4UNMMKFMw1bBhzpk=",
+        "lastModified": 1785679242,
+        "narHash": "sha256-4bocrUVxu8QAk8K+9l2E/88Tyc9xLwtxDdP2tYwCHT0=",
         "owner": "CuSO4Deposit",
         "repo": "CPI",
-        "rev": "1fbe914bda0dd5036e40b04635ea4b2a1976c663",
+        "rev": "0413bc7ed03c220fed0c1e40632186c67b35110f",
         "type": "github"
       },
       "original": {
@@ -488,11 +488,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788651960,
-        "narHash": "sha256-v9wJd32eZ2bvhBzVOd7TIjLQd011P7nwOhjKtWlci5I=",
+        "lastModified": 1788974811,
+        "narHash": "sha256-2CTNUiN3OPTdKT0KL8pvk8MJjEA72uWpF/q8MHVj32I=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2c0350c759688177331b8f5242311fae8877bdb3",
+        "rev": "14179aecea13dda28ec6655ad36602e827034558",
         "type": "github"
       },
       "original": {
@@ -724,11 +724,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1788752844,
-        "narHash": "sha256-VaWGJ6+cIYN2erfSecbRV+4ljI185Ty2wUrXyvQbgOw=",
+        "lastModified": 1788881743,
+        "narHash": "sha256-2V9GZGvPfrNzxFozhI9dcqV+c3QdA8YZrvAAzqEB+dI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "dc5d91f840324650bac8c379428c7037a416959a",
+        "rev": "d6524aaca2ff07876657ae2b323f24be4874944b",
         "type": "github"
       },
       "original": {
@@ -830,11 +830,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788805310,
-        "narHash": "sha256-2EuPJsNjMsfLa1oDsUYGGkqXVGFE7rQwMDsu50DGGMo=",
+        "lastModified": 1788979835,
+        "narHash": "sha256-bTOm4bULUvWhcQDTYrPO90q+3OlElsAPDf4fAcbd5Fo=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "b48ea79dc6d5f06e457f99e25f52e32e70b26d97",
+        "rev": "5ad027a7581b33584bd51876a94ac3b79b3116d9",
         "type": "github"
       },
       "original": {
@@ -900,11 +900,11 @@
         "y-offline": "y-offline"
       },
       "locked": {
-        "lastModified": 1785701663,
-        "narHash": "sha256-ECmTFMcxQehck8aLG+SI1l5Ob6OSMXmpYy1SmzTGnrQ=",
+        "lastModified": 1788840403,
+        "narHash": "sha256-9gLIgx5Z02CGGD8MVsyFsT6kIcHAGlbfZQ3QzZf/juM=",
         "owner": "CuSO4Deposit",
         "repo": "fantastic-disco",
-        "rev": "206bb3230f708379caea790cf632b2fbbe5b7bc0",
+        "rev": "fd90f0dcefd6db813217bd27ce2ae5c8cb52bf7e",
         "type": "github"
       },
       "original": {
@@ -1021,11 +1021,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1788780943,
-        "narHash": "sha256-d7xmGTMXutEBZ0Z41rH5iuflde5KDlpXulI6dBnHcxU=",
+        "lastModified": 1788957847,
+        "narHash": "sha256-m4Pr1btB3A5n2mGB6fedXQm6IhGTN/SuLkn9AF1WgAA=",
         "owner": "genuineknowledge",
         "repo": "psi-agent",
-        "rev": "e99edb510d79c676e43dae794f1a1d55f202e7a9",
+        "rev": "86150708515286dcca7b62bc32048138ff63ac73",
         "type": "github"
       },
       "original": {
@@ -1191,11 +1191,11 @@
         "pre-commit-hooks": "pre-commit-hooks_5"
       },
       "locked": {
-        "lastModified": 1785698939,
-        "narHash": "sha256-ucs7rJ1VjzR2BPJnUnVFpbOxhnZobpS32XztFRP+jvU=",
+        "lastModified": 1787671590,
+        "narHash": "sha256-rmxkrFnkEJ5DXzWtqjjm6YLuu9sF+dQrIhlgbzNuRvI=",
         "ref": "refs/heads/main",
-        "rev": "ecb2cf4040ba84822cc2f775df0d8507490bac43",
-        "revCount": 101,
+        "rev": "1ebb63b0b2638bed101b14b0160cd03d1d59ae27",
+        "revCount": 104,
         "type": "git",
         "url": "https://codeberg.org/cocvu/Y-Offline.git"
       },
