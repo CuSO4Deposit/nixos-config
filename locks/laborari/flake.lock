@@ -488,11 +488,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788974811,
-        "narHash": "sha256-2CTNUiN3OPTdKT0KL8pvk8MJjEA72uWpF/q8MHVj32I=",
+        "lastModified": 1789150619,
+        "narHash": "sha256-Vsgv5atXkGWOOdLOL8oQLnZSGt1h140synPfFdwbyjU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "14179aecea13dda28ec6655ad36602e827034558",
+        "rev": "e4345d5ae8aa1def34378d2a60ac5e6e4c8fd7c1",
         "type": "github"
       },
       "original": {
@@ -724,11 +724,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1788881743,
-        "narHash": "sha256-2V9GZGvPfrNzxFozhI9dcqV+c3QdA8YZrvAAzqEB+dI=",
+        "lastModified": 1789006805,
+        "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d6524aaca2ff07876657ae2b323f24be4874944b",
+        "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
         "type": "github"
       },
       "original": {
@@ -830,11 +830,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788979835,
-        "narHash": "sha256-bTOm4bULUvWhcQDTYrPO90q+3OlElsAPDf4fAcbd5Fo=",
+        "lastModified": 1789153003,
+        "narHash": "sha256-D8qc5kUiPmmGMezQqM+DncgCfcxrcU/ijYZBQ+Rmd5E=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "5ad027a7581b33584bd51876a94ac3b79b3116d9",
+        "rev": "4eccc297bf38f9d3d6ef9dfb5a029bd9d880884f",
         "type": "github"
       },
       "original": {
@@ -900,11 +900,11 @@
         "y-offline": "y-offline"
       },
       "locked": {
-        "lastModified": 1788840403,
-        "narHash": "sha256-9gLIgx5Z02CGGD8MVsyFsT6kIcHAGlbfZQ3QzZf/juM=",
+        "lastModified": 1789021716,
+        "narHash": "sha256-HoLLXc/qb0dSSAvGilW++kTJy/BrpUKf9gBgg5hFH3c=",
         "owner": "CuSO4Deposit",
         "repo": "fantastic-disco",
-        "rev": "fd90f0dcefd6db813217bd27ce2ae5c8cb52bf7e",
+        "rev": "182e7f3d4f1765f71aca51e65c4d3b22134a2b85",
         "type": "github"
       },
       "original": {
@@ -1021,11 +1021,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1788957847,
-        "narHash": "sha256-m4Pr1btB3A5n2mGB6fedXQm6IhGTN/SuLkn9AF1WgAA=",
+        "lastModified": 1789130471,
+        "narHash": "sha256-GcxxaVl5ObM4ECA9diME8fmilX8hQ55TbWK3z2XVh9E=",
         "owner": "genuineknowledge",
         "repo": "psi-agent",
-        "rev": "86150708515286dcca7b62bc32048138ff63ac73",
+        "rev": "eaf6d58c9ed4bf0748368b649c132e4f49247a93",
         "type": "github"
       },
       "original": {
@@ -1191,11 +1191,11 @@
         "pre-commit-hooks": "pre-commit-hooks_5"
       },
       "locked": {
-        "lastModified": 1787671590,
-        "narHash": "sha256-rmxkrFnkEJ5DXzWtqjjm6YLuu9sF+dQrIhlgbzNuRvI=",
+        "lastModified": 1788921220,
+        "narHash": "sha256-frWmcsSN6zOv2EbHCzEgKjVsuYfhCIijhlQSSpC0XXQ=",
         "ref": "refs/heads/main",
-        "rev": "1ebb63b0b2638bed101b14b0160cd03d1d59ae27",
-        "revCount": 104,
+        "rev": "44d3f087979f6ac60c8f4bd9a6e0cc226a8ec204",
+        "revCount": 105,
         "type": "git",
         "url": "https://codeberg.org/cocvu/Y-Offline.git"
       },
