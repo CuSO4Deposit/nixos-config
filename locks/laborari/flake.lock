@@ -488,11 +488,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789386765,
-        "narHash": "sha256-4hyLFBhzQC7+qPMELWc7J/sbdA6ckXZxXU9CYRsGhsc=",
+        "lastModified": 1789430117,
+        "narHash": "sha256-t+U1mijItLJ64xZOifpfQ17kpAL73nU7pDI48ScacVc=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "87c391f49a34660de6010f35bb50fb1bf811be9f",
+        "rev": "cda90fd8838825c689fde9d3f3b4e937937790df",
         "type": "github"
       },
       "original": {
@@ -674,6 +674,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-opencode-1-18-29": {
+      "locked": {
+        "lastModified": 1788711913,
+        "narHash": "sha256-uarAE0PgVJQ8Hc3pIINdfRuif8ATdMnMiju1pEJkmrc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d91a239ca0118ff10ee22ba54f48929c38ab8114",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d91a239ca0118ff10ee22ba54f48929c38ab8114",
+        "type": "github"
+      }
+    },
     "nixpkgs-wemeet-system-132": {
       "locked": {
         "lastModified": 1773821835,
@@ -830,11 +846,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789411066,
-        "narHash": "sha256-CSVjxNHaZB/mqYUowVkk3Pu/gfbUd8aEc38taREHdqQ=",
+        "lastModified": 1789463876,
+        "narHash": "sha256-to/xcJ2q0y0c1geHbvCp0SXDsILpiC5lfsMYUonj/wE=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "775e6728f59bc452a04c4faf48bc5d1e25e14e2c",
+        "rev": "50b47e4556dd8510c60e40344b80ea1d916fb56f",
         "type": "github"
       },
       "original": {
@@ -1021,11 +1037,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1789390289,
-        "narHash": "sha256-1tiHYIqJnj4S3dznMBPJRKKNveC+aWEt4j1ZxftEi1Q=",
+        "lastModified": 1789460103,
+        "narHash": "sha256-gBvnLO4WtjSzUSFwNqouDhlvNvsQJQIpPUM0j8pXFxk=",
         "owner": "genuineknowledge",
         "repo": "psi-agent",
-        "rev": "739352fd813d7a83b233bbc07755d0378637ba7b",
+        "rev": "488939012057e4e5482d73851fd97c06df4e4536",
         "type": "github"
       },
       "original": {
@@ -1095,6 +1111,7 @@
         "nix-ld": "nix-ld",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-logseq-electron-39": "nixpkgs-logseq-electron-39",
+        "nixpkgs-opencode-1-18-29": "nixpkgs-opencode-1-18-29",
         "nixpkgs-wemeet-system-132": "nixpkgs-wemeet-system-132",
         "nur": "nur",
         "nur-cuso4d": "nur-cuso4d",

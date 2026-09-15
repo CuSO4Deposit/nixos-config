@@ -1,9 +1,14 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }:
 let
+  pkgs-opencode-1-18-29 = import inputs.nixpkgs-opencode-1-18-29 {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
   serper-mcp = pkgs.callPackage ../derivations/serper-search-scrape-mcp { };
   serper-mcp-with-key = pkgs.writeShellScriptBin "serper-mcp" ''
     secretFile=${config.age.secrets."serper-api-key".path}
@@ -20,6 +25,14 @@ in
   };
 
   environment.systemPackages = [ pkgs.opencode ];
+
+  nixpkgs.overlays = [
+    (_: _: {
+      # Pin opencode to the nixpkgs revision that still shipped 1.18.29.
+      # Drop this once a newer build is known to work again.
+      opencode = pkgs-opencode-1-18-29.opencode;
+    })
+  ];
 
   home-manager.users.cuso4d = {
     xdg.configFile."opencode/tui.json".text = builtins.toJSON {
