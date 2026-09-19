@@ -43,7 +43,7 @@
     ./hyprpaper.nix
     ./firefox.nix
     ./waybar.nix
-    ./wofi.nix
+    ./wofi
     ./xdg.nix
     agenix.homeManagerModules.default
   ];

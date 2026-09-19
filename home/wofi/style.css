@@ -1,0 +1,46 @@
+/* Tokyo Night (night) — mirrors ~/source/cus-nixvim */
+* {
+  font-family: "UbuntuMono Nerd Font Propo", monospace;
+  font-size: 16px;
+}
+
+window {
+  background-color: #1a1b26;
+  border: 2px solid #545c7e;
+  border-radius: 10px;
+}
+
+#input {
+  padding: 0.7em;
+  border-radius: 8px 8px 0 0;
+  background-color: #16161e;
+  color: #c0caf5;
+  caret-color: #7aa2f7;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+#input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px #7aa2f7;
+}
+
+#text {
+  color: #c0caf5;
+}
+
+#entry {
+  padding: 0.7em;
+  color: #c0caf5;
+}
+
+#entry:selected {
+  background-color: #283457;
+  border-left: 3px solid #7aa2f7;
+  border-radius: 0;
+}
+
+#text:selected {
+  color: #c0caf5;
+}
