@@ -5,9 +5,8 @@
   ...
 }:
 let
-  pkgs-opencode-1-18-29 = import inputs.nixpkgs-opencode-1-18-29 {
+  pkgs-opencode = import inputs.nixpkgs-opencode {
     system = pkgs.stdenv.hostPlatform.system;
-    config.allowUnfree = true;
   };
   serper-mcp = pkgs.callPackage ../derivations/serper-search-scrape-mcp { };
   serper-mcp-with-key = pkgs.writeShellScriptBin "serper-mcp" ''
@@ -28,9 +27,9 @@ in
 
   nixpkgs.overlays = [
     (_: _: {
-      # Pin opencode to the nixpkgs revision that still shipped 1.18.29.
-      # Drop this once a newer build is known to work again.
-      opencode = pkgs-opencode-1-18-29.opencode;
+      # Pull opencode from a nixpkgs rev that already ships 1.18.31.
+      # Remove once nixos-unstable catches up.
+      opencode = pkgs-opencode.opencode;
     })
   ];
 
