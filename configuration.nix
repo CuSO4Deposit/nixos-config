@@ -138,6 +138,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF4rWlDqIGqCRsXaF/QuYuMrWIvQ1fFLr8XyxCFQl07q cuso4d@nightcord-lexikos"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJS3aK2ZMI10D0zQaLXzWXwxbWAUqvO55IYCBoAYFz1 cuso4d@nightcord-dynamica"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEVOjjy6t6+Eo5CoGRAUM6VSO1Npik9E0UsOXIVMl90E cuso4d@nightcord-proximo"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE2iNJhvz4sWKAi1p8Y1VYjw7cORp1rMryDQRPO8lYOj cuso4d@nightcord-redivia"
     ];
   };
 
