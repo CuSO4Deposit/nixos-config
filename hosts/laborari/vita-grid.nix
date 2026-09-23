@@ -222,14 +222,6 @@ in
                 file = "api";
               }
               {
-                name = "API Next";
-                file = "api-next";
-              }
-              {
-                name = "AI Chat";
-                file = "ai-chat";
-              }
-              {
                 name = "Blog";
                 file = "blog";
               }
