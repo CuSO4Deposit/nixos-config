@@ -41,8 +41,6 @@ in
   # laborari only
   "cloudflare-origin-cert.pem.age".publicKeys = laborari;
   "cloudflare-origin-key.pem.age".publicKeys = laborari;
-  "haitun-htpasswd.age".publicKeys = laborari;
-  "haitun-nginx.conf.age".publicKeys = laborari;
   "nix-cache-signing-key.age".publicKeys = laborari;
   "opencode-nginx.conf.age".publicKeys = laborari;
   "opencode-server-password.age".publicKeys = laborari;
@@ -57,7 +55,6 @@ in
   "wg-lexikos.conf.age".publicKeys = lexikos;
 
   # shared across multiple hosts
-  "juicefs-password-env.age".publicKeys = proximo ++ laborari ++ lexikos;
   "office.conf.age".publicKeys = dynamica ++ laborari ++ lexikos;
   "office-band.conf.age".publicKeys = laborari ++ lexikos;
   "office-vpn.ovpn.age".publicKeys = all;

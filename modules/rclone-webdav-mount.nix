@@ -18,7 +18,7 @@ in
     };
     remotePath = lib.mkOption {
       type = lib.types.str;
-      description = "remote path to mount (a dedicated dir, NOT the root shared with JuiceFS)";
+      description = "remote path to mount (a dedicated dir, not a shared root)";
     };
     mountPoint = lib.mkOption {
       type = lib.types.str;

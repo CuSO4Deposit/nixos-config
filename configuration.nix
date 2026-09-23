@@ -33,7 +33,6 @@
     glow
     inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim
     jq
-    juicefs
     just
     mosh
     nixfmt

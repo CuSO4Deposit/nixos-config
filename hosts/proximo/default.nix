@@ -44,7 +44,6 @@ in
     # No sources of its own; imported so the option the syncthing assertion reads exists.
     ../../modules/archive.nix
     ../../modules/internal-dns.nix
-    ../../modules/juicefs-mount.nix
     ../../modules/rclone-webdav-mount.nix
     ../../modules/server.nix
     ../../modules/syncthing.nix
@@ -66,14 +65,6 @@ in
     hostOverrides = { };
     laborariAddress = "10.20.0.2";
     proximoAddress = "127.0.0.1";
-  };
-
-  nightcord.juicefs-mount = {
-    dbHost = "127.0.0.1";
-    enable = true;
-    waitServices = [
-      "mysql.service"
-    ];
   };
 
   nightcord.rclone-webdav = {

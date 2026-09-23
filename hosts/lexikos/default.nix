@@ -6,7 +6,6 @@
 {
   imports = [
     ../../modules/internal-dns.nix
-    ../../modules/juicefs-mount.nix
     ../../modules/laptop.nix
     ../../modules/office-wg.nix
     ../../modules/proximo-data.nix
@@ -70,12 +69,6 @@
 
   home-manager.users.cuso4d = {
     imports = [ ./home.nix ];
-  };
-
-  nightcord.juicefs-mount = {
-    dbHost = "192.168.1.104";
-    enable = true;
-    waitServices = [ "wg-quick-wg2.service" ];
   };
 
   nightcord.proxy = "http://127.0.0.1:20172";

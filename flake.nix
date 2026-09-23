@@ -15,10 +15,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    psi-agent = {
-      url = "github:genuineknowledge/psi-agent";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixpkgs-logseq-electron-39.url = "github:NixOS/nixpkgs/a2c09b4c8254bf88503c9e475c92a4b46eb5e047";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-opencode.url = "github:NixOS/nixpkgs/229c5ce718318ff369cae88074fab7aed7a69bca";

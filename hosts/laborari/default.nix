@@ -6,12 +6,10 @@
   imports = [
     ../../modules/desktop.nix
     ../../modules/internal-dns.nix
-    ../../modules/juicefs-mount.nix
     ../../modules/minio-mount.nix
     ../../modules/rclone-webdav-mount.nix
     ../../modules/nix-auto-build
     ../../modules/opencode-web.nix
-    ../../modules/psi-agent.nix
     ../../modules/office-wg.nix
     ../../modules/server.nix
     ../../modules/archive.nix
@@ -57,16 +55,6 @@
       owner = "nginx";
       group = "nginx";
     };
-    "haitun-htpasswd" = {
-      file = ../../secrets/haitun-htpasswd.age;
-      owner = "nginx";
-      group = "nginx";
-    };
-    "haitun-nginx.conf" = {
-      file = ../../secrets/haitun-nginx.conf.age;
-      owner = "nginx";
-      group = "nginx";
-    };
     "opencode-nginx.conf" = {
       file = ../../secrets/opencode-nginx.conf.age;
       owner = "nginx";
@@ -108,14 +96,6 @@
   };
   home-manager.users.cuso4d = {
     imports = [ ./home.nix ];
-  };
-
-  nightcord.juicefs-mount = {
-    dbHost = "10.20.0.1";
-    enable = true;
-    waitServices = [
-      "wg-quick-wg2.service"
-    ];
   };
 
   nightcord.rclone-minio.waitServices = [
