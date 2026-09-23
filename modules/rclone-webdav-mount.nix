@@ -9,6 +9,8 @@ let
   cfg = config.nightcord.rclone-webdav;
 in
 {
+  imports = [ ./rclone-credentials.nix ];
+
   options.nightcord.rclone-webdav = {
     enable = lib.mkEnableOption "Rclone WebDAV mount (via systemd automount)";
     remoteName = lib.mkOption {
@@ -59,7 +61,5 @@ in
         "buffer-size=32M"
       ];
     };
-
-    age.secrets."rclone.conf".file = ../secrets/rclone.conf.age;
   };
 }

@@ -8,6 +8,7 @@
     ../../modules/internal-dns.nix
     ../../modules/minio-mount.nix
     ../../modules/rclone-webdav-mount.nix
+    ../../modules/restic-backup.nix
     ../../modules/nix-auto-build
     ../../modules/opencode-web.nix
     ../../modules/office-wg.nix
@@ -19,7 +20,6 @@
     ./nginx.nix
     ./terraria.nix
     ./terraria2.nix
-    ./duplicity.nix
     ./api-laborari.nix
     ./observable.nix
     ./vita-grid.nix
@@ -105,6 +105,14 @@
   nightcord.rclone-webdav = {
     enable = true;
     remotePath = "/webdav";
+  };
+
+  nightcord.restic-backup = {
+    enable = true;
+    paths = [
+      "/var/lib/terraria"
+      "/var/lib/terraria2"
+    ];
   };
 
   networking.firewall.allowedTCPPorts = [

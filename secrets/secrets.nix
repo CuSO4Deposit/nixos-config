@@ -60,6 +60,7 @@ in
   "office-vpn.ovpn.age".publicKeys = all;
   "office-vpn.auth.age".publicKeys = all;
   "rclone.conf.age".publicKeys = proximo ++ laborari ++ lexikos;
+  "restic-password.age".publicKeys = proximo ++ laborari ++ lexikos;
 
   "nixvim-minuet-deepseek-api-key.age".publicKeys = all;
 

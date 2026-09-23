@@ -79,7 +79,7 @@ let
         index = 8;
       }
       {
-        name = "laborari:duplicity";
+        name = "laborari:restic";
         index = 9;
       }
       {
@@ -103,7 +103,7 @@ let
         index = 14;
       }
       {
-        name = "lexikos:duplicity";
+        name = "lexikos:restic";
         index = 16;
       }
       {
@@ -115,7 +115,7 @@ let
         index = 18;
       }
       {
-        name = "proximo:duplicity";
+        name = "proximo:restic";
         index = 24;
       }
       {
@@ -166,10 +166,10 @@ in
         listen = ":8081";
         probes = [
           {
-            name = "duplicity";
+            name = "restic";
             kind = "systemd-result";
-            target = "duplicity.service";
-            timer = "duplicity.timer";
+            target = "restic-backups-laborari.service";
+            timer = "restic-backups-laborari.timer";
             maxAge = "26h";
           }
           {

@@ -45,6 +45,7 @@ in
     ../../modules/archive.nix
     ../../modules/internal-dns.nix
     ../../modules/rclone-webdav-mount.nix
+    ../../modules/restic-backup.nix
     ../../modules/server.nix
     ../../modules/syncthing.nix
     ../hardware-configuration/proximo.nix
@@ -97,34 +98,20 @@ in
   networking.proxy.noProxy = "127.0.0.1,localhost,.internal,192.168.1.102";
   networking.wg-quick.interfaces.wg0.configFile = config.age.secrets."wg-proximo.conf".path;
 
-  services.duplicity = {
+  nightcord.restic-backup = {
     enable = true;
     # One entry per device that syncs an archive here. These are the second copy of
     # data whose first copy is a phone or laptop that could be lost or reinstalled;
     # syncthing's trashcan guards against deletion propagating, but not against losing
     # proximo itself.
-    include = [
+    paths = [
       "/var/lib/minecraft"
       "/var/lib/minecraft2"
       "/data/redmi50"
       "/data/laborari"
       "/data/lexikos"
     ];
-    exclude = [
-      "**"
-    ];
-    extraFlags = [
-      "--no-encryption"
-    ];
-    frequency = "daily";
-    targetUrl = "file:///mnt/work0/duplicity/proximo";
-    fullIfOlderThan = "1M";
-    cleanup = {
-      maxFull = 6;
-    };
   };
-
-  systemd.services.duplicity.unitConfig.RequiresMountsFor = "/mnt/work0";
 
   services.ghorg = {
     enable = true;

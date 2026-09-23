@@ -10,6 +10,7 @@
     ../../modules/office-wg.nix
     ../../modules/proximo-data.nix
     ../../modules/rclone-webdav-mount.nix
+    ../../modules/restic-backup.nix
     ../../modules/archive.nix
     ../../modules/archive-firefox.nix
     ../../modules/syncthing.nix
@@ -102,29 +103,15 @@
 
   services.blueman.enable = true;
 
-  services.duplicity = {
+  nightcord.restic-backup = {
     enable = true;
-    include = [
+    paths = [
       "/home/cuso4d/.local/share/Terraria" # Terraria Local Players and Worlds
       "/home/cuso4d/.local/share/Steam/userdata/1113845821/105600" # Terraria Steam Remote
       "/home/cuso4d/.local/share/hmcl" # Minecraft Player and Mod Data
       "/home/cuso4d/Pictures" # Pictures
     ];
-    exclude = [
-      "**"
-    ];
-    extraFlags = [
-      "--no-encryption"
-    ];
-    frequency = "daily";
-    targetUrl = "file:///mnt/work0/duplicity/lexikos";
-    fullIfOlderThan = "1M";
-    cleanup = {
-      maxFull = 6;
-    };
   };
-
-  systemd.services.duplicity.unitConfig.RequiresMountsFor = "/mnt/work0";
 
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;

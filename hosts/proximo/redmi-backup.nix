@@ -41,7 +41,7 @@ in
         # which suits something rewritten in place. Exports are immutable and
         # uniquely named, so each path only ever has one version and there is
         # nothing to thin — the only event to survive is deletion. cleanoutDays 0
-        # keeps them indefinitely, which is affordable because duplicity already
+        # keeps them indefinitely, which is affordable because restic already
         # holds these same files and the retention question is settled there.
         versioning = {
           type = "trashcan";

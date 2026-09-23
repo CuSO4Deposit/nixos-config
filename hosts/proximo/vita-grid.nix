@@ -19,10 +19,10 @@
         listen = ":8081";
         probes = [
           {
-            name = "duplicity";
+            name = "restic";
             kind = "systemd-result";
-            target = "duplicity.service";
-            timer = "duplicity.timer";
+            target = "restic-backups-proximo.service";
+            timer = "restic-backups-proximo.timer";
             maxAge = "26h";
           }
           {
