@@ -98,6 +98,13 @@ in
   networking.proxy.noProxy = "127.0.0.1,localhost,.internal,192.168.1.102";
   networking.wg-quick.interfaces.wg0.configFile = config.age.secrets."wg-proximo.conf".path;
 
+  # wg-quick's configFile mode leaves the interface behind if ExecStop fails
+  # (e.g. /tmp with the generated config got cleaned), so the next start aborts
+  # with "wg0 already exists". Delete any leftover interface before starting.
+  systemd.services."wg-quick-wg0".serviceConfig.ExecStartPre = [
+    "-${pkgs.iproute2}/bin/ip link del wg0"
+  ];
+
   nightcord.restic-backup = {
     enable = true;
     # One entry per device that syncs an archive here. These are the second copy of

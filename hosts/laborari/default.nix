@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   ...
 }:
 {
@@ -138,6 +139,16 @@
   networking.proxy.noProxy = "127.0.0.1,localhost,mirrors.ustc.edu.cn,mirrors.tuna.tsinghua.edu.cn";
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
+
+  # wg-quick's configFile mode leaves the interface behind if ExecStop fails
+  # (e.g. /tmp with the generated config got cleaned), so the next start aborts
+  # with "<if> already exists". Delete any leftover interface before starting.
+  systemd.services."wg-quick-wg1".serviceConfig.ExecStartPre = [
+    "-${pkgs.iproute2}/bin/ip link del wg1"
+  ];
+  systemd.services."wg-quick-wg2".serviceConfig.ExecStartPre = [
+    "-${pkgs.iproute2}/bin/ip link del wg2"
+  ];
 
   programs.mosh.enable = true;
   programs.steam.enable = true;

@@ -91,6 +91,16 @@
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-lexikos.conf".path;
 
+  # wg-quick's configFile mode leaves the interface behind if ExecStop fails
+  # (e.g. /tmp with the generated config got cleaned), so the next start aborts
+  # with "<if> already exists". Delete any leftover interface before starting.
+  systemd.services."wg-quick-wg1".serviceConfig.ExecStartPre = [
+    "-${pkgs.iproute2}/bin/ip link del wg1"
+  ];
+  systemd.services."wg-quick-wg2".serviceConfig.ExecStartPre = [
+    "-${pkgs.iproute2}/bin/ip link del wg2"
+  ];
+
   # wg-lexikos.conf has a PostUp hook that uses awk/cut to pin a route to the
   # endpoint. The wg-quick service PATH only includes wireguard-tools,
   # iptables and openresolv, so awk/cut were not found and the hook failed.
