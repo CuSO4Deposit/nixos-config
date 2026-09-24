@@ -179,6 +179,15 @@
               value = mkDesktop name;
             }) desktopHostnames)
           );
+
+        homeConfigurations."CuSO4D@racknerd" = inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            inputs.agenix.homeManagerModules.default
+            ./hosts/racknerd/home.nix
+          ];
+        };
       };
     };
 }

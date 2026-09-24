@@ -4,6 +4,7 @@ let
   dynamica-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL/tpmLxVSyNLRsaUZmCaUC5uPmFhWl17fITU4LAKj+F";
   laborari-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzaVljG6lJvVE4u5h9p76FIgWm4HQuWjdBPD7P1bQ+t";
   lexikos-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqYxALoBtJ9fo0zLZComsvnfUgMtqnAMa12TaDUaIjA";
+  racknerd-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnYFpz87BawPKMFemAMSrGk63McwE1Xn1CPUIyfhiQS CuSO4D@racknerd-87f185";
   hosts = [
     proximo-host
   ];
@@ -23,6 +24,7 @@ let
   laborari = [ laborari-user ];
   lexikos = [ lexikos-user ];
   dynamica = [ dynamica-user ];
+  racknerd = [ racknerd-user ];
   desktops = [
     dynamica-user
     laborari-user
@@ -59,8 +61,8 @@ in
   "office-band.conf.age".publicKeys = laborari ++ lexikos;
   "office-vpn.ovpn.age".publicKeys = all;
   "office-vpn.auth.age".publicKeys = all;
-  "rclone.conf.age".publicKeys = proximo ++ laborari ++ lexikos;
-  "restic-password.age".publicKeys = proximo ++ laborari ++ lexikos;
+  "rclone.conf.age".publicKeys = proximo ++ laborari ++ lexikos ++ racknerd;
+  "restic-password.age".publicKeys = proximo ++ laborari ++ lexikos ++ racknerd;
 
   "nixvim-minuet-deepseek-api-key.age".publicKeys = all;
 
