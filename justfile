@@ -4,7 +4,7 @@ default:
 switch:
   nixos-rebuild switch --flake .#$(hostname) --sudo
   mkdir -p locks
-  mv flake.lock locks/$(hostname | cut -d'-' -f2)
+  cp flake.lock locks/$(hostname | cut -d'-' -f2)/flake.lock
   git add .
   git commit -v
 
@@ -18,7 +18,7 @@ build-runner-1:
 switch-remote host="proximo":
   nixos-rebuild switch --flake .#nightcord-{{host}} --sudo --ask-sudo-password --target-host {{host}}
   mkdir -p locks
-  mv flake.lock locks/{{host}}
+  cp flake.lock locks/{{host}}/flake.lock
   git add .
   git commit -v
 
@@ -31,7 +31,7 @@ switch-cached:
   git add flake.lock
   nixos-rebuild switch --flake .#$(hostname) --sudo --no-update-lock-file --no-write-lock-file
   mkdir -p locks
-  mv flake.lock locks/$(hostname | cut -d'-' -f2)
+  cp flake.lock locks/$(hostname | cut -d'-' -f2)/flake.lock
   git add -A flake.lock locks/$(hostname | cut -d'-' -f2)
   git commit -v
 
@@ -45,7 +45,7 @@ switch-remote-cached host="proximo":
   git add flake.lock
   nixos-rebuild switch --flake .#nightcord-{{host}} --sudo --ask-sudo-password --target-host {{host}} --no-update-lock-file --no-write-lock-file
   mkdir -p locks
-  mv flake.lock locks/{{host}}
+  cp flake.lock locks/{{host}}/flake.lock
   git add -A flake.lock locks/{{host}}
   git commit -v
 
