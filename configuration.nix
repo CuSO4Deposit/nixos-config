@@ -265,6 +265,7 @@
       gmv = "git mv";
       gs = "git status --short --branch";
       j = "just";
+      n = "nvim";
       sudonvim = "sudo -E -s nvim";
     };
     syntaxHighlighting.enable = true;
