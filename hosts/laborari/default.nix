@@ -111,6 +111,7 @@
   nightcord.restic-backup = {
     enable = true;
     paths = [
+      "/home/cuso4d/syncthing"
       "/var/lib/terraria"
       "/var/lib/terraria2"
     ];
