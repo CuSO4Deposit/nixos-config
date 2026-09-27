@@ -239,6 +239,56 @@
       rgp() { command rg --color=always "$@" | less -R; }
 
       SAVEHIST=50000
+
+      # Run / develop / shell into my own flakes.
+      #   nf run <attr> [args...]   -> nix run -- args
+      #   nf dev [attr]             -> nix develop
+      #   nf shell <attr>...        -> nix shell
+      #   nf show                   -> nix flake show
+      # Bare `nf run` / `nf dev` list what the default repo offers.
+      : ''${MYFLAKE:=github:CuSO4Deposit/nur}
+
+      _nf_list() { # $1 = packages | devShells | apps
+        local system
+        system=$(nix eval --raw --impure --expr builtins.currentSystem 2>/dev/null)
+        nix flake show --json "$MYFLAKE" 2>/dev/null \
+          | jq -r --arg s "$system" --arg k "$1" '.[$k][$s] // {} | keys[]'
+      }
+
+      nf() {
+        local cmd=""
+        if [ $# -gt 0 ]; then cmd=$1; shift; fi
+        case "$cmd" in
+          r|run)
+            if [ -z "''${1:-}" ]; then
+              echo "packages in $MYFLAKE:"; _nf_list packages
+              echo; echo "usage: nf run <attr> [args...]"
+              return
+            fi
+            nix run "$MYFLAKE#$1" -- "''${@:2}"
+            ;;
+          d|dev)
+            if [ -z "''${1:-}" ]; then
+              echo "devShells in $MYFLAKE:"; _nf_list devShells
+              echo; echo "usage: nf dev [attr]"
+              return
+            fi
+            nix develop "$MYFLAKE#$1"
+            ;;
+          s|shell)
+            if [ -z "''${1:-}" ]; then
+              echo "packages in $MYFLAKE:"; _nf_list packages
+              echo; echo "usage: nf shell <attr>..."
+              return
+            fi
+            local a=() x
+            for x in "$@"; do a+=("$MYFLAKE#$x"); done
+            nix shell "''${a[@]}"
+            ;;
+          ""|l|list|show) nix flake show "$MYFLAKE" ;;
+          *) print -r -- "usage: nf {run <attr> [args...]|dev [attr]|shell <attr>...|show}" ;;
+        esac
+      }
     '';
 
     ohMyZsh =
