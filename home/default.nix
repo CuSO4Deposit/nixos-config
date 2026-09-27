@@ -34,6 +34,7 @@
   ];
 
   imports = [
+    ./activitywatch.nix
     ./dunst.nix
     ./fcitx5.nix
     ./ghostty.nix
