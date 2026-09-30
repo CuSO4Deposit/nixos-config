@@ -316,7 +316,9 @@
       gs = "git status --short --branch";
       j = "just";
       n = "nvim";
-      qa = "mkdir -p /tmp/agent && opencode /tmp/agent";
+      nf = "nf"; # nf for nix flake, shell function to use my flake
+      qa = "mkdir -p /tmp/agent && opencode --auto /tmp/agent";
+      rgp = "rgp"; # rgp for ripgrep with pager
       sudonvim = "sudo -E -s nvim";
     };
     syntaxHighlighting.enable = true;
