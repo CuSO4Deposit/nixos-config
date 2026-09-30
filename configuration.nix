@@ -316,6 +316,7 @@
       gs = "git status --short --branch";
       j = "just";
       n = "nvim";
+      qa = "mkdir -p /tmp/agent && opencode /tmp/agent";
       sudonvim = "sudo -E -s nvim";
     };
     syntaxHighlighting.enable = true;
