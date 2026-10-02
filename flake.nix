@@ -16,6 +16,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-logseq-electron-39.url = "github:NixOS/nixpkgs/a2c09b4c8254bf88503c9e475c92a4b46eb5e047";
+    # Pin Zotero to a nixpkgs revision whose Firefox ESR is 140, which Zotero
+    # 10.x strictly requires. Newer nixpkgs bumped firefox-esr to 153 and the
+    # package fails to build. See NixOS/nixpkgs#568692 and the fix PR #569006.
+    nixpkgs-zotero.url = "github:NixOS/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-opencode.url = "github:NixOS/nixpkgs/229c5ce718318ff369cae88074fab7aed7a69bca";
     nixpkgs-wemeet-system-132.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";

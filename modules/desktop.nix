@@ -13,6 +13,10 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
+  pkgs-zotero = import inputs.nixpkgs-zotero {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
 in
 {
   options.nightcord.proxy = lib.mkOption {
@@ -44,6 +48,10 @@ in
         # Drop this after a newer nixpkgs build can screenshare via PipeWire
         # without segfaulting during stream startup.
         wemeet = pkgs-wemeet-system-132.wemeet;
+        # Pin Zotero to a nixpkgs revision that still ships Firefox ESR 140.
+        # Newer nixpkgs bumped firefox-esr to 153, which Zotero 10.x can't be
+        # built against. Drop this once NixOS/nixpkgs#569006 lands.
+        zotero = pkgs-zotero.zotero;
       })
     ];
 
