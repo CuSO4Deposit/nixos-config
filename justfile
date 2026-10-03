@@ -12,6 +12,19 @@ test:
   git add .
   nixos-rebuild test --flake .#$(hostname) --sudo
 
+# macOS host (nightcord-neo). `darwin-rebuild switch` must run as root. The
+# lock dir uses the bare host name (`neo`), matching the `cut -d'-' -f2`
+# convention of the NixOS targets above.
+switch-mac:
+  sudo darwin-rebuild switch --flake .#nightcord-neo
+  mkdir -p locks/neo
+  cp flake.lock locks/neo/flake.lock
+  git add .
+  git commit -v
+
+test-mac:
+  darwin-rebuild build --flake .#nightcord-neo
+
 build-runner-1:
   nixos-rebuild build --flake .#$(hostname) --sudo --max-jobs 1
 
@@ -88,6 +101,8 @@ switch-nocache:
 
 alias s := switch
 alias t := test
+alias sm := switch-mac
+alias tm := test-mac
 alias br1 := build-runner-1
 alias sr := switch-remote
 alias tr := test-remote
