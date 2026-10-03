@@ -24,9 +24,16 @@ in
 
   networking.hostName = "nightcord-neo";
 
-  # Determinate Nix manages the Nix installation and its daemon. nix-darwin's
-  # native Nix management conflicts with it, so hand Nix over to Determinate.
-  nix.enable = false;
+  # Let nix-darwin manage the Nix installation, and use Lix as the
+  # implementation (fully open, community-run, ships an uninstaller).
+  nix = {
+    enable = true;
+    package = pkgs.lixPackageSets.stable.lix;
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
 
   nixpkgs.config.allowUnfree = true;
 
