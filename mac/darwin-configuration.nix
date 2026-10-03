@@ -16,14 +16,9 @@
 
   networking.hostName = "nightcord-neo";
 
-  nix = {
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
-  };
+  # Determinate Nix manages the Nix installation and its daemon. nix-darwin's
+  # native Nix management conflicts with it, so hand Nix over to Determinate.
+  nix.enable = false;
 
   nixpkgs.config.allowUnfree = true;
 
