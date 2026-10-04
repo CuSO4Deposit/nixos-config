@@ -5,6 +5,9 @@ config-version = 2
 start-at-login = true
 after-startup-command = []
 
+# Hyprland input.follow_mouse = 1.
+focus-follows-mouse.enabled = true
+
 # Match Hyprland gaps: gaps_in = 5, gaps_out = 20.
 [gaps]
 inner.horizontal = 5
@@ -13,9 +16,6 @@ outer.left = 20
 outer.bottom = 20
 outer.top = 20
 outer.right = 20
-
-# Hyprland input.follow_mouse = 1.
-focus-follows-mouse.enabled = true
 
 # Launcher is Spotlight (Cmd+Space) natively — nothing to bind here.
 

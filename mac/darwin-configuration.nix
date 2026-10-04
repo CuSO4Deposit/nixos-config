@@ -7,16 +7,15 @@
 
 {
   pkgs,
+  inputs,
   ...
 }:
 
 let
-  # Clash Verge Rev's mixed-port (HTTP + SOCKS) listener. Everything is pointed
-  # at it through environment variables on purpose; we use neither the macOS
-  # system proxy nor TUN mode.
-  proxy = "http://127.0.0.1:7897";
-  socksProxy = "socks5://127.0.0.1:7897";
+  proxy = "http://127.0.0.1:7890";
+  socksProxy = "socks5://127.0.0.1:7890";
   noProxy = "127.0.0.1,localhost,::1,.local,10.20.0.0/24,192.168.31.0/24";
+  common = import ../lib/common.nix;
 in
 {
   system.stateVersion = 6;
@@ -24,23 +23,32 @@ in
 
   networking.hostName = "nightcord-neo";
 
-  # Let nix-darwin manage the Nix installation, and use Lix as the
-  # implementation (fully open, community-run, ships an uninstaller).
   nix = {
     enable = true;
     package = pkgs.lixPackageSets.stable.lix;
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "cuso4d"
+        "root"
+      ];
+      extra-substituters = [
+        "https://mirrors.ustc.edu.cn/nix-channels/store"
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      ];
+    };
+    gc = {
+      automatic = true;
+      interval = [ { Weekday = 7; Hour = 3; Minute = 15; } ];
+      options = "--delete-older-than 30d";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;
 
-  # Proxy: point CLI tools (nix, git, curl, brew, ...) at Clash Verge Rev via
-  # environment variables. `environment.variables` is sourced by shells, while
-  # `security.sudo.extraConfig` keeps the values across `sudo` so root-side
-  # flake fetching also goes through the proxy.
   environment.variables = {
     http_proxy = proxy;
     https_proxy = proxy;
@@ -51,6 +59,14 @@ in
   security.sudo.extraConfig = ''
     Defaults env_keep += "http_proxy https_proxy all_proxy no_proxy"
   '';
+
+  # Give the nix-daemon the proxy environment variables.
+  launchd.envVariables = {
+    http_proxy = proxy;
+    https_proxy = proxy;
+    all_proxy = socksProxy;
+    no_proxy = noProxy;
+  };
 
   # home-manager (embedded as a nix-darwin module) derives the user's
   # home.username / home.homeDirectory from here.
@@ -64,7 +80,10 @@ in
     git
     gnumake
     jq
+    (common.nvim inputs pkgs)
   ];
+
+  fonts.packages = common.fonts pkgs;
 
   # GUI apps come from Homebrew casks (more reliable on macOS than nixpkgs).
   # AeroSpace lives in a third-party tap.
@@ -77,8 +96,6 @@ in
       "logseq"
       "clash-verge-rev"
     ];
-    # `brew bundle` runs under sudo during activation, which strips the proxy
-    # variables from environment.variables; inject them again for downloads.
     onActivation.extraEnv = {
       http_proxy = proxy;
       https_proxy = proxy;
