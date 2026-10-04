@@ -3,9 +3,12 @@
   agenix,
   ...
 }:
+let
+  common = import ../lib/common.nix;
+in
 {
   home.homeDirectory = "/home/cuso4d";
-  home.username = "cuso4d";
+  home.username = common.username;
 
   home.packages = with pkgs; [
     # GUI
