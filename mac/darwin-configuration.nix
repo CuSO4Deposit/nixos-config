@@ -26,6 +26,13 @@ in
   nix = {
     enable = true;
     package = pkgs.lixPackageSets.stable.lix;
+    # Proxy env for both shells and the nix-daemon.
+    envVars = {
+      http_proxy = proxy;
+      https_proxy = proxy;
+      all_proxy = socksProxy;
+      no_proxy = noProxy;
+    };
     settings = {
       experimental-features = [
         "nix-command"
@@ -49,24 +56,9 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.variables = {
-    http_proxy = proxy;
-    https_proxy = proxy;
-    all_proxy = socksProxy;
-    no_proxy = noProxy;
-  };
-
   security.sudo.extraConfig = ''
     Defaults env_keep += "http_proxy https_proxy all_proxy no_proxy"
   '';
-
-  # Give the nix-daemon the proxy environment variables.
-  launchd.envVariables = {
-    http_proxy = proxy;
-    https_proxy = proxy;
-    all_proxy = socksProxy;
-    no_proxy = noProxy;
-  };
 
   # home-manager (embedded as a nix-darwin module) derives the user's
   # home.username / home.homeDirectory from here.
