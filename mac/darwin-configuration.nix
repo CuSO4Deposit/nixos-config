@@ -17,6 +17,10 @@ let
   socksProxy = "socks5://127.0.0.1:7890";
   noProxy = "127.0.0.1,localhost,::1,.local,10.20.0.0/24,192.168.31.0/24";
   common = import ../lib/common.nix;
+  serperMcp = import ../lib/serper-mcp.nix {
+    inherit pkgs;
+    secretPath = config.age.secrets."serper-api-key".path;
+  };
 in
 {
   system.stateVersion = 6;
@@ -75,6 +79,13 @@ in
     mode = "0444";
   };
 
+  age.secrets."serper-api-key" = {
+    file = ../secrets/serper-api-key.age;
+    mode = "0444";
+  };
+
+  home-manager.users.cuso4d.nightcord.opencode.serperMcp = "${serperMcp}/bin/serper-mcp";
+
   environment.etc."zshenv.local".text = ''
     secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}
     if [ -r "$secret_path" ]; then
@@ -118,7 +129,6 @@ in
       "wechat"
       "qq"
       "tencent-meeting"
-      "activitywatch"
     ];
     onActivation.extraEnv = {
       http_proxy = proxy;
