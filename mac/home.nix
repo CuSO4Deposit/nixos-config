@@ -14,6 +14,7 @@ in
 {
   imports = [
     ./zsh.nix
+    ../home/common/firefox.nix
     ../home/common/opencode.nix
   ];
 

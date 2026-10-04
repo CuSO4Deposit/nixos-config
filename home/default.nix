@@ -45,7 +45,7 @@ in
     ./hyprland.nix
     ./hyprlock.nix
     ./hyprpaper.nix
-    ./firefox.nix
+    ./common/firefox.nix
     ./common/opencode.nix
     ./waybar.nix
     ./wofi
