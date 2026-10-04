@@ -22,10 +22,10 @@ outer.right = 20
 
 [mode.main.binding]
 # Launch apps (SUPER+Q/E/F/S -> alt+q/e/f/s)
-alt-q = 'exec-and-forget open -n -a Ghostty'
+alt-q = "exec-and-forget osascript -e 'tell application \"Ghostty\" to new window'"
 alt-e = 'exec-and-forget open ~'
-alt-f = 'exec-and-forget open -n -a Firefox'
-alt-s = 'exec-and-forget open -n -a Logseq'
+alt-f = 'exec-and-forget open -a Firefox'
+alt-s = 'exec-and-forget open -a Logseq'
 
 # Window controls
 alt-c = 'close'
