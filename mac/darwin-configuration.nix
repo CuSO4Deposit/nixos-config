@@ -8,6 +8,7 @@
 {
   pkgs,
   inputs,
+  config,
   ...
 }:
 
@@ -67,6 +68,20 @@ in
     Defaults env_keep += "http_proxy https_proxy all_proxy no_proxy"
   '';
 
+  age.identityPaths = [ "/Users/cuso4d/.ssh/id_ed25519" ];
+
+  age.secrets."nixvim-minuet-deepseek-api-key" = {
+    file = ../secrets/nixvim-minuet-deepseek-api-key.age;
+    mode = "0444";
+  };
+
+  environment.etc."zshenv.local".text = ''
+    secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}
+    if [ -r "$secret_path" ]; then
+      export NIXVIM_MINUET_DEEPSEEK_API_KEY="$(cat "$secret_path")"
+    fi
+  '';
+
   # home-manager (embedded as a nix-darwin module) derives the user's
   # home.username / home.homeDirectory from here.
   users.users.cuso4d = {
@@ -94,6 +109,16 @@ in
       "firefox"
       "logseq"
       "clash-verge-rev"
+      "keepassxc"
+      "localsend"
+      "telegram"
+      "vlc"
+      "zotero"
+      "feishu"
+      "wechat"
+      "qq"
+      "tencent-meeting"
+      "activitywatch"
     ];
     onActivation.extraEnv = {
       http_proxy = proxy;

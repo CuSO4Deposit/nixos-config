@@ -196,6 +196,7 @@
           };
           modules = [
             ./mac/darwin-configuration.nix
+            inputs.agenix.darwinModules.default
             inputs.home-manager.darwinModules.home-manager
             {
               home-manager.backupFileExtension = "backup";
