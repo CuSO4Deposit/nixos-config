@@ -56,6 +56,13 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
+  nixpkgs.overlays = [
+    (_: _: {
+      # Match the NixOS hosts: opencode from a nixpkgs rev that ships 1.18.31.
+      opencode = (import inputs.nixpkgs-opencode { system = pkgs.stdenv.hostPlatform.system; }).opencode;
+    })
+  ];
+
   security.sudo.extraConfig = ''
     Defaults env_keep += "http_proxy https_proxy all_proxy no_proxy"
   '';

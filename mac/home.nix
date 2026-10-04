@@ -12,7 +12,10 @@ let
   common = import ../lib/common.nix;
 in
 {
-  imports = [ ./zsh.nix ];
+  imports = [
+    ./zsh.nix
+    ../home/common/opencode.nix
+  ];
 
   home.stateVersion = "24.11";
 
@@ -23,6 +26,7 @@ in
     fd
     fzf
     htop
+    opencode
     zoxide
   ]);
 
