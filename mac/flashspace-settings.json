@@ -1,8 +1,0 @@
-{
-  "enableFocusManagement": true,
-  "centerCursorOnFocusChange": false,
-  "focusLeft": "opt+h",
-  "focusRight": "opt+l",
-  "focusUp": "opt+k",
-  "focusDown": "opt+j"
-}
