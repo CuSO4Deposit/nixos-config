@@ -92,16 +92,15 @@ in
     fi
   '';
 
-  # Seed FlashSpace's workspace config on first activation only. FlashSpace
-  # rewrites this file at runtime, so it must stay writable (hence a copy, not a
-  # home.file symlink into the read-only store). Later edits can be done in the
-  # FlashSpace GUI without being clobbered on the next switch.
-  home.activation.seedFlashSpace = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    if [ ! -e "$HOME/.config/flashspace/profiles.json" ]; then
-      mkdir -p "$HOME/.config/flashspace"
-      cp ${./flashspace-profiles.json} "$HOME/.config/flashspace/profiles.json"
-    fi
-  '';
+  # FlashSpace is split on purpose:
+  #   - settings.json is pure config (global settings + hotkeys). We never
+  #     change it at runtime, so it is declarative via a read-only store
+  #     symlink. Edit it here and `sm`.
+  #   - profiles.json mixes config with *runtime data*: each workspace's app
+  #     membership is added/reassigned while running. That's data, not config,
+  #     so it is NOT managed here — FlashSpace owns
+  #     ~/.config/flashspace/profiles.json and may rewrite it freely.
+  xdg.configFile."flashspace/settings.json".source = ./flashspace-settings.json;
 
   programs.home-manager.enable = true;
 }
