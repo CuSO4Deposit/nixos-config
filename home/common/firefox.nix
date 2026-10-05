@@ -154,12 +154,12 @@ in
         };
       };
       settings = {
-        browser.contentblocking.category = "strict";
-        font.size.systemFontScale = 120;
-        privacy.fingerprintProtection = true;
-        privacy.sanitize.sanitizeOnShutdown = true;
-        privacy.trackingprotection.emailtracking.enabled = true;
-        privacy.trackingprotection.enabled = true;
+        "browser.contentblocking.category" = "strict";
+        "font.size.systemFontScale" = 120;
+        "privacy.fingerprintProtection" = true;
+        "privacy.sanitize.sanitizeOnShutdown" = true;
+        "privacy.trackingprotection.emailtracking.enabled" = true;
+        "privacy.trackingprotection.enabled" = true;
       };
     };
   };
