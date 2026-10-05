@@ -144,6 +144,22 @@ in
     };
   };
 
+  # Cask Firefox is launched via Finder/LaunchServices, so it does not inherit
+  # home-manager's sessionVariables. Set MOZ_LEGACY_PROFILES in the user's
+  # launchd (GUI) domain so Firefox accepts the read-only home-manager-managed
+  # profiles.ini instead of repeatedly prompting to pick a profile.
+  # See https://github.com/nix-community/home-manager/issues/3323
+  launchd.user.agents.FirefoxEnv = {
+    serviceConfig = {
+      ProgramArguments = [
+        "/bin/sh"
+        "-c"
+        "launchctl setenv MOZ_LEGACY_PROFILES 1; launchctl setenv MOZ_ALLOW_DOWNGRADE 1"
+      ];
+      RunAtLoad = true;
+    };
+  };
+
   system.defaults = {
     dock.autohide = true;
     finder.AppleShowAllExtensions = true;
