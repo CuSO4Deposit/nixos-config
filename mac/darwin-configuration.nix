@@ -3,7 +3,7 @@
 # Responsibilities split:
 #   - nixpkgs      -> packages (CLI tools, libraries)
 #   - nix-darwin   -> this file: system config, launchd, defaults, homebrew bridge
-#   - home-manager -> mac/home.nix: user-level config (AeroSpace, ghostty, ...)
+#   - home-manager -> mac/home.nix: user-level config (Karabiner, ghostty, ...)
 
 {
   pkgs,
@@ -54,7 +54,13 @@ in
     };
     gc = {
       automatic = true;
-      interval = [ { Weekday = 7; Hour = 3; Minute = 15; } ];
+      interval = [
+        {
+          Weekday = 7;
+          Hour = 3;
+          Minute = 15;
+        }
+      ];
       options = "--delete-older-than 30d";
     };
   };
@@ -111,11 +117,14 @@ in
   fonts.packages = common.fonts pkgs;
 
   # GUI apps come from Homebrew casks (more reliable on macOS than nixpkgs).
-  # AeroSpace lives in a third-party tap.
+  # FlashSpace handles virtual workspaces (native show/hide, so hidden apps stop
+  # rendering); window layout is the built-in macOS tiling, triggered by the
+  # Option+vim/arrow keys via Karabiner.
   homebrew = {
     enable = true;
     casks = [
-      "nikitabobko/tap/aerospace"
+      "flashspace"
+      "karabiner-elements"
       "ghostty"
       "firefox"
       "logseq"
@@ -139,6 +148,10 @@ in
   };
 
   system.defaults = {
+    WindowManager = {
+      StandardHideWidgets = true;
+      StageManagerHideWidgets = true;
+    };
     dock.autohide = true;
     finder.AppleShowAllExtensions = true;
     finder.FXPreferredViewStyle = "Nlsv";

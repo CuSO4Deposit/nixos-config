@@ -14,7 +14,6 @@ test:
 
 switch-mac:
   sudo darwin-rebuild switch --flake .#nightcord-neo
-  aerospace reload-config || true
   mkdir -p locks/neo
   cp flake.lock locks/neo/flake.lock
   git add .
