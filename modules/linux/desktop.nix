@@ -5,6 +5,7 @@
   ...
 }:
 let
+  common = import ../../lib/common.nix;
   pkgs-logseq-electron-39 = import inputs.nixpkgs-logseq-electron-39 {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
@@ -32,7 +33,7 @@ in
 
   config = {
     age.secrets."nowplaying-url" = {
-      file = ../secrets/nowplaying-url.age;
+      file = ../../secrets/nowplaying-url.age;
       mode = "0444";
     };
 
@@ -67,10 +68,7 @@ in
       pavucontrol # Pipewire graphical tool
     ];
 
-    fonts.packages = with pkgs; [
-      nerd-fonts.ubuntu-mono
-      noto-fonts-cjk-sans
-    ];
+    fonts.packages = common.fonts pkgs;
 
     i18n.defaultLocale = "en_US.UTF-8";
     i18n.extraLocaleSettings = {

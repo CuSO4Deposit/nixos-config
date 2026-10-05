@@ -4,8 +4,8 @@
 }:
 {
   imports = [
-    ../../modules/laptop.nix
-    ../../modules/office-wg.nix
+    ../../modules/linux/laptop.nix
+    ../../modules/linux/office-wg.nix
     ../hardware-configuration/dynamica.nix
   ];
 

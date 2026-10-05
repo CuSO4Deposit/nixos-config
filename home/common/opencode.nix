@@ -1,39 +1,24 @@
 {
   pkgs,
+  lib,
   config,
-  inputs,
   ...
 }:
+
 let
-  pkgs-opencode = import inputs.nixpkgs-opencode {
-    system = pkgs.stdenv.hostPlatform.system;
-  };
-  serper-mcp = pkgs.callPackage ../derivations/serper-search-scrape-mcp { };
-  serper-mcp-with-key = pkgs.writeShellScriptBin "serper-mcp" ''
-    secretFile=${config.age.secrets."serper-api-key".path}
-    if [ -z "''${SERPER_API_KEY:-}" ]; then
-      export SERPER_API_KEY="$(${pkgs.coreutils}/bin/cat "$secretFile" 2>/dev/null || true)"
-    fi
-    exec ${serper-mcp}/bin/serper-mcp "$@"
-  '';
+  cfg = config.nightcord.opencode;
+  local = pkgs.stdenv.hostPlatform.isDarwin;
+  shellTool = if local then "brew" else "nix shell nixpkgs#";
 in
+
 {
-  age.secrets."serper-api-key" = {
-    file = ../secrets/serper-api-key.age;
-    owner = "cuso4d";
+  options.nightcord.opencode.serperMcp = lib.mkOption {
+    type = lib.types.nullOr lib.types.str;
+    default = null;
+    description = "Path to the serper MCP binary. Linux only (needs agenix).";
   };
 
-  environment.systemPackages = [ pkgs.opencode ];
-
-  nixpkgs.overlays = [
-    (_: _: {
-      # Pull opencode from a nixpkgs rev that already ships 1.18.31.
-      # Remove once nixos-unstable catches up.
-      opencode = pkgs-opencode.opencode;
-    })
-  ];
-
-  home-manager.users.cuso4d = {
+  config = {
     xdg.configFile."opencode/tui.json".text = builtins.toJSON {
       "$schema" = "https://opencode.ai/tui.json";
       theme = "tokyonight";
@@ -63,45 +48,47 @@ in
       };
     };
 
-    xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON {
-      "$schema" = "https://opencode.ai/config.json";
-      lsp = {
-        pyright = {
-          command = [
-            "${pkgs.pyright}/bin/pyright-langserver"
-            "--stdio"
-          ];
-          extensions = [
-            ".py"
-            ".pyi"
-          ];
+    xdg.configFile."opencode/opencode.jsonc".text = builtins.toJSON (
+      {
+        "$schema" = "https://opencode.ai/config.json";
+        lsp = {
+          pyright = {
+            command = [
+              "${pkgs.pyright}/bin/pyright-langserver"
+              "--stdio"
+            ];
+            extensions = [
+              ".py"
+              ".pyi"
+            ];
+          };
         };
-      };
-      formatter = {
-        prettier = {
-          command = [
-            "${pkgs.prettier}/bin/prettier"
-            "--write"
-            "$FILE"
-          ];
-          extensions = [
-            ".md"
-            ".json"
-            ".jsonc"
-            ".yaml"
-            ".yml"
-            ".html"
-            ".css"
-          ];
+        formatter = {
+          prettier = {
+            command = [
+              "${pkgs.prettier}/bin/prettier"
+              "--write"
+              "$FILE"
+            ];
+            extensions = [
+              ".md"
+              ".json"
+              ".jsonc"
+              ".yaml"
+              ".yml"
+              ".html"
+              ".css"
+            ];
+          };
         };
-      };
-      mcp = {
-        serper = {
+      }
+      // lib.optionalAttrs (cfg.serperMcp != null) {
+        mcp.serper = {
           type = "local";
-          command = [ "${serper-mcp-with-key}/bin/serper-mcp" ];
+          command = [ cfg.serperMcp ];
         };
-      };
-    };
+      }
+    );
 
     xdg.configFile."opencode/AGENTS.md".text = ''
       # AGENTS.md
@@ -109,11 +96,11 @@ in
       ## Environment
 
       - Unless explicitly stated otherwise for the current task, the machine running
-        this session is NixOS Linux with Nix Flakes enabled.
+        this session is ${if local then "macOS (nix-darwin)" else "NixOS Linux"} with Nix Flakes enabled.
       - To use a tool that is not already installed, run it ad hoc with
-        `nix shell nixpkgs#<package> -c <command>` instead of installing it globally.
+        `${shellTool}<package> -c <command>` instead of installing it globally.
       - If several such tools are needed at once, combine them into a single
-        `nix shell nixpkgs#<pkg1> nixpkgs#<pkg2> -c ...` invocation.
+        invocation.
 
       ## Collaboration
 

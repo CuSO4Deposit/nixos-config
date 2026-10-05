@@ -28,6 +28,10 @@
       url = "github:Mic92/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -60,6 +64,7 @@
     inputs@{
       flake-parts,
       nix-ld,
+      nix-darwin,
       nur-cuso4d,
       ...
     }:
@@ -109,7 +114,7 @@
               nixpkgs.lib.nixosSystem {
                 specialArgs = { inherit inputs; };
                 modules = [
-                  ./configuration.nix
+                  ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   inputs.vita-grid.nixosModules.vitaGrid
@@ -123,7 +128,7 @@
               nixpkgs.lib.nixosSystem {
                 specialArgs = { inherit inputs; };
                 modules = [
-                  ./configuration.nix
+                  ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   # nixos-wsl.nixosModules.wsl
@@ -139,7 +144,7 @@
                   inherit inputs;
                 };
                 modules = [
-                  ./configuration.nix
+                  ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   inputs.api-laborari.nixosModules.default
@@ -154,7 +159,7 @@
                     home-manager.extraSpecialArgs.agenix = agenix;
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
-                    home-manager.users.cuso4d = import ./home;
+                    home-manager.users.cuso4d = import ./home/linux;
                     nixpkgs.config.allowUnfree = true;
                   }
                 ];
@@ -183,6 +188,25 @@
               value = mkDesktop name;
             }) desktopHostnames)
           );
+
+        darwinConfigurations."nightcord-neo" = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/neo
+            inputs.agenix.darwinModules.default
+            inputs.home-manager.darwinModules.home-manager
+            {
+              home-manager.backupFileExtension = "backup";
+              home-manager.overwriteBackup = true;
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.cuso4d = import ./home/darwin;
+            }
+          ];
+        };
 
         homeConfigurations."CuSO4D@racknerd" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = inputs.nixpkgs.legacyPackages."x86_64-linux";

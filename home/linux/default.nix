@@ -3,15 +3,18 @@
   agenix,
   ...
 }:
+let
+  common = import ../../lib/common.nix;
+in
 {
   home.homeDirectory = "/home/cuso4d";
-  home.username = "cuso4d";
+  home.username = common.username;
 
   home.packages = with pkgs; [
     # GUI
     evolution
     feishu
-    (pkgs.callPackage ../derivations/feishu-fcitx5 { })
+    (pkgs.callPackage ../../derivations/feishu-fcitx5 { })
     filezilla
     ghostty
     grim
@@ -24,7 +27,7 @@
     vlc
     wechat
     wemeet
-    (pkgs.callPackage ../derivations/wemeet-nvidia { })
+    (pkgs.callPackage ../../derivations/wemeet-nvidia { })
     wofi
     zeal
     zotero
@@ -37,12 +40,13 @@
     ./activitywatch.nix
     ./dunst.nix
     ./fcitx5.nix
-    ./ghostty.nix
+    ../common/ghostty.nix
     ./hypridle.nix
     ./hyprland.nix
     ./hyprlock.nix
     ./hyprpaper.nix
-    ./firefox.nix
+    ../common/firefox.nix
+    ../common/opencode.nix
     ./waybar.nix
     ./wofi
     ./xdg.nix

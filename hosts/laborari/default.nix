@@ -5,18 +5,18 @@
 }:
 {
   imports = [
-    ../../modules/desktop.nix
-    ../../modules/internal-dns.nix
-    ../../modules/minio-mount.nix
-    ../../modules/rclone-webdav-mount.nix
-    ../../modules/restic-backup.nix
-    ../../modules/nix-auto-build
-    ../../modules/opencode-web.nix
-    ../../modules/office-wg.nix
-    ../../modules/server.nix
-    ../../modules/archive.nix
-    ../../modules/archive-firefox.nix
-    ../../modules/syncthing.nix
+    ../../modules/linux/desktop.nix
+    ../../modules/linux/internal-dns.nix
+    ../../modules/linux/minio-mount.nix
+    ../../modules/linux/rclone-webdav-mount.nix
+    ../../modules/linux/restic-backup.nix
+    ../../modules/linux/nix-auto-build
+    ../../modules/linux/opencode-web.nix
+    ../../modules/linux/office-wg.nix
+    ../../modules/linux/server.nix
+    ../../modules/linux/archive.nix
+    ../../modules/linux/archive-firefox.nix
+    ../../modules/linux/syncthing.nix
     ../hardware-configuration/laborari.nix
     ./nginx.nix
     ./terraria.nix

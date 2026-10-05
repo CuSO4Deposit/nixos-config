@@ -12,6 +12,17 @@ test:
   git add .
   nixos-rebuild test --flake .#$(hostname) --sudo
 
+switch-mac:
+  sudo darwin-rebuild switch --flake .#nightcord-neo
+  aerospace reload-config || true
+  mkdir -p locks/neo
+  cp flake.lock locks/neo/flake.lock
+  git add .
+  git commit -v
+
+test-mac:
+  darwin-rebuild build --flake .#nightcord-neo
+
 build-runner-1:
   nixos-rebuild build --flake .#$(hostname) --sudo --max-jobs 1
 
@@ -88,6 +99,8 @@ switch-nocache:
 
 alias s := switch
 alias t := test
+alias sm := switch-mac
+alias tm := test-mac
 alias br1 := build-runner-1
 alias sr := switch-remote
 alias tr := test-remote

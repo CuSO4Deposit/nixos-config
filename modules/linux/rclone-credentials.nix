@@ -5,5 +5,5 @@
   # lives in exactly one place and no consumer depends on another consumer being
   # imported. Module imports are deduplicated by path, so importing this from
   # several places evaluates it once.
-  age.secrets."rclone.conf".file = ../secrets/rclone.conf.age;
+  age.secrets."rclone.conf".file = ../../secrets/rclone.conf.age;
 }

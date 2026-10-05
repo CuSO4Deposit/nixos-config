@@ -42,12 +42,12 @@ in
 
   imports = [
     # No sources of its own; imported so the option the syncthing assertion reads exists.
-    ../../modules/archive.nix
-    ../../modules/internal-dns.nix
-    ../../modules/rclone-webdav-mount.nix
-    ../../modules/restic-backup.nix
-    ../../modules/server.nix
-    ../../modules/syncthing.nix
+    ../../modules/linux/archive.nix
+    ../../modules/linux/internal-dns.nix
+    ../../modules/linux/rclone-webdav-mount.nix
+    ../../modules/linux/restic-backup.nix
+    ../../modules/linux/server.nix
+    ../../modules/linux/syncthing.nix
     ../hardware-configuration/proximo.nix
     ./cgit.nix
     ./fava.nix

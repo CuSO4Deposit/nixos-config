@@ -5,6 +5,7 @@ let
   laborari-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzaVljG6lJvVE4u5h9p76FIgWm4HQuWjdBPD7P1bQ+t";
   lexikos-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqYxALoBtJ9fo0zLZComsvnfUgMtqnAMa12TaDUaIjA";
   racknerd-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPnYFpz87BawPKMFemAMSrGk63McwE1Xn1CPUIyfhiQS CuSO4D@racknerd-87f185";
+  neo-user = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJsl7icwCNTxnCpRkwgP6eTaOHBOqp5fa/G7dak8RI9 cuso4d@cuso4ds-MacBook-Neo.local";
   hosts = [
     proximo-host
   ];
@@ -13,6 +14,7 @@ let
     laborari-user
     proximo-user
     lexikos-user
+    neo-user
   ];
   all = hosts ++ users;
 
@@ -29,6 +31,7 @@ let
     dynamica-user
     laborari-user
     lexikos-user
+    neo-user
   ];
 in
 {

@@ -12,19 +12,19 @@ designed to be modular and reusable across multiple hosts.
 
 - `flake.nix`: The main entry point for the Nix Flake. It defines the inputs,
   outputs, and system configurations.
-- `configuration.nix`: The base NixOS configuration that is shared across all
-  hosts.
-- `hosts/`: Contains host-specific configurations. Each directory corresponds
-  to a different machine.
-  - `hosts/<machine>/default.nix`: Entry point for that machine. Per-machine
-    home-manager overrides live in `hosts/<machine>/home.nix`.
-- `modules/`: Contains reusable NixOS modules shared across hosts, such as
-  host-class modules ("desktop", "laptop", "server") and feature modules
-  (e.g. `opencode.nix`, `internal-dns.nix`). These are imported by the
-  machines in `hosts/`.
-- `home/`: Contains the home-manager configuration. This is primarily used
-  for hosts with a graphical user interface (GUI) and manages GUI-related
-  applications, dotfiles, and user-specific packages.
+- `modules/`: Reusable system modules, split by platform:
+  - `modules/linux/`: NixOS modules. `modules/linux/base.nix` is the base
+    configuration shared across all NixOS hosts; the rest are host-class and
+    feature modules (e.g. `desktop.nix`, `internal-dns.nix`).
+  - Platform-neutral modules would live in `modules/common/` (none yet).
+- `home/`: home-manager configuration, split by platform:
+  - `home/common/`: shared modules (e.g. `firefox.nix`, `opencode.nix`).
+  - `home/linux/`: Linux desktop home (Hyprland, Waybar, ...).
+  - `home/darwin/`: macOS home (AeroSpace, ghostty, zsh).
+- `hosts/`: Host-specific configuration, one directory per machine regardless
+  of platform (NixOS hosts plus the macOS `hosts/neo/`).
+  - `hosts/<machine>/default.nix`: system entry point for that machine.
+  - `hosts/<machine>/home.nix`: per-machine home-manager overrides, where used.
 - `secrets/`: Contains secrets encrypted with `agenix`. These are decrypted
   at build time.
 - `derivations/`: Contains custom Nix derivations for packages not available
@@ -56,7 +56,7 @@ Aliases:
 ## Adding a New Host
 
 1. Create a new file in the `hosts/` directory for the new host (e.g.,
-   `hosts/new-host.nix`).
+   `hosts/new-host/default.nix`).
 2. In `flake.nix`, add the new hostname to the appropriate list
    (`serverHostnames`, `wslHostnames`, or `desktopHostnames`).
 3. The new host will be available as a NixOS configuration named
@@ -76,7 +76,7 @@ in an encrypted format.
 ## Adding New Packages
 
 - System-wide packages can be added to the `environment.systemPackages` list
-  in `configuration.nix` or in a host-specific configuration file.
+  in `modules/linux/base.nix` (NixOS) or in a host-specific configuration file.
 - User-specific packages should be added in the `home/` configuration using
   home-manager.
 
@@ -93,7 +93,7 @@ To run the hooks manually, you can use the `pre-commit` command, for example:
 
 - Workspace 101: Reserved for MagicMirror (Electron app running in Docker) on
   host `lexikos` only.
-  Bound to `eDP-1` (laptop screen). Configured in `hosts/lexikos.nix` via a
+  Bound to `eDP-1` (laptop screen). Configured in `hosts/lexikos/default.nix` via a
   Hyprland `workspace` entry plus a `windowrule` that matches
   `class:Electron` + `title:MagicMirror` and makes it fullscreen on workspace 101.
 
