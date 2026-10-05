@@ -40,7 +40,7 @@ in
     ./activitywatch.nix
     ./dunst.nix
     ./fcitx5.nix
-    ./ghostty.nix
+    ../common/ghostty.nix
     ./hypridle.nix
     ./hyprland.nix
     ./hyprlock.nix

@@ -14,7 +14,9 @@ in
 {
   imports = [
     ./zsh.nix
+    ./aerospace.nix
     ../common/firefox.nix
+    ../common/ghostty.nix
     ../common/opencode.nix
   ];
 
@@ -22,14 +24,16 @@ in
 
   home.sessionVariables = common.envVars;
 
-  home.packages = (common.cliPackages pkgs) ++ (with pkgs; [
-    eza
-    fd
-    fzf
-    htop
-    opencode
-    zoxide
-  ]);
+  home.packages =
+    (common.cliPackages pkgs)
+    ++ (with pkgs; [
+      eza
+      fd
+      fzf
+      htop
+      opencode
+      zoxide
+    ]);
 
   programs.direnv = {
     enable = true;
@@ -67,17 +71,6 @@ in
       tree_view = false;
     };
   };
-
-  # AeroSpace tiling WM. Config is a direct port of ~/.nixos/home/hyprland.nix
-  # bindings (SUPER -> Option).
-  xdg.configFile."aerospace/aerospace.toml".source = ./aerospace.toml;
-
-  # Terminal. GUI app itself comes from Homebrew cask; this is just the config.
-  xdg.configFile."ghostty/config".text = ''
-    font-family = UbuntuMono Nerd Font Mono
-    font-size = 16
-    theme = TokyoNight Night
-  '';
 
   programs.home-manager.enable = true;
 }
