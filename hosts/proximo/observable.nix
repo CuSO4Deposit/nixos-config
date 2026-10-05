@@ -18,7 +18,7 @@ let
   bandExports = "/data/redmi50/app/nodomain.freeyourgadget.gadgetbridge/gadgetbridge_*.zip";
 
   # The laptops' places.sqlite snapshots, one file per machine per run, delivered by the
-  # per-(device, source) folders in modules/syncthing.nix. A glob across devices rather
+  # per-(device, source) folders in modules/linux/syncthing.nix. A glob across devices rather
   # than a path: Firefox is the one source that genuinely runs on several machines, and
   # CPI reads the host out of each filename to keep them apart. Naming a single device
   # here would publish one laptop's browsing as if it were the whole record — a complete

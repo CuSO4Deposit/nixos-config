@@ -3,7 +3,7 @@
 # Responsibilities split:
 #   - nixpkgs      -> packages (CLI tools, libraries)
 #   - nix-darwin   -> this file: system config, launchd, defaults, homebrew bridge
-#   - home-manager -> mac/home.nix: user-level config (AeroSpace, ghostty, ...)
+#   - home-manager -> home/darwin/default.nix: user-level config (AeroSpace, ghostty, ...)
 
 {
   pkgs,
@@ -16,8 +16,8 @@ let
   proxy = "http://127.0.0.1:7890";
   socksProxy = "socks5://127.0.0.1:7890";
   noProxy = "127.0.0.1,localhost,::1,.local,10.20.0.0/24,192.168.31.0/24";
-  common = import ../lib/common.nix;
-  serperMcp = import ../lib/serper-mcp.nix {
+  common = import ../../lib/common.nix;
+  serperMcp = import ../../lib/serper-mcp.nix {
     inherit pkgs;
     secretPath = config.age.secrets."serper-api-key".path;
   };
@@ -54,7 +54,13 @@ in
     };
     gc = {
       automatic = true;
-      interval = [ { Weekday = 7; Hour = 3; Minute = 15; } ];
+      interval = [
+        {
+          Weekday = 7;
+          Hour = 3;
+          Minute = 15;
+        }
+      ];
       options = "--delete-older-than 30d";
     };
   };
@@ -75,12 +81,12 @@ in
   age.identityPaths = [ "/Users/cuso4d/.ssh/id_ed25519" ];
 
   age.secrets."nixvim-minuet-deepseek-api-key" = {
-    file = ../secrets/nixvim-minuet-deepseek-api-key.age;
+    file = ../../secrets/nixvim-minuet-deepseek-api-key.age;
     mode = "0444";
   };
 
   age.secrets."serper-api-key" = {
-    file = ../secrets/serper-api-key.age;
+    file = ../../secrets/serper-api-key.age;
     mode = "0444";
   };
 

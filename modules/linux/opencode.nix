@@ -8,14 +8,14 @@ let
   pkgs-opencode = import inputs.nixpkgs-opencode {
     system = pkgs.stdenv.hostPlatform.system;
   };
-  serper-mcp-with-key = import ../lib/serper-mcp.nix {
+  serper-mcp-with-key = import ../../lib/serper-mcp.nix {
     inherit pkgs;
     secretPath = config.age.secrets."serper-api-key".path;
   };
 in
 {
   age.secrets."serper-api-key" = {
-    file = ../secrets/serper-api-key.age;
+    file = ../../secrets/serper-api-key.age;
     owner = "cuso4d";
   };
 

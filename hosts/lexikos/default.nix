@@ -5,15 +5,15 @@
 }:
 {
   imports = [
-    ../../modules/internal-dns.nix
-    ../../modules/laptop.nix
-    ../../modules/office-wg.nix
-    ../../modules/proximo-data.nix
-    ../../modules/rclone-webdav-mount.nix
-    ../../modules/restic-backup.nix
-    ../../modules/archive.nix
-    ../../modules/archive-firefox.nix
-    ../../modules/syncthing.nix
+    ../../modules/linux/internal-dns.nix
+    ../../modules/linux/laptop.nix
+    ../../modules/linux/office-wg.nix
+    ../../modules/linux/proximo-data.nix
+    ../../modules/linux/rclone-webdav-mount.nix
+    ../../modules/linux/restic-backup.nix
+    ../../modules/linux/archive.nix
+    ../../modules/linux/archive-firefox.nix
+    ../../modules/linux/syncthing.nix
     ../hardware-configuration/lexikos.nix
     ./v2raya-lan-proxy.nix
     ./cannot-sleep-m9.nix

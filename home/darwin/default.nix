@@ -9,13 +9,13 @@
 }:
 
 let
-  common = import ../lib/common.nix;
+  common = import ../../lib/common.nix;
 in
 {
   imports = [
     ./zsh.nix
-    ../home/common/firefox.nix
-    ../home/common/opencode.nix
+    ../common/firefox.nix
+    ../common/opencode.nix
   ];
 
   home.stateVersion = "24.11";

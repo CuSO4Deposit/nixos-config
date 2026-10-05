@@ -114,7 +114,7 @@
               nixpkgs.lib.nixosSystem {
                 specialArgs = { inherit inputs; };
                 modules = [
-                  ./configuration.nix
+                  ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   inputs.vita-grid.nixosModules.vitaGrid
@@ -128,7 +128,7 @@
               nixpkgs.lib.nixosSystem {
                 specialArgs = { inherit inputs; };
                 modules = [
-                  ./configuration.nix
+                  ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   # nixos-wsl.nixosModules.wsl
@@ -144,7 +144,7 @@
                   inherit inputs;
                 };
                 modules = [
-                  ./configuration.nix
+                  ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
                   inputs.api-laborari.nixosModules.default
@@ -159,7 +159,7 @@
                     home-manager.extraSpecialArgs.agenix = agenix;
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
-                    home-manager.users.cuso4d = import ./home;
+                    home-manager.users.cuso4d = import ./home/linux;
                     nixpkgs.config.allowUnfree = true;
                   }
                 ];
@@ -195,7 +195,7 @@
             inherit inputs;
           };
           modules = [
-            ./mac/darwin-configuration.nix
+            ./hosts/neo
             inputs.agenix.darwinModules.default
             inputs.home-manager.darwinModules.home-manager
             {
@@ -203,7 +203,7 @@
               home-manager.overwriteBackup = true;
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.cuso4d = import ./mac/home.nix;
+              home-manager.users.cuso4d = import ./home/darwin;
             }
           ];
         };

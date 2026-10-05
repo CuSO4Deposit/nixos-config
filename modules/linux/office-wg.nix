@@ -5,7 +5,7 @@
 }:
 {
   age.secrets = {
-    "office.conf".file = ../secrets/office.conf.age;
+    "office.conf".file = ../../secrets/office.conf.age;
   };
 
   networking.wg-quick.interfaces.wg0.configFile = config.age.secrets."office.conf".path;
@@ -23,6 +23,6 @@
   # a hash of the encrypted file instead, otherwise a rotated tunnel config
   # only takes effect on the next reboot.
   systemd.services.wg-quick-wg0.restartTriggers = [
-    (builtins.hashFile "sha256" ../secrets/office.conf.age)
+    (builtins.hashFile "sha256" ../../secrets/office.conf.age)
   ];
 }

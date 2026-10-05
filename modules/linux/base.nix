@@ -14,11 +14,11 @@
 }:
 
 let
-  common = import ./lib/common.nix;
+  common = import ../../lib/common.nix;
 in
 {
   imports = [
-    ./modules/internal-cache.nix
+    ./internal-cache.nix
   ];
 
   age.identityPaths = lib.map (x: "/home/${x}/.ssh/id_ed25519") (
@@ -36,7 +36,7 @@ in
   environment.variables = common.envVars;
 
   age.secrets."nixvim-minuet-deepseek-api-key" = {
-    file = ./secrets/nixvim-minuet-deepseek-api-key.age;
+    file = ../../secrets/nixvim-minuet-deepseek-api-key.age;
     mode = "0444";
   };
 
@@ -71,7 +71,7 @@ in
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];
   # extra-substituters / extra-trusted-public-keys for the internal cache live
-  # in modules/internal-cache.nix so a host can opt out of it.
+  # in modules/linux/internal-cache.nix so a host can opt out of it.
   nix.settings.trusted-users = [
     "cuso4d"
     "root"
@@ -182,7 +182,7 @@ in
 
     ohMyZsh = {
       enable = true;
-      package = pkgs.callPackage ./derivations/oh-cus-zsh { };
+      package = pkgs.callPackage ../../derivations/oh-cus-zsh { };
       inherit (common.ohMyZsh) plugins theme;
     };
 

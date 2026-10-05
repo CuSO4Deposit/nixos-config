@@ -58,7 +58,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # The rclone.conf credential is declared by modules/rclone-credentials.nix,
+    # The rclone.conf credential is declared by modules/linux/rclone-credentials.nix,
     # imported above; this module does not depend on the FUSE mount existing.
     services.restic.backups.${cfg.name} = {
       repository = "rclone:webdav:/webdav/restic/${cfg.name}";
@@ -83,6 +83,6 @@ in
     # an `rclone` binary, so make it visible to the unit.
     systemd.services."restic-backups-${cfg.name}".path = [ pkgs.rclone ];
 
-    age.secrets."restic-password".file = ../secrets/restic-password.age;
+    age.secrets."restic-password".file = ../../secrets/restic-password.age;
   };
 }

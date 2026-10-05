@@ -4,7 +4,7 @@
   ...
 }:
 let
-  common = import ../lib/common.nix;
+  common = import ../../lib/common.nix;
 in
 {
   home.homeDirectory = "/home/cuso4d";
@@ -14,7 +14,7 @@ in
     # GUI
     evolution
     feishu
-    (pkgs.callPackage ../derivations/feishu-fcitx5 { })
+    (pkgs.callPackage ../../derivations/feishu-fcitx5 { })
     filezilla
     ghostty
     grim
@@ -27,7 +27,7 @@ in
     vlc
     wechat
     wemeet
-    (pkgs.callPackage ../derivations/wemeet-nvidia { })
+    (pkgs.callPackage ../../derivations/wemeet-nvidia { })
     wofi
     zeal
     zotero
@@ -45,8 +45,8 @@ in
     ./hyprland.nix
     ./hyprlock.nix
     ./hyprpaper.nix
-    ./common/firefox.nix
-    ./common/opencode.nix
+    ../common/firefox.nix
+    ../common/opencode.nix
     ./waybar.nix
     ./wofi
     ./xdg.nix

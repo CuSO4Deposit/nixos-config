@@ -4,8 +4,8 @@
 }:
 
 let
-  common = import ../lib/common.nix;
-  oh-cus-zsh = pkgs.callPackage ../derivations/oh-cus-zsh { };
+  common = import ../../lib/common.nix;
+  oh-cus-zsh = pkgs.callPackage ../../derivations/oh-cus-zsh { };
 in
 
 {
