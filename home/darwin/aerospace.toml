@@ -6,6 +6,10 @@ start-at-login = true
 auto-reload-config = true
 after-startup-command = []
 
+# Layout of a workspace's root container when it is created. Without this a
+# workspace can be left in accordion mode and there is no way to tile again.
+default-root-container-layout = 'tiles'
+
 # Hyprland input.follow_mouse = 1.
 focus-follows-mouse.enabled = true
 
@@ -32,6 +36,8 @@ alt-c = 'close'
 alt-m = 'fullscreen'
 alt-t = 'layout floating tiling'
 alt-v = 'layout horizontal vertical'
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
 alt-shift-r = 'reload-config'
 
 # Lock screen (SUPER+backspace -> loginctl lock-session).

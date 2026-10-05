@@ -106,6 +106,14 @@ in
     home = "/Users/cuso4d";
   };
 
+  # Homebrew casks install their CLIs here (e.g. the `aerospace` CLI used by
+  # `just switch-mac`). nix-darwin's generated set-environment otherwise drops
+  # /opt/homebrew/bin from PATH, so `aerospace`/`brew` are not found.
+  environment.systemPath = [
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
+  ];
+
   environment.systemPackages = with pkgs; [
     coreutils
     git
