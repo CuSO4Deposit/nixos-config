@@ -132,7 +132,7 @@ in
       "nikitabobko/tap/aerospace"
       "ghostty"
       "firefox"
-      "logseq"
+      "logseq-og"
       "clash-verge-rev"
       "keepassxc"
       "localsend"

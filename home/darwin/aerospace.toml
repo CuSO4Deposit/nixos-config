@@ -29,7 +29,7 @@ outer.right = 10
 alt-q = "exec-and-forget osascript -e 'tell application \"Ghostty\" to new window'"
 alt-e = 'exec-and-forget open ~'
 alt-f = 'exec-and-forget open -a Firefox'
-alt-s = 'exec-and-forget open -a Logseq'
+alt-s = 'exec-and-forget open -a Logseq-OG'
 
 # Window controls
 alt-c = 'close'
