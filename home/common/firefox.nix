@@ -19,8 +19,10 @@ in
     # default path is what the cask reads.
     configPath = lib.mkIf isLinux ".mozilla/firefox";
 
-    # Firefox policies need the wrapped package / app bundle; Linux only.
-    policies = lib.mkIf isLinux {
+    # On Linux the policies are baked into the wrapped package. On macOS the
+    # home-manager module writes them into the org.mozilla.firefox.plist
+    # defaults domain, which the Homebrew cask reads.
+    policies = {
       AppUpdateURL = "https://localhost";
       DisableAppUpdate = true;
       DisplayBookmarksToolbar = "never";
@@ -35,8 +37,8 @@ in
       Extensions = {
         Install = [
           "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi"
-          "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/lateset.xpi"
-          "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/lateset.xpi"
+          "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/latest.xpi"
+          "https://addons.mozilla.org/firefox/downloads/latest/keepassxc-browser/latest.xpi"
           "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
           "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi"
           "https://addons.mozilla.org/firefox/downloads/latest/xbs/latest.xpi"
