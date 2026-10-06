@@ -1,10 +1,3 @@
-# nix-darwin system configuration for the MacBook (nightcord-neo).
-#
-# Responsibilities split:
-#   - nixpkgs      -> packages (CLI tools, libraries)
-#   - nix-darwin   -> this file: system config, launchd, defaults, homebrew bridge
-#   - home-manager -> home/darwin/default.nix: user-level config (AeroSpace, ghostty, ...)
-
 {
   pkgs,
   inputs,
@@ -26,12 +19,13 @@ in
   system.stateVersion = 6;
   system.primaryUser = "cuso4d";
 
+  time.timeZone = "GMT";
+
   networking.hostName = "nightcord-neo";
 
   nix = {
     enable = true;
     package = pkgs.lixPackageSets.stable.lix;
-    # Proxy env for both shells and the nix-daemon.
     envVars = {
       http_proxy = proxy;
       https_proxy = proxy;
@@ -69,7 +63,6 @@ in
 
   nixpkgs.overlays = [
     (_: _: {
-      # Match the NixOS hosts: opencode from a nixpkgs rev that ships 1.18.31.
       opencode = (import inputs.nixpkgs-opencode { system = pkgs.stdenv.hostPlatform.system; }).opencode;
     })
   ];
@@ -106,9 +99,7 @@ in
     home = "/Users/cuso4d";
   };
 
-  # Homebrew casks install their CLIs here (e.g. the `aerospace` CLI used by
-  # `just switch-mac`). nix-darwin's generated set-environment otherwise drops
-  # /opt/homebrew/bin from PATH, so `aerospace`/`brew` are not found.
+  # Homebrew casks install their CLIs here
   environment.systemPath = [
     "/opt/homebrew/bin"
     "/opt/homebrew/sbin"
@@ -124,8 +115,7 @@ in
 
   fonts.packages = common.fonts pkgs;
 
-  # GUI apps come from Homebrew casks (more reliable on macOS than nixpkgs).
-  # AeroSpace lives in a third-party tap.
+  # GUI apps come from Homebrew casks
   homebrew = {
     enable = true;
     casks = [
