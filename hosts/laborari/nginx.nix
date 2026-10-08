@@ -1,5 +1,14 @@
 { config, ... }:
 {
+  # nginx binds 10.20.0.2:80, the wg2 address. Without this ordering, a
+  # switch/system activation that restarts both the wg-quick units and nginx
+  # can start nginx while wg2 is still down, so bind() fails with
+  # EADDRNOTAVAIL and switch-to-configuration aborts.
+  systemd.services.nginx = {
+    wants = [ "wg-quick-wg2.service" ];
+    after = [ "wg-quick-wg2.service" ];
+  };
+
   services.nginx = {
     enable = true;
     clientMaxBodySize = "512m";
