@@ -23,6 +23,7 @@
     ./terraria2.nix
     ./api-laborari.nix
     ./observable.nix
+    ./dolt.nix
     ./vita-grid.nix
   ];
 
