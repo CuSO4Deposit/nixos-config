@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   # awatcher reads a single config.toml from ~/.config/awatcher
   awatcherConfig = (pkgs.formats.toml { }).generate "awatcher-config.toml" {
@@ -21,6 +21,20 @@ in
     watchers.awatcher = {
       package = pkgs.awatcher;
       executable = "awatcher";
+    };
+  };
+
+  systemd.user.services."activitywatch-watcher-awatcher" = {
+    # awatcher is a session tool: when no Wayland/X11 compositor can be reached it
+    # exits immediately with status 0.
+    Unit = {
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Install.WantedBy = lib.mkForce [ "graphical-session.target" ];
+    Service = {
+      Restart = "always";
+      RestartSec = 30;
     };
   };
 
