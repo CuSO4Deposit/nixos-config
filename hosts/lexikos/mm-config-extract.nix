@@ -11,9 +11,9 @@
   systemd.services."mm-config-extract" = {
     path = with pkgs; [
       bash
-      gawk
       coreutils
-      gnugrep
+      jq
+      openssh
     ];
     script = ''
       bash /home/cuso4d/source/mm-config/scripts/extract-bestbefore.sh
