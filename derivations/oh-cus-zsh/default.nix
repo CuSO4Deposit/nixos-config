@@ -1,12 +1,12 @@
-{ fetchgit, oh-my-zsh, ... }:
+{ fetchFromCodeberg, oh-my-zsh, ... }:
 oh-my-zsh.overrideAttrs (
   _: _:
   let
-    cphoen-zsh-theme = fetchgit {
-      deepClone = false;
-      hash = "sha256-MIU+rVTn+Cx+JXoAXw5VuuxcJCobZp3xe7amwzCXejI=";
+    cphoen-zsh-theme = fetchFromCodeberg {
+      owner = "cocvu";
+      repo = "cphoen.zsh-theme";
       rev = "10788c73e2f472164aa2ddd8dcbd338fe18d5fe3";
-      url = "https://codeberg.org/cocvu/cphoen.zsh-theme";
+      hash = "sha256-MIU+rVTn+Cx+JXoAXw5VuuxcJCobZp3xe7amwzCXejI=";
     };
   in
   {
