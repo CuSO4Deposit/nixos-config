@@ -10,9 +10,9 @@
       type = "Application";
       terminal = false;
     };
-    wemeet-nvidia = {
-      name = "WemeetAppNvidia";
-      exec = "wemeet-nvidia %u";
+    wemeet-wayland = {
+      name = "Wemeet";
+      exec = "wemeet-wayland %u";
       type = "Application";
       terminal = false;
     };

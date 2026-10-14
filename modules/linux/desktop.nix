@@ -10,7 +10,13 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
-  pkgs-wemeet-system-132 = import inputs.nixpkgs-wemeet-system-132 {
+  # Pinned nixpkgs providing wemeet 3.26.10.401 (see flake.nix).
+  pkgs-wemeet = import inputs.nixpkgs-wemeet {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+  # Pinned nixpkgs providing the wemeet-compatible PipeWire (see flake.nix).
+  pkgs-pipewire-compat = import inputs.nixpkgs-pipewire-compat {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
@@ -38,17 +44,21 @@ in
     };
 
     nixpkgs.overlays = [
-      (_: _: {
+      (_final: prev: {
         # Pin Logseq to the selected nixpkgs revision, but keep the Electron
         # downgrade scoped to Logseq itself so other Electron apps still follow
         # the normal package set.
         logseq = pkgs-logseq-electron-39.logseq.override {
           electron = pkgs-logseq-electron-39.electron_39;
         };
-        # Pin WeMeet to the nixpkgs revision used by system-132.
-        # Drop this after a newer nixpkgs build can screenshare via PipeWire
-        # without segfaulting during stream startup.
-        wemeet = pkgs-wemeet-system-132.wemeet;
+        # WeMeet with working Wayland screen share (Hunk 0 + native portal +
+        # pinned PipeWire). See derivations/wemeet-wayland for the full story.
+        # Both wemeet and pipewire are pinned to fixed revisions, independent of
+        # the floating `nixpkgs` input.
+        wemeet-wayland = prev.callPackage ../../derivations/wemeet-wayland {
+          wemeet = pkgs-wemeet.wemeet;
+          pipewire = pkgs-pipewire-compat.pipewire;
+        };
         # Pin Zotero to a nixpkgs revision that still ships Firefox ESR 140.
         # Newer nixpkgs bumped firefox-esr to 153, which Zotero 10.x can't be
         # built against. Drop this once NixOS/nixpkgs#569006 lands.

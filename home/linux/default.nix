@@ -26,8 +26,7 @@ in
     telegram-desktop
     vlc
     wechat
-    wemeet
-    (pkgs.callPackage ../../derivations/wemeet-nvidia { })
+    wemeet-wayland
     wofi
     zeal
     zotero
