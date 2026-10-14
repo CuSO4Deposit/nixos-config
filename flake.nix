@@ -22,7 +22,14 @@
     nixpkgs-zotero.url = "github:NixOS/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-opencode.url = "github:NixOS/nixpkgs/229c5ce718318ff369cae88074fab7aed7a69bca";
-    nixpkgs-wemeet-system-132.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
+    # Fixed nixpkgs that provides wemeet 3.26.10.401. Pinned so the
+    # version-specific binary patch (Hunk 0) in derivations/wemeet-wayland
+    # keeps applying even after `nix flake update`.
+    nixpkgs-wemeet.url = "github:NixOS/nixpkgs/ac6b2166e7a9375683b8e98f860f273222337b16";
+    # Fixed nixpkgs that provides the wemeet-compatible PipeWire (1.4.10).
+    # wemeet 3.26.10.401 is a prebuilt binary whose PipeWire process callback
+    # segfaults against newer PipeWire (1.6.x). Only pipewire is taken from it.
+    nixpkgs-pipewire-compat.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nix-ld = {
       url = "github:Mic92/nix-ld";
