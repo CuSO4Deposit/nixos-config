@@ -1,13 +1,16 @@
-{ pkgs, lib, ... }:
-# The DSMP second instance, parked. `services.minecraft-server` is a singleton,
-# so this mirrors the upstream unit (same papermc launcher, FIFO console for a
-# graceful stop, declarative eula.txt/server.properties) against its own data
-# dir, reusing the `minecraft` user created by the first instance.
-#
-# It is intentionally NOT imported by hosts/proximo/default.nix: the server is
-# stopped, but its data (/var/lib/minecraft2) is kept and still backed up by
-# restic. To bring it back, re-add `./minecraft2.nix` to that file's imports.
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+# The DSMP second instance. `services.minecraft-server` is a singleton, so this
+# mirrors the upstream unit (same papermc launcher, FIFO console for a graceful
+# stop, declarative eula.txt/server.properties) against its own data dir,
+# reusing the `minecraft` user created by the first instance.
 let
+  cfg = config.nightcord.minecraft2;
+
   authmeJar = pkgs.fetchurl {
     url = "https://github.com/AuthMe/AuthMeReloaded/releases/download/6.0.0/AuthMe-6.0.0-Paper.jar";
     hash = "sha256-WJSPy8aXSXUGJX0J2KeQm/SN5q7+e+xrpatMQb5Bt7g=";
@@ -86,78 +89,82 @@ let
   '';
 in
 {
-  systemd.tmpfiles.rules = [ "d ${dsmpDir} 0750 minecraft minecraft - -" ] ++ plugins dsmpDir;
+  options.nightcord.minecraft2.enable = lib.mkEnableOption "the hand-rolled second Minecraft server (DSMP)";
 
-  systemd.sockets.minecraft2 = {
-    bindsTo = [ "minecraft2.service" ];
-    socketConfig = {
-      ListenFIFO = "/run/minecraft2.stdin";
-      SocketMode = "0660";
-      SocketUser = "minecraft";
-      SocketGroup = "minecraft";
-      RemoveOnStop = true;
-      FlushPending = true;
+  config = lib.mkIf cfg.enable {
+    systemd.tmpfiles.rules = [ "d ${dsmpDir} 0750 minecraft minecraft - -" ] ++ plugins dsmpDir;
+
+    systemd.sockets.minecraft2 = {
+      bindsTo = [ "minecraft2.service" ];
+      socketConfig = {
+        ListenFIFO = "/run/minecraft2.stdin";
+        SocketMode = "0660";
+        SocketUser = "minecraft";
+        SocketGroup = "minecraft";
+        RemoveOnStop = true;
+        FlushPending = true;
+      };
     };
-  };
 
-  systemd.services.minecraft2 = {
-    description = "Minecraft Server Service (DSMP, port 25566)";
-    wantedBy = [ "multi-user.target" ];
-    requires = [ "minecraft2.socket" ];
-    after = [
-      "network.target"
-      "minecraft2.socket"
-    ];
-
-    preStart = ''
-      ln -sf ${eulaFile} eula.txt
-      cp -f ${dsmpPropertiesFile} server.properties
-      # Paper rewrites server.properties on start; the store file is read-only.
-      chmod +w server.properties
-      cp -f ${dsmpOpsFile} ops.json
-      chmod +w ops.json
-      cp -f ${dsmpWhitelistFile} whitelist.json
-      chmod +w whitelist.json
-    '';
-
-    serviceConfig = {
-      ExecStart = "${pkgs.papermc}/bin/minecraft-server -Xmx2048M -Xms2048M";
-      ExecStop = "${dsmpStop} $MAINPID";
-      Restart = "always";
-      User = "minecraft";
-      WorkingDirectory = dsmpDir;
-
-      StandardInput = "socket";
-      StandardOutput = "journal";
-      StandardError = "journal";
-
-      # Hardening, kept in step with the upstream minecraft-server unit.
-      CapabilityBoundingSet = [ "" ];
-      DeviceAllow = [ "" ];
-      LockPersonality = true;
-      PrivateDevices = true;
-      PrivateTmp = true;
-      PrivateUsers = true;
-      ProtectClock = true;
-      ProtectControlGroups = true;
-      ProtectHome = true;
-      ProtectHostname = true;
-      ProtectKernelLogs = true;
-      ProtectKernelModules = true;
-      ProtectKernelTunables = true;
-      ProtectProc = "invisible";
-      RestrictAddressFamilies = [
-        "AF_INET"
-        "AF_INET6"
+    systemd.services.minecraft2 = {
+      description = "Minecraft Server Service (DSMP, port 25566)";
+      wantedBy = [ "multi-user.target" ];
+      requires = [ "minecraft2.socket" ];
+      after = [
+        "network.target"
+        "minecraft2.socket"
       ];
-      RestrictNamespaces = true;
-      RestrictRealtime = true;
-      RestrictSUIDSGID = true;
-      SystemCallArchitectures = "native";
-      UMask = "0077";
-    };
-  };
 
-  networking.firewall.allowedTCPPorts = [ 25566 ];
-  networking.firewall.allowedUDPPorts = [ 25566 ];
+      preStart = ''
+        ln -sf ${eulaFile} eula.txt
+        cp -f ${dsmpPropertiesFile} server.properties
+        # Paper rewrites server.properties on start; the store file is read-only.
+        chmod +w server.properties
+        cp -f ${dsmpOpsFile} ops.json
+        chmod +w ops.json
+        cp -f ${dsmpWhitelistFile} whitelist.json
+        chmod +w whitelist.json
+      '';
+
+      serviceConfig = {
+        ExecStart = "${pkgs.papermc}/bin/minecraft-server -Xmx2048M -Xms2048M";
+        ExecStop = "${dsmpStop} $MAINPID";
+        Restart = "always";
+        User = "minecraft";
+        WorkingDirectory = dsmpDir;
+
+        StandardInput = "socket";
+        StandardOutput = "journal";
+        StandardError = "journal";
+
+        # Hardening, kept in step with the upstream minecraft-server unit.
+        CapabilityBoundingSet = [ "" ];
+        DeviceAllow = [ "" ];
+        LockPersonality = true;
+        PrivateDevices = true;
+        PrivateTmp = true;
+        PrivateUsers = true;
+        ProtectClock = true;
+        ProtectControlGroups = true;
+        ProtectHome = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "invisible";
+        RestrictAddressFamilies = [
+          "AF_INET"
+          "AF_INET6"
+        ];
+        RestrictNamespaces = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
+        SystemCallArchitectures = "native";
+        UMask = "0077";
+      };
+    };
+
+    networking.firewall.allowedTCPPorts = [ 25566 ];
+    networking.firewall.allowedUDPPorts = [ 25566 ];
+  };
 }

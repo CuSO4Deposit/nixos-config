@@ -52,12 +52,15 @@ in
     ./cgit.nix
     ./fava.nix
     ./minecraft.nix
+    ./minecraft2.nix
     ./nginx.nix
     ./observable.nix
     ./piwigo.nix
     ./redmi-backup.nix
     ./vita-grid.nix
   ];
+
+  nightcord.minecraft2.enable = false;
 
   nightcord.syncthing.deviceName = "nightcord-proximo";
 
