@@ -27,6 +27,9 @@
     ./vita-grid.nix
   ];
 
+  services.terraria.enable = false;
+  nightcord.terraria2.enable = false;
+
   nightcord.internal-dns = {
     enable = true;
     hostOverrides = {

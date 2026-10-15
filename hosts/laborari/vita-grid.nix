@@ -87,20 +87,12 @@ let
         index = 10;
       }
       {
-        name = "laborari:terraria";
+        name = "laborari:syncthing";
         index = 11;
       }
       {
-        name = "laborari:terraria2";
-        index = 12;
-      }
-      {
-        name = "laborari:syncthing";
-        index = 13;
-      }
-      {
         name = "laborari:rclone-minio-mount";
-        index = 14;
+        index = 12;
       }
       {
         name = "lexikos:restic";
@@ -124,23 +116,23 @@ let
       }
       {
         name = "proximo:piwigo";
-        index = 27;
+        index = 26;
       }
       {
         name = "proximo:observable";
-        index = 28;
+        index = 27;
       }
       {
         name = "proximo:ghorg";
-        index = 29;
+        index = 28;
       }
       {
         name = "proximo:syncthing";
-        index = 30;
+        index = 29;
       }
       {
         name = "proximo:nginx";
-        index = 31;
+        index = 30;
       }
     ];
   };
@@ -174,16 +166,6 @@ in
             target = "nix-auto-build.service";
             timer = "nix-auto-build.timer";
             maxAge = "26h";
-          }
-          {
-            name = "terraria";
-            kind = "systemd-active";
-            target = "terraria.service";
-          }
-          {
-            name = "terraria2";
-            kind = "systemd-active";
-            target = "terraria2.service";
           }
           {
             name = "syncthing";

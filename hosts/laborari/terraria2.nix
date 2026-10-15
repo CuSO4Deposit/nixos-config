@@ -1,10 +1,17 @@
-{ pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 # The upstream `services.terraria` NixOS module is a singleton, so this is a
 # hand-rolled second Terraria server. It mirrors the upstream module's
 # tmux-wrapped `terraria-server` approach but uses its own data dir/socket and
 # reuses the `terraria` user/group created by the first (services.terraria)
 # instance.
 let
+  cfg = config.nightcord.terraria2;
+
   port = 15555;
   dataDir = "/var/lib/terraria2";
   package = pkgs.terraria-server;
@@ -37,27 +44,31 @@ let
   '';
 in
 {
-  # The `terraria` user/group already exist (created by services.terraria).
-  systemd.tmpfiles.rules = [
-    "d ${dataDir} 0750 terraria terraria - -"
-  ];
+  options.nightcord.terraria2.enable = lib.mkEnableOption "the hand-rolled second Terraria server";
 
-  systemd.services.terraria2 = {
-    description = "Terraria Server Service (second instance, port ${toString port})";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
+  config = lib.mkIf cfg.enable {
+    # The `terraria` user/group already exist (created by services.terraria).
+    systemd.tmpfiles.rules = [
+      "d ${dataDir} 0750 terraria terraria - -"
+    ];
 
-    serviceConfig = {
-      User = "terraria";
-      Group = "terraria";
-      Type = "forking";
-      GuessMainPID = true;
-      UMask = 7;
-      ExecStart = "${tmuxCmd} new -d ${lib.getExe package} ${lib.concatStringsSep " " flags}";
-      ExecStop = "${stopScript} $MAINPID";
+    systemd.services.terraria2 = {
+      description = "Terraria Server Service (second instance, port ${toString port})";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+
+      serviceConfig = {
+        User = "terraria";
+        Group = "terraria";
+        Type = "forking";
+        GuessMainPID = true;
+        UMask = 7;
+        ExecStart = "${tmuxCmd} new -d ${lib.getExe package} ${lib.concatStringsSep " " flags}";
+        ExecStop = "${stopScript} $MAINPID";
+      };
     };
-  };
 
-  networking.firewall.allowedTCPPorts = [ port ];
-  networking.firewall.allowedUDPPorts = [ port ];
+    networking.firewall.allowedTCPPorts = [ port ];
+    networking.firewall.allowedUDPPorts = [ port ];
+  };
 }

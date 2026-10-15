@@ -1,7 +1,6 @@
 { ... }:
 {
   services.terraria = {
-    enable = true;
     port = 15554;
     password = "untitled";
     openFirewall = true;
