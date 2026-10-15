@@ -123,10 +123,6 @@ let
         index = 25;
       }
       {
-        name = "proximo:minecraft2";
-        index = 26;
-      }
-      {
         name = "proximo:piwigo";
         index = 27;
       }
