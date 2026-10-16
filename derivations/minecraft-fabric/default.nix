@@ -56,6 +56,19 @@ let
     url = "https://cdn.modrinth.com/data/TsLS8Py5/versions/XuyP5rdG/SkinsRestorer-Mod-Fabric-15.12.6.jar";
     hash = "sha256-YALQQnotVNRofiRSv1+eiCKJjXS+KEaitEmFz9Xbhlk=";
   };
+  jei = pkgs.fetchurl {
+    url = "https://cdn.modrinth.com/data/u6dRKJwZ/versions/Zebwcvua/jei-26.3-fabric-31.14.0.72.jar";
+    hash = "sha256-edIiYE3XBRfSvUx+nMNofqXnd+DiSfTp3m8JZbsIVvw=";
+  };
+  jade = pkgs.fetchurl {
+    url = "https://cdn.modrinth.com/data/nvQzSEkH/versions/71CTWqdE/Jade-mc26.3-Fabric-26.3.5.jar";
+    hash = "sha256-SJnWxgr6KvhZs6fggk0O9rQE8mRY+DHj2Hf6o2vprxw=";
+  };
+  mezzConfig = pkgs.fetchurl {
+    # dependency of JEI
+    url = "https://cdn.modrinth.com/data/7tEfOcA7/versions/GKiA7PV4/mezz_config-26.3-fabric-0.6.8.jar";
+    hash = "sha256-kIkTf8JD5TIi2Wm60sWJiCAPHDlP5hFvvfAbyEqwLlE=";
+  };
 
   mods = pkgs.runCommand "minecraft-fabric-mods" { } ''
     mkdir -p $out
@@ -63,6 +76,9 @@ let
     ln -s ${numenFabric} $out/numen-fabric-26.3-0.1.4.2.jar
     ln -s ${easyAuth} $out/easyauth-mc26.3-3.4.4.jar
     ln -s ${skinsRestorer} $out/SkinsRestorer-Mod-Fabric-15.12.6.jar
+    ln -s ${jei} $out/jei-26.3-fabric-31.14.0.72.jar
+    ln -s ${jade} $out/Jade-mc26.3-Fabric-26.3.5.jar
+    ln -s ${mezzConfig} $out/mezz_config-26.3-fabric-0.6.8.jar
   '';
 
   vanillaUnbundled =
