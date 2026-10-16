@@ -48,11 +48,21 @@ let
     url = "https://github.com/CuSO4Deposit/minecraft-numen/releases/download/v0.1.4.2-26.3/numen-fabric-26.3-0.1.4.2.jar";
     hash = "sha256-79WltsjgST2/uiN27vMd/BnRT87/djsS3lEKI3k/MgA=";
   };
+  easyAuth = pkgs.fetchurl {
+    url = "https://cdn.modrinth.com/data/aZj58GfX/versions/Qd0CWVQP/easyauth-mc26.3-3.4.4.jar";
+    hash = "sha256-QAMJ5UdVXc2t292SW/EG28P5S09njMV10w48mbZSHuQ=";
+  };
+  skinsRestorer = pkgs.fetchurl {
+    url = "https://cdn.modrinth.com/data/TsLS8Py5/versions/XuyP5rdG/SkinsRestorer-Mod-Fabric-15.12.6.jar";
+    hash = "sha256-YALQQnotVNRofiRSv1+eiCKJjXS+KEaitEmFz9Xbhlk=";
+  };
 
   mods = pkgs.runCommand "minecraft-fabric-mods" { } ''
     mkdir -p $out
     ln -s ${fabricApi} $out/fabric-api-0.163.0+26.3.jar
     ln -s ${numenFabric} $out/numen-fabric-26.3-0.1.4.2.jar
+    ln -s ${easyAuth} $out/easyauth-mc26.3-3.4.4.jar
+    ln -s ${skinsRestorer} $out/SkinsRestorer-Mod-Fabric-15.12.6.jar
   '';
 
   vanillaUnbundled =

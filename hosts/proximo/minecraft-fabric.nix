@@ -15,18 +15,29 @@ let
   serverProperties = {
     allow-cheats = true;
     difficulty = "hard";
+    enforce-secure-profile = false;
+    enforce-whitelist = true;
     gamemode = "survival";
     level-name = levelName;
     max-players = 4;
     motd = "点我放松一下";
     online-mode = false;
     server-port = port;
-    white-list = false;
+    white-list = true;
   };
 
   serverPropertiesFile = pkgs.writeText "fabric-server.properties" (
     "# server.properties managed by NixOS configuration\n"
     + lib.concatStringsSep "\n" (lib.mapAttrsToList (n: v: "${n}=${cfgToString v}") serverProperties)
+  );
+
+  whitelistFile = pkgs.writeText "fabric-whitelist.json" (
+    builtins.toJSON [
+      {
+        name = "CuSO4D";
+        uuid = "e6b625a9-7682-37d5-a116-bc7a19425cde";
+      }
+    ]
   );
 
   eulaFile = builtins.toFile "fabric-eula.txt" "eula=true\n";
@@ -45,6 +56,7 @@ in
     isSystemUser = true;
     group = "minecraft";
     home = dataDir;
+    homeMode = "0750";
     createHome = true;
   };
   users.groups.minecraft = { };
@@ -83,6 +95,9 @@ in
 
       cp -f ${serverPropertiesFile} server.properties
       chmod +w server.properties
+
+      cp -f ${whitelistFile} whitelist.json
+      chmod +w whitelist.json
     '';
 
     serviceConfig = {
