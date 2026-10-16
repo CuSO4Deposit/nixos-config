@@ -18,7 +18,7 @@ in
 {
   services.minecraft-server = {
     declarative = true;
-    enable = true;
+    enable = false;
     eula = true;
     openFirewall = true;
     jvmOpts = "-Xmx1024M -Xms1024M";

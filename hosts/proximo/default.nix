@@ -51,6 +51,7 @@ in
     ../hardware-configuration/proximo.nix
     ./cgit.nix
     ./fava.nix
+    ./minecraft-fabric.nix
     ./minecraft.nix
     ./minecraft2.nix
     ./nginx.nix
@@ -117,6 +118,7 @@ in
     paths = [
       "/var/lib/minecraft"
       "/var/lib/minecraft2"
+      "/var/lib/minecraft-fabric"
       "/data/redmi50"
       "/data/laborari"
       "/data/lexikos"
