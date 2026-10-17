@@ -24,6 +24,7 @@
     ./api-laborari.nix
     ./observable.nix
     ./dolt.nix
+    ./restic.nix
     ./vita-grid.nix
   ];
 
@@ -110,15 +111,6 @@
   nightcord.rclone-webdav = {
     enable = true;
     remotePath = "/webdav";
-  };
-
-  nightcord.restic-backup = {
-    enable = true;
-    paths = [
-      "/home/cuso4d/syncthing"
-      "/var/lib/terraria"
-      "/var/lib/terraria2"
-    ];
   };
 
   networking.firewall.allowedTCPPorts = [
