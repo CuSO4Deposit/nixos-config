@@ -44,6 +44,7 @@ in
     # No sources of its own; imported so the option the syncthing assertion reads exists.
     ../../modules/linux/archive.nix
     ../../modules/linux/internal-dns.nix
+    ../../modules/linux/mysql-backup.nix
     ../../modules/linux/rclone-webdav-mount.nix
     ../../modules/linux/restic-backup.nix
     ../../modules/linux/server.nix
@@ -111,18 +112,63 @@ in
 
   nightcord.restic-backup = {
     enable = true;
-    # One entry per device that syncs an archive here. These are the second copy of
-    # data whose first copy is a phone or laptop that could be lost or reinstalled;
-    # syncthing's trashcan guards against deletion propagating, but not against losing
-    # proximo itself.
+
+    # DB dump first, then quiesce: saving is disabled for as short a time as possible.
+    backupPrepareCommand = ''
+      ${config.nightcord.mysql-backup.backupPrepareCommand}
+      ${config.nightcord.minecraft-fabric.backupPrepareCommand}
+    '';
+
+    backupCleanupCommand = config.nightcord.minecraft-fabric.backupCleanupCommand;
+
+    # Received archives are second copies of data that can be lost with the originating
+    # device; the rest lives only on proximo.
     paths = [
+      config.nightcord.mysql-backup.dumpDir
       "/var/lib/minecraft"
       "/var/lib/minecraft2"
       "/var/lib/minecraft-fabric"
       "/data/redmi50"
       "/data/laborari"
       "/data/lexikos"
+      # Piwigo's uploads are byte-identical to a subset of the digikam library (406/406
+      # verified), so restic stores them once; keeping both avoids a re-upload on restore.
+      "/data/images"
+      "/data/piwigo/app/upload"
+      # Piwigo state only: the app code is regenerable from the image.
+      "/data/piwigo/app/_data"
+      "/data/piwigo/app/local"
+      # GitHub mirror of source across all machines; the re-clonable nixpkgs clone is
+      # excluded below.
+      "/data/ghorg"
+      "/home/cuso4d/archive"
+      "/home/cuso4d/.ssh"
+      "/home/cuso4d/.config"
     ];
+
+    exclude = [
+      # A full nested nixpkgs clone (2.9G) is re-clonable; keep the rest of the mirror.
+      "/data/ghorg/github.com/cuso4deposit/nixpkgs"
+      "**/node_modules"
+      "**/.venv"
+      "**/__pycache__"
+      "/home/cuso4d/.config/**/Cache"
+      "/home/cuso4d/.config/**/cache"
+    ];
+  };
+
+  # Versioning net against logical damage and accidental deletion. Not a copy: same disk,
+  # so it complements the offsite repository but cannot replace it.
+  services.snapper.configs.data = {
+    SUBVOLUME = "/data";
+    ALLOW_USERS = [ "cuso4d" ];
+    TIMELINE_CREATE = true;
+    TIMELINE_CLEANUP = true;
+    TIMELINE_LIMIT_HOURLY = 0;
+    TIMELINE_LIMIT_DAILY = 7;
+    TIMELINE_LIMIT_WEEKLY = 4;
+    TIMELINE_LIMIT_MONTHLY = 12;
+    TIMELINE_LIMIT_YEARLY = 0;
   };
 
   services.ghorg = {
