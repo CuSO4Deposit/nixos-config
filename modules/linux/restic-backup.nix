@@ -75,6 +75,22 @@ in
       description = "systemd timer configuration for the backup.";
     };
 
+    runCheck = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Run `restic check` after each backup.";
+    };
+
+    checkOpts = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "--read-data-subset=5%" ];
+      description = ''
+        Options for `restic check`, run after each backup. The default reads a random 5%
+        of pack data per run, so the repository is fully verified over time. Set to `[ ]`
+        for a metadata-only check if the remote is slow.
+      '';
+    };
+
     targets = lib.mkOption {
       type = lib.types.listOf (
         lib.types.submodule {
@@ -138,6 +154,8 @@ in
               exclude
               pruneOpts
               timerConfig
+              runCheck
+              checkOpts
               ;
             extraBackupArgs = [
               "--compression"
