@@ -33,6 +33,25 @@ in
       description = "restic exclude patterns.";
     };
 
+    backupPrepareCommand = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+      description = ''
+        Shell fragment run before each backup, before restic reads `paths`. Use it to
+        snapshot live state (e.g. a `mariadb-dump`) into a directory that is itself in
+        `paths`, so restic never reads a database mid-write.
+      '';
+    };
+
+    backupCleanupCommand = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+      description = ''
+        Shell fragment run after the backup, even when it failed. Use it to undo whatever
+        `backupPrepareCommand` changed (e.g. re-enable saving on a Minecraft server).
+      '';
+    };
+
     pruneOpts = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [
@@ -55,34 +74,96 @@ in
       };
       description = "systemd timer configuration for the backup.";
     };
-  };
 
-  config = lib.mkIf cfg.enable {
-    # The rclone.conf credential is declared by modules/linux/rclone-credentials.nix,
-    # imported above; this module does not depend on the FUSE mount existing.
-    services.restic.backups.${cfg.name} = {
-      repository = "rclone:webdav:/webdav/restic/${cfg.name}";
-      rcloneConfigFile = config.age.secrets."rclone.conf".path;
-      passwordFile = config.age.secrets."restic-password".path;
-      initialize = true;
-      inherit (cfg)
-        paths
-        exclude
-        pruneOpts
-        timerConfig
-        ;
-      extraBackupArgs = [
-        "--compression"
-        "max"
-        "--tag"
-        cfg.name
-      ];
+    targets = lib.mkOption {
+      type = lib.types.listOf (
+        lib.types.submodule {
+          options = {
+            id = lib.mkOption {
+              type = lib.types.str;
+              description = ''
+                Destination identifier. The `webdav` target keeps the historical unit name
+                (`restic-backups-<name>`), so existing probes keep working; every other
+                target is suffixed (`restic-backups-<name>-<id>`).
+              '';
+            };
+            repository = lib.mkOption {
+              type = lib.types.str;
+              description = "restic repository URL, e.g. `rclone:rustfs:/bucket/restic/<name>`.";
+            };
+            rcloneConfigFile = lib.mkOption {
+              type = lib.types.str;
+              description = "Path to the rclone config for this repository.";
+            };
+            passwordFile = lib.mkOption {
+              type = lib.types.str;
+              description = "Path to the restic repository password.";
+            };
+          };
+        }
+      );
+      default = [ ];
+      description = ''
+        Backup destinations. Empty means the single shared WebDAV remote, which is the
+        historical behaviour. Add entries once a second site (e.g. RustFS) is online; the
+        same `paths` fan out to every target.
+      '';
     };
-
-    # The restic module only puts ssh on PATH; the rclone backend shells out to
-    # an `rclone` binary, so make it visible to the unit.
-    systemd.services."restic-backups-${cfg.name}".path = [ pkgs.rclone ];
-
-    age.secrets."restic-password".file = ../../secrets/restic-password.age;
   };
+
+  config = lib.mkIf cfg.enable (
+    let
+      webdavTarget = {
+        id = "webdav";
+        repository = "rclone:webdav:/webdav/restic/${cfg.name}";
+        rcloneConfigFile = config.age.secrets."rclone.conf".path;
+        passwordFile = config.age.secrets."restic-password".path;
+      };
+
+      targets = if cfg.targets == [ ] then [ webdavTarget ] else cfg.targets;
+
+      unitName = t: if t.id == "webdav" then cfg.name else "${cfg.name}-${t.id}";
+    in
+    {
+      services.restic.backups = lib.listToAttrs (
+        map (t: {
+          name = unitName t;
+          value = {
+            repository = t.repository;
+            rcloneConfigFile = t.rcloneConfigFile;
+            passwordFile = t.passwordFile;
+            initialize = true;
+            inherit (cfg)
+              paths
+              exclude
+              pruneOpts
+              timerConfig
+              ;
+            extraBackupArgs = [
+              "--compression"
+              "max"
+              "--tag"
+              cfg.name
+            ];
+          }
+          // lib.optionalAttrs (cfg.backupPrepareCommand != "") {
+            inherit (cfg) backupPrepareCommand;
+          }
+          // lib.optionalAttrs (cfg.backupCleanupCommand != "") {
+            inherit (cfg) backupCleanupCommand;
+          };
+        }) targets
+      );
+
+      # The restic unit's PATH has ssh but not rclone, which the backend shells out to.
+      systemd.services = lib.listToAttrs (
+        map (t: {
+          name = "restic-backups-${unitName t}";
+          value.path = [ pkgs.rclone ];
+        }) targets
+      );
+
+      age.secrets."restic-password".file = ../../secrets/restic-password.age;
+    }
+  );
 }
