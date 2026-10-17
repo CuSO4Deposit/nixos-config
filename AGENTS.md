@@ -109,11 +109,10 @@ network:
 ## Backups (restic)
 
 - `nightcord.restic-backup` (`modules/linux/restic-backup.nix`) writes one
-  repository per host to `rclone:webdav:/webdav/restic/<name>`. `targets` is a
-  list; the `webdav` target keeps the historical unit name
-  `restic-backups-<host>`. Do not rename it: vita-grid probes that name. A
-  second site (RustFS) is added as another `targets` entry, and the same
-  `paths` fan out to every target.
+  repository per host to `rclone:webdav:/webdav/restic/<name>`, as unit
+  `restic-backups-<host>`. Do not rename the unit: vita-grid probes that name.
+  A second site (RustFS) is **not** implemented yet; add the fan-out when it is
+  actually online, not speculatively (YAGNI).
 - restic is incremental, content-deduplicating, and compresses each chunk
   itself. Do not pre-compress data or dumps: it reduces deduplication, because a
   small change reshuffles the compressed stream. Write SQL dumps as plain text
