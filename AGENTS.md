@@ -93,8 +93,8 @@ To run the hooks manually, you can use the `pre-commit` command, for example:
 
 - Workspace 101: Reserved for MagicMirror (Electron app running in Docker) on
   host `lexikos` only.
-  Bound to `eDP-1` (laptop screen). Configured in `hosts/lexikos/default.nix` via a
-  Hyprland `workspace` entry plus a `windowrule` that matches
+  Bound to `eDP-1` (laptop screen). Configured in `hosts/lexikos/default.nix`
+  via a Hyprland `workspace` entry plus a `windowrule` that matches
   `class:Electron` + `title:MagicMirror` and makes it fullscreen on workspace 101.
 
 ## Internal WireGuard Network
@@ -105,3 +105,72 @@ network:
 - `laborari`: `10.20.0.2`
 - `proximo`: `10.20.0.1`
 - `lexikos`: `10.20.0.3`
+
+## Backups (restic)
+
+- `nightcord.restic-backup` (`modules/linux/restic-backup.nix`) writes one
+  repository per host to `rclone:webdav:/webdav/restic/<name>`. `targets` is a
+  list; the `webdav` target keeps the historical unit name
+  `restic-backups-<host>`. Do not rename it: vita-grid probes that name. A
+  second site (RustFS) is added as another `targets` entry, and the same
+  `paths` fan out to every target.
+- restic is incremental, content-deduplicating, and compresses each chunk
+  itself. Do not pre-compress data or dumps: it reduces deduplication, because a
+  small change reshuffles the compressed stream. Write SQL dumps as plain text
+  and pass `--skip-dump-date`.
+- Back up live databases by dumping, not by copying files:
+  `mariadb-dump --all-databases --single-transaction --quick --skip-lock-tables`.
+  Dump into a directory that is itself in `paths`, and rename atomically.
+- `backupPrepareCommand` runs as systemd `preStart`; `backupCleanupCommand`
+  runs as `postStop`, including when the backup fails. Use them to
+  quiesce/resume.
+- Backup hooks belong in the module that owns the resource, exposed as an option
+  and composed explicitly in the host. Examples: `minecraft-fabric.nix` exposes
+  `nightcord.minecraft-fabric.backupPrepareCommand` / `backupCleanupCommand`,
+  and `modules/linux/mysql-backup.nix` exposes
+  `nightcord.mysql-backup.backupPrepareCommand` and `nightcord.mysql-backup.dumpDir`.
+  The host's `nightcord.restic-backup.backupPrepareCommand` references them, and
+  its `paths` includes `dumpDir`. Keep service internals (the console FIFO, the
+  MariaDB client) inside the owning module; do not hardcode them in the host — a
+  hardcoded path silently drifts if the service changes it.
+- A missing source path makes restic exit 3 ("does not exist, skipping") and
+  the unit show failed, even though the rest is backed up. Only list paths that
+  exist on that host.
+- GitHub-hosted content is not backed up separately. `ghorg` (`/data/ghorg`)
+  mirrors GitHub source and _is_ backed up; exclude only the nested
+  re-clonable clone (`cuso4deposit/nixpkgs`).
+- `/data` btrfs snapshots come from `services.snapper.configs.data`. They are a
+  versioning safety net, not a backup copy.
+
+## Agent workflow
+
+- After each step of a multi-step plan, stop and let the user review and commit.
+  Do not proceed to the next step automatically.
+- Do not commit unless asked.
+- Keep plans and notes in `~/temp`, not in this repository. The backup plan is
+  `~/temp/BACKUP.md`; ad-hoc temp files use `YYYY-MM-DD_snake_case.ext`.
+- Re-check the user's stated scope before adding paths or data sources; do not
+  expand scope by inference.
+
+## Nix module pitfalls
+
+- If a module declares a top-level `options` or `config` attribute, every other
+  setting must be inside an explicit `config = { ... };`. Otherwise evaluation
+  fails with `unsupported attribute '...' ... This is caused by introducing a
+top-level 'config' or 'options' attribute`.
+- Verify a change by evaluating the option, not by inspecting the file alone:
+  `nix eval --json '.#nixosConfigurations.nightcord-<host>.config.services.restic.backups.<host>.paths'`
+- Format with `nixfmt`:
+  `nix shell nixpkgs#nixfmt-rfc-style -c nixfmt <files>`.
+
+## Session environment
+
+- From `laborari`, `lexikos` and `proximo` are reachable with
+  `ssh -o BatchMode=yes`; `dynamica` and `neo` are not.
+- WebDAV is mounted at `/mnt/work0` on `laborari`.
+  `/run/agenix/rclone.conf` is root-only, so inspect repositories through the
+  mount.
+- `sudo` requires a password, so root-only checks (e.g. the MariaDB socket
+  dump) cannot be verified locally and must be confirmed after deploy.
+- A legacy `duplicity` tree also exists on WebDAV
+  (`duplicity/{laborari,lexikos,proximo}`); it is not managed by this repository.
