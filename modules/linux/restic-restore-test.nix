@@ -11,6 +11,8 @@ let
   backup = config.services.restic.backups.${backupCfg.name};
 in
 {
+  imports = [ ./notify.nix ];
+
   options.nightcord.restic-restore-test.enable = lib.mkOption {
     type = lib.types.bool;
     default = true;
@@ -20,6 +22,7 @@ in
   config = lib.mkIf (backupCfg.enable && cfg.enable) {
     systemd.services."restic-restore-test-${backupCfg.name}" = {
       description = "Restore one file from the latest ${backupCfg.name} snapshot";
+      onFailure = lib.optional config.nightcord.notify.enable "nightcord-ntfy-alert@%N.service";
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];
       environment = {

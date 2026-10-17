@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ./notify.nix
     ./rclone-credentials.nix
     ./restic-restore-test.nix
   ];
@@ -96,6 +97,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    nightcord.notify.enable = lib.mkDefault true;
+
     services.restic.backups.${cfg.name} = {
       repository = "rclone:webdav:/webdav/restic/${cfg.name}";
       rcloneConfigFile = config.age.secrets."rclone.conf".path;
@@ -125,7 +128,10 @@ in
 
     # restic's rclone backend execs `rclone`, but the generated unit only has ssh on
     # PATH. `path` is a list option, so this appends to it rather than replacing it.
-    systemd.services."restic-backups-${cfg.name}".path = [ pkgs.rclone ];
+    systemd.services."restic-backups-${cfg.name}" = {
+      path = [ pkgs.rclone ];
+      onFailure = lib.optional config.nightcord.notify.enable "nightcord-ntfy-alert@%N.service";
+    };
 
     age.secrets."restic-password".file = ../../secrets/restic-password.age;
   };
