@@ -18,6 +18,7 @@
     ./v2raya-lan-proxy.nix
     ./cannot-sleep-m9.nix
     ./mm-config-extract.nix
+    ./restic.nix
     ./vita-grid.nix
   ];
 
@@ -112,16 +113,6 @@
   programs.steam.enable = true;
 
   services.blueman.enable = true;
-
-  nightcord.restic-backup = {
-    enable = true;
-    paths = [
-      "/home/cuso4d/.local/share/Terraria" # Terraria Local Players and Worlds
-      "/home/cuso4d/.local/share/Steam/userdata/1113845821/105600" # Terraria Steam Remote
-      "/home/cuso4d/.local/share/hmcl" # Minecraft Player and Mod Data
-      "/home/cuso4d/Pictures" # Pictures
-    ];
-  };
 
   services.xserver.videoDrivers = [ "nvidia" ];
   services.v2raya.enable = true;
