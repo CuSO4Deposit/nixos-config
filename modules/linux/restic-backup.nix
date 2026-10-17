@@ -155,13 +155,11 @@ in
         }) targets
       );
 
-      # The restic unit's PATH has ssh but not rclone, which the backend shells out to.
-      systemd.services = lib.listToAttrs (
-        map (t: {
-          name = "restic-backups-${unitName t}";
-          value.path = [ pkgs.rclone ];
-        }) targets
-      );
+      # restic's rclone backend execs `rclone`, but the generated unit only has ssh on
+      # PATH. `path` is a list option, so this appends to it rather than replacing it.
+      systemd.services = lib.genAttrs (map (t: "restic-backups-${unitName t}") targets) (_: {
+        path = [ pkgs.rclone ];
+      });
 
       age.secrets."restic-password".file = ../../secrets/restic-password.age;
     }
