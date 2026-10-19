@@ -15,5 +15,10 @@ pkgs.writeShellScriptBin "feishu-fcitx5" ''
   export XMODIFIERS=@im=fcitx
   export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
   export PATH="${xdgOpen}/bin:$PATH"
-  exec zsh -l -c ${pkgs.feishu}/opt/bytedance/feishu/bytedance-feishu "$@"
+  # Do not exec through `zsh -l`: when Feishu is started from wofi the
+  # environment lacks __NIXOS_SET_ENVIRONMENT_DONE, so the login shell
+  # re-sources /etc/set-environment and overwrites PATH, dropping the
+  # xdg-open shadow above (the terminal case already exported the guard,
+  # which is why it worked there).
+  exec ${pkgs.feishu}/opt/bytedance/feishu/bytedance-feishu "$@"
 ''
