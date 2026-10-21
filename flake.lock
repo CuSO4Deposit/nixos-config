@@ -609,22 +609,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-pipewire-compat": {
-      "locked": {
-        "lastModified": 1773821835,
-        "narHash": "sha256-TJ3lSQtW0E2JrznGVm8hOQGVpXjJyXY2guAxku2O9A4=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
-        "type": "github"
-      }
-    },
     "nixpkgs-wemeet": {
       "locked": {
         "lastModified": 1787631388,
@@ -638,6 +622,22 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "ac6b2166e7a9375683b8e98f860f273222337b16",
+        "type": "github"
+      }
+    },
+    "nixpkgs-wemeet-compat": {
+      "locked": {
+        "lastModified": 1773821835,
+        "narHash": "sha256-TJ3lSQtW0E2JrznGVm8hOQGVpXjJyXY2guAxku2O9A4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
         "type": "github"
       }
     },
@@ -989,8 +989,8 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-logseq-electron-39": "nixpkgs-logseq-electron-39",
         "nixpkgs-opencode": "nixpkgs-opencode",
-        "nixpkgs-pipewire-compat": "nixpkgs-pipewire-compat",
         "nixpkgs-wemeet": "nixpkgs-wemeet",
+        "nixpkgs-wemeet-compat": "nixpkgs-wemeet-compat",
         "nixpkgs-zotero": "nixpkgs-zotero",
         "nur": "nur",
         "nur-cuso4d": "nur-cuso4d",

@@ -24,6 +24,8 @@ in
   };
 
   imports = [
+    ./activitywatch-workaround.nix
+    ./mozc-workaround.nix
     ./opencode.nix
   ];
 
