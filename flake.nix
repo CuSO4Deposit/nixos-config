@@ -24,12 +24,16 @@
     nixpkgs-opencode.url = "github:NixOS/nixpkgs/229c5ce718318ff369cae88074fab7aed7a69bca";
     # Fixed nixpkgs that provides wemeet 3.26.10.401. Pinned so the
     # version-specific binary patch (Hunk 0) in derivations/wemeet-wayland
-    # keeps applying even after `nix flake update`.
+    # keeps applying even after `nix flake update`, and so wemeet's runtime
+    # closure stays on current nixpkgs.
     nixpkgs-wemeet.url = "github:NixOS/nixpkgs/ac6b2166e7a9375683b8e98f860f273222337b16";
-    # Fixed nixpkgs that provides the wemeet-compatible PipeWire (1.4.10).
-    # wemeet 3.26.10.401 is a prebuilt binary whose PipeWire process callback
-    # segfaults against newer PipeWire (1.6.x). Only pipewire is taken from it.
-    nixpkgs-pipewire-compat.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
+    # Fixed nixpkgs providing the version-sensitive runtime libraries:
+    #   - pipewire 1.4.10: wemeet's PipeWire callback segfaults on 1.6.x
+    #   - mesa 26.0.2: needed for incoming video rendering; 26.1/26.2 regressed
+    #     eglGetDisplay (0x300c => join error 5021) with current NVIDIA drivers.
+    # Only these two packages are taken from it.  Taking wemeet from here too
+    # would drag wemeet's whole runtime closure back to this older nixpkgs.
+    nixpkgs-wemeet-compat.url = "github:NixOS/nixpkgs/b40629efe5d6ec48dd1efba650c797ddbd39ace0";
     # nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nix-ld = {
       url = "github:Mic92/nix-ld";
@@ -163,7 +167,7 @@
                     environment.systemPackages = [ agenix.packages."x86_64-linux".default ];
                     home-manager.backupFileExtension = "backup";
                     home-manager.overwriteBackup = true;
-                    home-manager.extraSpecialArgs.agenix = agenix;
+                    home-manager.extraSpecialArgs = { inherit agenix inputs; };
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
                     home-manager.users.cuso4d = import ./home/linux;

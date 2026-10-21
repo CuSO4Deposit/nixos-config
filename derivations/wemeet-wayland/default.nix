@@ -1,58 +1,32 @@
-# Tencent WeMeet with working screen share on Hyprland/Wayland.
+# Fixed-version entry point for wemeet-wayland.
 #
-# Background (why all of this is needed):
+# The working combination is a *triple*, not three independent choices:
 #
-#   * wemeet's Linux capture primitive is X11 XShm.  Under Wayland it only
-#     works when it is told it runs under XWayland, via $WEMEET_XWAYLAND=1;
-#     then it uses its *native* xdg-desktop-portal ScreenCast path
-#     (WaylandScreenCastHelper) over PipeWire.
+#   wemeet 3.26.10.401  +  pipewire 1.4.10  +  mesa 26.0.2  (+ Hunk 0)
 #
-#   * The nixpkgs wrapper never sets $WEMEET_XWAYLAND, so the native path is
-#     never taken (screen share stays on XShm and captures the empty XWayland
-#     root window -> green).  It also adds an XShm LD_PRELOAD hook that we do
-#     NOT want here (it would open a second portal session).
-#
-#   * The native path does `dlopen("libpipewire-0.3.so.0")`.  On NixOS that
-#     library is not on wemeet's search path, so we add a PipeWire to
-#     LD_LIBRARY_PATH.  The version matters: wemeet 3.26.10.401 is a prebuilt
-#     binary and crashes inside pw_stream_queue_buffer with system PipeWire
-#     1.6.9, while 1.4.10 works.  So `pipewire` is pinned to a known-good
-#     version (passed in from the caller).
-#
-#   * Upstream Hunk 0 (Matheritasiv/wemeet-screenshare-patch) fixes a DBus race
-#     in the native path: the portal `Start` call is issued before
-#     `SelectSources` completes, which always fails on wlr/Hyprland backends
-#     that block inside SelectSources.  Without it the first share fails/falls
-#     back to X11.
-#
-#   * We run as an XWayland (xcb) client and keep WAYLAND_DISPLAY unset: running
-#     as a native Wayland Qt client segfaults in
-#     x_utils::SetWindowInputFocus()/WMQtUiUtil::ShowWindow(), which is also
-#     what wemeet's own wemeetapp.sh fallback does.
-# `wemeet` and `pipewire` are passed in pinned (see flake.nix / desktop.nix);
-# they deliberately do NOT come from the floating system nixpkgs.
-{
-  pkgs,
-  wemeet,
-  pipewire,
-}:
+#   * wemeet 3.26.10.401 is the version the Hunk 0 byte offsets were verified
+#     against.
+#   * pipewire 1.4.10 is the last version whose process callback wemeet's
+#     capture path survives (1.6.x crashes in pw_stream_queue_buffer).
+#   * mesa 26.0.x is needed to render incoming video (NVIDIA EGL rejects
+#     wemeet's 32-bit config against a 24-bit window) while 26.1/26.2 regressed
+#     eglGetDisplay (0x300c -> join error 5021) on current NVIDIA drivers.
+{ pkgs, inputs }:
 
 let
-  wemeet-patched = wemeet.overrideAttrs (old: {
-    nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.python3 ];
-    postFixup = (old.postFixup or "") + ''
-      python3 ${./patch-hunk0.py} $out/app/wemeet
-    '';
-  });
+  # wemeet stays on the current nixpkgs build (same .deb, current runtime
+  # closure); only the two version-sensitive libraries come from the older rev.
+  pkgs-wemeet = import inputs.nixpkgs-wemeet {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
+  pkgs-wemeet-compat = import inputs.nixpkgs-wemeet-compat {
+    system = pkgs.stdenv.hostPlatform.system;
+    config.allowUnfree = true;
+  };
 in
-pkgs.writeShellScriptBin "wemeet-wayland" ''
-  export WEMEET_XWAYLAND=1
-  export QT_QPA_PLATFORM=xcb
-  export XDG_SESSION_TYPE=x11
-  unset WAYLAND_DISPLAY
-
-  # let wemeet's screencast helper dlopen its (pinned) libpipewire-0.3.so.0
-  export LD_LIBRARY_PATH=${pipewire}/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-
-  exec ${wemeet-patched}/bin/wemeet "$@"
-''
+pkgs.callPackage ./package.nix {
+  wemeet = pkgs-wemeet.wemeet;
+  pipewire = pkgs-wemeet-compat.pipewire;
+  mesa = pkgs-wemeet-compat.mesa;
+}

@@ -1,10 +1,12 @@
 {
   pkgs,
   agenix,
+  inputs,
   ...
 }:
 let
   common = import ../../lib/common.nix;
+  wemeet-wayland = pkgs.callPackage ../../derivations/wemeet-wayland { inherit inputs; };
 in
 {
   home.homeDirectory = "/home/cuso4d";
