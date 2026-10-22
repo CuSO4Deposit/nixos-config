@@ -55,9 +55,14 @@
       url = "github:CuSO4Deposit/ideal-spork";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    cpi = {
+      url = "github:CuSO4Deposit/CPI";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     observable-cuso4d = {
       url = "github:CuSO4Deposit/fantastic-disco";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.cpi.follows = "cpi";
     };
     vita-grid = {
       url = "github:CuSO4Deposit/vita-grid";
