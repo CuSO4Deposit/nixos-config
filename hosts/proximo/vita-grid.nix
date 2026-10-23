@@ -26,9 +26,9 @@
             maxAge = "26h";
           }
           {
-            name = "minecraft";
+            name = "minecraft-fabric";
             kind = "systemd-active";
-            target = "minecraft-server.service";
+            target = "minecraft-fabric.service";
           }
           {
             name = "piwigo";

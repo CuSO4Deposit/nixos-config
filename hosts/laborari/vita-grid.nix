@@ -111,7 +111,7 @@ let
         index = 24;
       }
       {
-        name = "proximo:minecraft";
+        name = "proximo:minecraft-fabric";
         index = 25;
       }
       {
