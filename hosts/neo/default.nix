@@ -126,6 +126,7 @@ in
       "clash-verge-rev"
       "keepassxc"
       "localsend"
+      "steam"
       "telegram"
       "vlc"
       "zotero"
