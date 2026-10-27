@@ -159,7 +159,7 @@ in
         "browser.contentblocking.category" = "strict";
         "font.size.systemFontScale" = 120;
         "privacy.fingerprintProtection" = true;
-        "privacy.sanitize.sanitizeOnShutdown" = true;
+        "privacy.sanitize.sanitizeOnShutdown" = false;
         "privacy.trackingprotection.emailtracking.enabled" = true;
         "privacy.trackingprotection.enabled" = true;
       };
