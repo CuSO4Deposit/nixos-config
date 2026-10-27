@@ -36,24 +36,25 @@
     rerere.enabled = true;
   };
 
-  cliPackages = pkgs: with pkgs; [
-    bat
-    claude-code
-    codex
-    curl
-    glow
-    just
-    mosh
-    nixfmt
-    ripgrep
-    tldr
-    yq
-  ];
+  cliPackages =
+    pkgs: with pkgs; [
+      bat
+      curl
+      glow
+      just
+      mosh
+      nixfmt
+      ripgrep
+      tldr
+      yq
+      visidata
+    ];
 
-  fonts = pkgs: with pkgs; [
-    nerd-fonts.ubuntu-mono
-    noto-fonts-cjk-sans
-  ];
+  fonts =
+    pkgs: with pkgs; [
+      nerd-fonts.ubuntu-mono
+      noto-fonts-cjk-sans
+    ];
 
   nvim = inputs: pkgs: inputs.cus-nixvim.packages."${pkgs.stdenv.hostPlatform.system}".nvim;
 
