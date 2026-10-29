@@ -161,6 +161,8 @@ in
         (mkBind "SUPER + F" (exec "firefox"))
         (mkBind "SUPER + M" (dispatch ''window.fullscreen({ mode = "maximized", action = "toggle" })''))
         (mkBind "SUPER + S" (exec "logseq"))
+        (mkBind "SUPER + N" (exec "window-label set"))
+        (mkBind "SUPER + SHIFT + N" (exec "window-label clear"))
         (mkBind "SUPER + backspace" (exec "loginctl lock-session"))
         (mkBind "SUPER + SHIFT + backspace" (exec "loginctl lock-session && systemctl suspend"))
 

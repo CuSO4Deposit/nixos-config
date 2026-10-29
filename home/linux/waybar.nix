@@ -3,6 +3,131 @@
   ...
 }:
 let
+  window-label = pkgs.writeShellApplication {
+    name = "window-label";
+    runtimeInputs = with pkgs; [
+      coreutils
+      hyprland
+      jq
+      procps
+      wofi
+    ];
+    text = ''
+      state="''${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR is not set}/hypr-window-labels.json"
+      jq -e . "$state" >/dev/null 2>&1 || printf '%s\n' '{}' > "$state"
+
+      active_addr() {
+        hyprctl -j activewindow | jq -r '.address // ""'
+      }
+
+      label_for() {
+        jq -r --arg a "$1" '.[$a] // ""' "$state"
+      }
+
+      write_state() {
+        local tmp
+        tmp="$(mktemp)"
+        jq "$@" "$state" > "$tmp"
+        mv "$tmp" "$state"
+      }
+
+      set_label() {
+        # shellcheck disable=SC2016
+        write_state --arg a "$1" --arg l "$2" '.[$a] = $l'
+      }
+
+      clear_label() {
+        # shellcheck disable=SC2016
+        write_state --arg a "$1" 'del(.[$a])'
+      }
+
+      prune_labels() {
+        local clients="$1" live current pruned tmp
+        live="$(printf '%s' "$clients" | jq '[.[].address]')"
+        current="$(jq -c . "$state")"
+        pruned="$(printf '%s' "$current" | jq -c --argjson live "$live" 'with_entries(select(.key as $k | $live | index($k)))')"
+        if [[ "$pruned" != "$current" ]]; then
+          tmp="$(mktemp)"
+          printf '%s\n' "$pruned" > "$tmp"
+          mv "$tmp" "$state"
+        fi
+      }
+
+      refresh() {
+        pkill -RTMIN+8 waybar || true
+      }
+
+      case "''${1:-}" in
+        set)
+          addr="$(active_addr)"
+          [[ -n "$addr" && "$addr" != "null" ]] || exit 0
+          current="$(label_for "$addr")"
+          prompt="标签（留空清除）"
+          [[ -n "$current" ]] && prompt="标签: $current"
+          label="$(printf '\n' | wofi --dmenu --prompt "$prompt" --exec-search)" || exit 0
+          if [[ -z "$label" ]]; then
+            clear_label "$addr"
+          else
+            set_label "$addr" "$label"
+          fi
+          refresh
+          ;;
+        clear)
+          addr="$(active_addr)"
+          [[ -n "$addr" && "$addr" != "null" ]] || exit 0
+          clear_label "$addr"
+          refresh
+          ;;
+        bar)
+          clients="$(hyprctl -j clients)"
+          prune_labels "$clients"
+          addr="$(active_addr)"
+          label=""
+          [[ -n "$addr" ]] && label="$(label_for "$addr")"
+          tooltip="$(printf '%s' "$clients" | jq -r --slurpfile m "$state" '
+            [ .[]
+              | ($m[0][.address] // "") as $l
+              | select($l != "")
+              | .class + ": " + $l
+            ] | join("\n")')"
+          jq -nc --arg text "$label" --arg tooltip "$tooltip" '{text: $text, tooltip: $tooltip}'
+          ;;
+        *)
+          echo "usage: window-label {set|clear|bar}" >&2
+          exit 2
+          ;;
+      esac
+    '';
+  };
+
+  window-label-events = pkgs.writeShellApplication {
+    name = "window-label-events";
+    runtimeInputs = with pkgs; [
+      coreutils
+      procps
+      socat
+    ];
+    text = ''
+      signature="''${HYPRLAND_INSTANCE_SIGNATURE:-}"
+      sock="''${XDG_RUNTIME_DIR:?}/hypr/$signature/.socket2.sock"
+      if [[ -z "$signature" || ! -S "$sock" ]]; then
+        for candidate in "''${XDG_RUNTIME_DIR:?}"/hypr/*/.socket2.sock; do
+          sock="$candidate"
+          break
+        done
+      fi
+      [[ -S "$sock" ]] || exit 1
+
+      socat -U - "UNIX-CONNECT:$sock" | while IFS= read -r line; do
+        case "''${line%%>>*}" in
+          activewindow|openwindow|closewindow|movewindow)
+            pkill -RTMIN+8 waybar || true
+            ;;
+        esac
+      done
+    '';
+  };
+
   nowplaying = pkgs.writeShellApplication {
     name = "nowplaying-waybar";
     runtimeInputs = with pkgs; [
@@ -42,7 +167,25 @@ let
   };
 in
 {
-  home.packages = [ nowplaying ];
+  home.packages = [
+    nowplaying
+    window-label
+    window-label-events
+  ];
+
+  systemd.user.services.window-label-events = {
+    Unit = {
+      Description = "Refresh waybar window labels on Hyprland events";
+      After = [ "hyprland-session.target" ];
+      PartOf = [ "hyprland-session.target" ];
+    };
+    Service = {
+      ExecStart = "${window-label-events}/bin/window-label-events";
+      Restart = "always";
+      RestartSec = 1;
+    };
+    Install.WantedBy = [ "hyprland-session.target" ];
+  };
 
   programs.waybar = {
     enable = true;
@@ -87,6 +230,7 @@ in
         };
         modules-left = [
           "hyprland/workspaces"
+          "custom/window-label"
         ];
         modules-center = [
           "clock"
@@ -100,6 +244,19 @@ in
           "disk"
           "battery"
         ];
+        "custom/window-label" = {
+          exec = "${window-label}/bin/window-label bar";
+          return-type = "json";
+          signal = 8;
+          interval = 30;
+          format = "{text}";
+          tooltip = true;
+          escape = true;
+          hide-empty-text = true;
+          max-length = 60;
+          on-click = "${window-label}/bin/window-label set";
+          on-click-right = "${window-label}/bin/window-label clear";
+        };
         "custom/nowplaying" = {
           exec = "${nowplaying}/bin/nowplaying-waybar";
           return-type = "json";
@@ -152,7 +309,7 @@ in
           box-shadow: none;
           text-shadow: none;
           transition-duration: 0s;
-          color: rgba(217, 216, 216, 1);
+          color: #a9b1d6;
           background: #1a1b26; 
       } 
 
@@ -223,6 +380,7 @@ in
       #custom-powermenu,
       #custom-spotify,
       #custom-nowplaying,
+      #custom-window-label,
       #custom-weather,
       #custom-mail,
       #custom-media {
