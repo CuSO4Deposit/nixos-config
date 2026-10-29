@@ -41,6 +41,10 @@ let
         name = "CuSO4D";
         uuid = "e6b625a9-7682-37d5-a116-bc7a19425cde";
       }
+      {
+        name = "CorundumBlock";
+        uuid = "42fcf111-7ee6-32dd-9e54-d6a6dadb19c0";
+      }
     ]
   );
 
