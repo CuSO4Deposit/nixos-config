@@ -33,7 +33,7 @@ in
       server-port = 25565;
       white-list = false;
     };
-    package = pkgs.papermc;
+    package = pkgs.papermcServers.papermc-26_3;
     whitelist = {
       "CuSO4D" = "0f5f4275-656f-41e4-b2ef-1a7914c2e5df";
     };

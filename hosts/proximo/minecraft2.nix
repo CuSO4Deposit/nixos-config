@@ -127,7 +127,7 @@ in
       '';
 
       serviceConfig = {
-        ExecStart = "${pkgs.papermc}/bin/minecraft-server -Xmx2048M -Xms2048M";
+        ExecStart = "${pkgs.papermcServers.papermc-26_3}/bin/minecraft-server -Xmx2048M -Xms2048M";
         ExecStop = "${dsmpStop} $MAINPID";
         Restart = "always";
         User = "minecraft";
