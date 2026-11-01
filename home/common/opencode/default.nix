@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  osConfig,
   ...
 }:
 
@@ -93,6 +94,7 @@ in
     xdg.configFile."opencode/AGENTS.md".source = pkgs.replaceVars ./AGENTS.md {
       platform = if local then "macOS (nix-darwin)" else "NixOS Linux";
       shellTool = shellTool;
+      hostname = lib.removePrefix "nightcord-" osConfig.networking.hostName;
     };
 
     xdg.configFile."opencode/agents/research.md".source = ./agents/research.md;
