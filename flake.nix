@@ -100,7 +100,10 @@
           pre-commit.settings = {
             src = ./.;
             hooks = {
-              markdownlint.enable = true;
+              markdownlint = {
+                enable = true;
+                settings.configuration.MD041 = false;
+              };
               nixfmt.enable = true;
               deadnix.enable = true;
             };

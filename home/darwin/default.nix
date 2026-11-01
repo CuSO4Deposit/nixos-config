@@ -17,7 +17,7 @@ in
     ./aerospace.nix
     ../common/firefox.nix
     ../common/ghostty.nix
-    ../common/opencode.nix
+    ../common/opencode
   ];
 
   home.stateVersion = "24.11";

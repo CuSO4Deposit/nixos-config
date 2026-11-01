@@ -47,7 +47,7 @@ in
     ./hyprlock.nix
     ./hyprpaper.nix
     ../common/firefox.nix
-    ../common/opencode.nix
+    ../common/opencode
     ./waybar.nix
     ./wofi
     ./xdg.nix
