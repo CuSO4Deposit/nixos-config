@@ -16,6 +16,11 @@
     gmv = "git mv";
     gs = "git status --short --branch";
     j = "just";
+    l = "eza -la --icons=auto --group-directories-first";
+    la = "eza -la --icons=auto --group-directories-first";
+    ll = "eza -l --icons=auto --group-directories-first";
+    ls = "eza --icons=auto --group-directories-first";
+    lt = "eza --tree --level=2 --icons=auto --group-directories-first";
     n = "nvim";
     nf = "nf"; # nf for nix flake, shell function to use my flake
     qa = "mkdir -p /tmp/agent && opencode --auto /tmp/agent";
@@ -40,6 +45,8 @@
     pkgs: with pkgs; [
       bat
       curl
+      eza
+      fd
       glow
       just
       mosh
@@ -48,6 +55,7 @@
       tldr
       yq
       visidata
+      zoxide
     ];
 
   fonts =
@@ -62,6 +70,9 @@
     # Remove command lines from the history list when the first character on the line is a space,
     # or when one of the expanded aliases contains a leading space.
     setopt HIST_IGNORE_SPACE
+
+    # Replace cd with zoxide, keeping cd .., cd -, and plain cd working.
+    eval "$(zoxide init zsh --cmd cd)"
 
 
     check_dirs_empty() {

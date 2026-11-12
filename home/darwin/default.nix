@@ -27,12 +27,9 @@ in
   home.packages =
     (common.cliPackages pkgs)
     ++ (with pkgs; [
-      eza
-      fd
       fzf
       htop
       opencode
-      zoxide
     ]);
 
   programs.direnv = {
