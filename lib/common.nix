@@ -166,5 +166,8 @@
         *) print -r -- "usage: nf {run <attr> [args...]|dev [attr]|shell <attr>...|show}" ;;
       esac
     }
+
+    # Machine-local, unmanaged zsh config.
+    [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
   '';
 }
