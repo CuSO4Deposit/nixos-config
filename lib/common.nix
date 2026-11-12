@@ -44,6 +44,8 @@
   cliPackages =
     pkgs: with pkgs; [
       bat
+      claude-code
+      codex
       curl
       eza
       fd
