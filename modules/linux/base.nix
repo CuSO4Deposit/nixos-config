@@ -25,13 +25,15 @@ in
     lib.attrNames (lib.attrsets.filterAttrs (_: v: v.isNormalUser) config.users.users)
   );
 
-  environment.systemPackages = (common.cliPackages pkgs) ++ (with pkgs; [
-    at
-    busybox
-    git
-    jq
-    (common.nvim inputs pkgs)
-  ]);
+  environment.systemPackages =
+    (common.cliPackages pkgs)
+    ++ (with pkgs; [
+      at
+      busybox
+      git
+      jq
+      (common.nvim inputs pkgs)
+    ]);
 
   environment.variables = common.envVars;
 
@@ -60,6 +62,9 @@ in
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
+
+  nix.optimise.automatic = true;
+  nix.settings.auto-optimise-store = true;
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -103,6 +108,7 @@ in
   services.resolved = {
     enable = true;
   };
+  services.journald.extraConfig = "SystemMaxUse=1G";
 
   users.users.cuso4d = {
     isNormalUser = true;
