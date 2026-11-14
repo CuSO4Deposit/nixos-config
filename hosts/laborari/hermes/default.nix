@@ -25,6 +25,10 @@ in
       file = ../../../secrets/hermes-env.age;
       owner = "hermes";
     };
+    "sayori-git-token" = {
+      file = ../../../secrets/sayori-git-token.age;
+      owner = "hermes";
+    };
     "serper-api-key-hermes" = {
       file = ../../../secrets/serper-api-key.age;
       owner = "hermes";
@@ -49,12 +53,16 @@ in
     addToSystemPackages = true;
     environmentFiles = [ config.age.secrets."hermes-env".path ];
     extraPackages = [
-      pkgs.gh
+      (pkgs.writeShellScriptBin "gh" ''
+        export GH_TOKEN="$(cat ${config.age.secrets."sayori-git-token".path})"
+        exec ${pkgs.gh}/bin/gh "$@"
+      '')
       pkgs.typst
       (pkgs.writeShellScriptBin "python3" ''
         exec ${hermesPackage.passthru.hermesVenv}/bin/python3 "$@"
       '')
     ];
+    hermesHomeFiles."scripts/sayori-sync.sh" = ./sayori-sync.sh;
 
     environment = {
       HERMES_TIMEZONE = "Asia/Tokyo";
