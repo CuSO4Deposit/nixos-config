@@ -2,14 +2,11 @@
   pkgs,
   lib,
   config,
-  osConfig,
   ...
 }:
 
 let
   cfg = config.nightcord.opencode;
-  local = pkgs.stdenv.hostPlatform.isDarwin;
-  shellTool = if local then "brew" else "nix shell nixpkgs#";
 in
 
 {
@@ -91,11 +88,7 @@ in
       }
     );
 
-    xdg.configFile."opencode/AGENTS.md".source = pkgs.replaceVars ./AGENTS.md {
-      platform = if local then "macOS (nix-darwin)" else "NixOS Linux";
-      shellTool = shellTool;
-      hostname = lib.removePrefix "nightcord-" osConfig.networking.hostName;
-    };
+    xdg.configFile."opencode/AGENTS.md".source = config.nightcord.agents.instructions;
 
     xdg.configFile."opencode/agents/research.md".source = ./agents/research.md;
 

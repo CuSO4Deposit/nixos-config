@@ -47,6 +47,9 @@ in
     ./hyprlock.nix
     ./hyprpaper.nix
     ../common/firefox.nix
+    ../common/agents
+    ../common/claude
+    ../common/codex
     ../common/opencode
     ./waybar.nix
     ./wofi

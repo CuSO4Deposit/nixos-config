@@ -17,6 +17,9 @@ in
     ./aerospace.nix
     ../common/firefox.nix
     ../common/ghostty.nix
+    ../common/agents
+    ../common/claude
+    ../common/codex
     ../common/opencode
   ];
 
