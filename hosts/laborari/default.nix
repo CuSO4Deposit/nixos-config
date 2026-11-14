@@ -21,7 +21,6 @@
     ./nginx.nix
     ./terraria.nix
     ./terraria2.nix
-    ./api-laborari.nix
     ./observable.nix
     ./dolt.nix
     ./restic.nix

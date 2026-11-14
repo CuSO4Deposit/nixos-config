@@ -51,10 +51,6 @@
       url = "github:CuSO4Deposit/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    api-laborari = {
-      url = "github:CuSO4Deposit/ideal-spork";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     cpi = {
       url = "github:CuSO4Deposit/CPI";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -169,7 +165,6 @@
                   ./modules/linux/base.nix
                   ./hosts/${hostname}
                   agenix.nixosModules.default
-                  inputs.api-laborari.nixosModules.default
                   inputs.vita-grid.nixosModules.vitaGrid
                   nix-ld.nixosModules.nix-ld
                   nur.modules.nixos.default

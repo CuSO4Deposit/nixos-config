@@ -23,27 +23,6 @@
         "type": "github"
       }
     },
-    "api-laborari": {
-      "inputs": {
-        "flake-parts": "flake-parts",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1784731230,
-        "narHash": "sha256-AoIJCetK2xGFyUXVmhtc3uUdfk57VlES0cEN7gJTmx4=",
-        "owner": "CuSO4Deposit",
-        "repo": "ideal-spork",
-        "rev": "9e5d0dd9c9ab1938cf3dd4e2520ad99a35e57851",
-        "type": "github"
-      },
-      "original": {
-        "owner": "CuSO4Deposit",
-        "repo": "ideal-spork",
-        "type": "github"
-      }
-    },
     "cpi": {
       "inputs": {
         "flake-parts": "flake-parts_6",
@@ -996,7 +975,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "api-laborari": "api-laborari",
         "cus-nixvim": "cus-nixvim",
         "flake-parts": "flake-parts_4",
         "git-hooks-nix": "git-hooks-nix",
