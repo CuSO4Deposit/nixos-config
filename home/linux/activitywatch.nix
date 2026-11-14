@@ -18,6 +18,7 @@ in
   # instead. Do not enable the bundled two alongside it.
   services.activitywatch = {
     enable = true;
+    package = pkgs.aw-server-rust;
     watchers.awatcher = {
       package = pkgs.awatcher;
       executable = "awatcher";
