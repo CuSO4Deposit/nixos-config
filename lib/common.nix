@@ -49,6 +49,7 @@
       curl
       eza
       fd
+      gh
       glow
       just
       mosh
