@@ -23,8 +23,8 @@ Other checks:
 - A new host is `hosts/<name>/default.nix` plus the name in one of
   `serverHostnames`, `wslHostnames`, `desktopHostnames` in `flake.nix`. Its
   configuration is `nightcord-<name>`.
-- Secrets are `secrets/*.age`. Declare recipients in `secrets/secrets.nix` and
-  encrypt with `agenix -e <file>`.
+- Secrets are `secrets/*.age`. Declare recipients in `secrets/agenix-rules.nix`
+  and encrypt with `agenix -e <file>` from inside `secrets/`.
 
 ## Hosts
 
