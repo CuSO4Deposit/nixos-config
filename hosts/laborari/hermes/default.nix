@@ -33,6 +33,8 @@ in
 
   nightcord.restic-backup.paths = [ "/var/lib/hermes" ];
 
+  users.users.cuso4d.extraGroups = [ "hermes" ];
+
   systemd.tmpfiles.rules = [
     "d /var/lib/hermes/Documents 0750 hermes hermes -"
   ];
