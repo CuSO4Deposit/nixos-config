@@ -53,6 +53,7 @@ in
   "wg-laborari.conf.age".publicKeys = laborari;
   "observable-htpasswd.age".publicKeys = laborari;
   "observable-nginx.conf.age".publicKeys = laborari;
+  "hermes-env.age".publicKeys = laborari;
 
   # lexikos only
   "wg-lexikos.conf.age".publicKeys = lexikos;

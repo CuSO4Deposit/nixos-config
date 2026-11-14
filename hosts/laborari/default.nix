@@ -23,6 +23,7 @@
     ./terraria2.nix
     ./observable.nix
     ./dolt.nix
+    ./hermes
     ./restic.nix
     ./vita-grid.nix
   ];

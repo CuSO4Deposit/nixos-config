@@ -65,6 +65,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     git-hooks-nix.url = "github:cachix/git-hooks.nix";
+    hermes-agent.url = "github:NousResearch/hermes-agent/v2026.9.24";
   };
 
   nixConfig = {
