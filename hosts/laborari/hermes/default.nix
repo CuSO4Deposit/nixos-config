@@ -1,10 +1,27 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
 let
+  hermesHome = "${config.services.hermes-agent.stateDir}/.hermes";
+  resticDumpDir = "/var/lib/hermes/restic-dumps";
+
+  sqliteDbs = [
+    "state.db"
+    "kanban.db"
+    "shared-state.db"
+    "cron/executions.db"
+  ];
+
+  dumpSqlite = lib.concatMapStrings (db: ''
+    if [ -e "${hermesHome}/${db}" ]; then
+      sqlite3 -cmd ".timeout 10000" "${hermesHome}/${db}" ".backup '${resticDumpDir}/${builtins.baseNameOf db}'"
+    fi
+  '') sqliteDbs;
+
   serper-mcp = import ../../../lib/serper-mcp.nix {
     inherit pkgs;
     secretPath = config.age.secrets."serper-api-key-hermes".path;
@@ -35,7 +52,35 @@ in
     };
   };
 
-  nightcord.restic-backup.paths = [ "/var/lib/hermes" ];
+  nightcord.restic-backup = {
+    paths = [ "/var/lib/hermes" ];
+
+    # The live SQLite files are dumped by backupPrepareCommand instead.
+    exclude = [
+      "${hermesHome}/.git"
+      "${hermesHome}/cache"
+      "${hermesHome}/sandboxes"
+      "${hermesHome}/pending_messages"
+      "${hermesHome}/models_dev_cache.json"
+      "${hermesHome}/models_dev_cache.etag"
+      "${hermesHome}/state.db*"
+      "${hermesHome}/kanban.db*"
+      "${hermesHome}/shared-state.db*"
+      "${hermesHome}/cron/executions.db*"
+    ];
+
+    backupPrepareCommand = ''
+      rm -rf ${resticDumpDir}
+      mkdir -p ${resticDumpDir}
+      ${dumpSqlite}
+    '';
+    backupCleanupCommand = "rm -rf ${resticDumpDir}";
+  };
+
+  systemd.services."restic-backups-${config.nightcord.restic-backup.name}".path = [
+    pkgs.coreutils
+    pkgs.sqlite
+  ];
 
   users.users.cuso4d.extraGroups = [ "hermes" ];
 
