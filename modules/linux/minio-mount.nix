@@ -28,6 +28,18 @@
       type = lib.types.listOf lib.types.str;
       default = [ "network-online.target" ];
     };
+    http = {
+      enable = lib.mkEnableOption "an rclone HTTP server for one bucket of the remote";
+      addr = lib.mkOption {
+        type = lib.types.str;
+        default = "127.0.0.1:8089";
+        description = "listen address (--addr), keep it on loopback and front it with a reverse proxy";
+      };
+      remotePath = lib.mkOption {
+        type = lib.types.str;
+        description = "bucket or prefix to serve";
+      };
+    };
   };
 
   config = lib.mkIf config.nightcord.rclone-minio.enable {
@@ -64,6 +76,26 @@
         RestartSec = "15";
       };
       wantedBy = [ "multi-user.target" ];
+    };
+
+    systemd.services.rclone-minio-http = lib.mkIf config.nightcord.rclone-minio.http.enable {
+      description = "Rclone HTTP file server for MinIO";
+      wants = [ "network-online.target" ] ++ config.nightcord.rclone-minio.waitServices;
+      after = [ "network-online.target" ] ++ config.nightcord.rclone-minio.waitServices;
+      wantedBy = [ "multi-user.target" ];
+
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = pkgs.writeShellScript "serve-rclone-http" ''
+          ${pkgs.rclone}/bin/rclone serve http \
+            ${config.nightcord.rclone-minio.remoteName}:${config.nightcord.rclone-minio.http.remotePath} \
+            --config ${config.age.secrets."rclone.conf".path} \
+            --addr ${config.nightcord.rclone-minio.http.addr} \
+            --read-only
+        '';
+        Restart = "on-failure";
+        RestartSec = "15";
+      };
     };
   };
 }

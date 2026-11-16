@@ -70,6 +70,16 @@
       file = ../../secrets/opencode-server-password.age;
       owner = "cuso4d";
     };
+    "file-nginx.conf" = {
+      file = ../../secrets/file-nginx.conf.age;
+      owner = "nginx";
+      group = "nginx";
+    };
+    "file-htpasswd" = {
+      file = ../../secrets/file-htpasswd.age;
+      owner = "nginx";
+      group = "nginx";
+    };
   };
 
   boot.binfmt.emulatedSystems = [
@@ -107,6 +117,11 @@
   nightcord.rclone-minio.waitServices = [
     "wg-quick-wg0.service"
   ];
+
+  nightcord.rclone-minio.http = {
+    enable = true;
+    remotePath = "file-54168";
+  };
 
   nightcord.rclone-webdav = {
     enable = true;

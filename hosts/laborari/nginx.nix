@@ -24,6 +24,13 @@
         listen 25598;
         proxy_pass 10.20.0.1:25566;
       }
+      # Cloudflare reaches the origin over IPv6, but the per-service configs
+      # only bind IPv4. Forward the raw TCP stream so SNI and the CF headers
+      # still arrive at the v4 listener unchanged.
+      server {
+        listen [::]:2053 ipv6only=on;
+        proxy_pass 127.0.0.1:2053;
+      }
     '';
     appendHttpConfig = ''
       server {
@@ -39,6 +46,7 @@
       include ${config.age.secrets."piwigo-nginx.conf".path};
       include ${config.age.secrets."opencode-nginx.conf".path};
       include ${config.age.secrets."observable-nginx.conf".path};
+      include ${config.age.secrets."file-nginx.conf".path};
     '';
   };
 }
