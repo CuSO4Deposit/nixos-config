@@ -71,6 +71,7 @@ in
   "ntfy-topic.age".publicKeys = proximo ++ laborari ++ lexikos ++ racknerd;
 
   "nixvim-minuet-deepseek-api-key.age".publicKeys = all;
+  "deepseek-api-key.age".publicKeys = all;
 
   # openclaw / desktop hosts
   "openclaw-env.age".publicKeys = desktops;

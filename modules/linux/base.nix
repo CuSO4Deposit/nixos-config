@@ -42,16 +42,29 @@ in
     mode = "0444";
   };
 
+  age.secrets."deepseek-api-key" = {
+    file = ../../secrets/deepseek-api-key.age;
+    mode = "0444";
+  };
+
   environment.etc."zshenv.local".text = ''
     secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}
     if [ -r "$secret_path" ]; then
       export NIXVIM_MINUET_DEEPSEEK_API_KEY="$(cat "$secret_path")"
+    fi
+    deepseek_key_path=${config.age.secrets."deepseek-api-key".path}
+    if [ -r "$deepseek_key_path" ]; then
+      export DEEPSEEK_API_KEY="$(cat "$deepseek_key_path")"
     fi
   '';
   environment.etc."profile.local".text = ''
     secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}
     if [ -r "$secret_path" ]; then
       export NIXVIM_MINUET_DEEPSEEK_API_KEY="$(cat "$secret_path")"
+    fi
+    deepseek_key_path=${config.age.secrets."deepseek-api-key".path}
+    if [ -r "$deepseek_key_path" ]; then
+      export DEEPSEEK_API_KEY="$(cat "$deepseek_key_path")"
     fi
   '';
 
