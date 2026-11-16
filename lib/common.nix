@@ -7,7 +7,8 @@
   };
 
   shellAliases = {
-    a = "codex"; # a for agent
+    a = "codex --profile deepseek"; # a for agent (deepseek)
+    aa = "codex --profile gpt"; # aa for agent on gpt
     alg = "alias | grep";
     bat = "bat --theme=base16";
     c = "clear";
@@ -23,7 +24,8 @@
     lt = "eza --tree --level=2 --icons=auto --group-directories-first";
     n = "nvim";
     nf = "nf"; # nf for nix flake, shell function to use my flake
-    qa = "mkdir -p /tmp/agent && codex --cd /tmp/agent";
+    qa = "mkdir -p /tmp/agent && codex --profile deepseek --cd /tmp/agent";
+    qaa = "mkdir -p /tmp/agent && codex --profile gpt --cd /tmp/agent";
     rgp = "rgp"; # rgp for ripgrep with pager
     sudonvim = "sudo -E -s nvim";
   };
@@ -167,6 +169,38 @@
           ;;
         ""|l|list|show) nix flake show "$MYFLAKE" ;;
         *) print -r -- "usage: nf {run <attr> [args...]|dev [attr]|shell <attr>...|show}" ;;
+      esac
+    }
+
+    # Route interactive codex invocations through the Nix-managed profile.
+    # Subcommands that don't accept --profile pass through untouched.
+    codex() {
+      local arg
+      for arg in "$@"; do
+        case "$arg" in
+          --profile | --profile=* | -p)
+            command codex "$@"
+            return
+            ;;
+        esac
+      done
+      case "''${1:-}" in
+        "" | -*)
+          command codex --profile deepseek "$@"
+          ;;
+        exec | e | review | resume | queue | archive | delete | unarchive | fork | sandbox | mcp | migrate-nfs-db)
+          command codex --profile deepseek "$@"
+          ;;
+        debug)
+          if [ "''${2:-}" = "prompt-input" ]; then
+            command codex --profile deepseek "$@"
+          else
+            command codex "$@"
+          fi
+          ;;
+        *)
+          command codex "$@"
+          ;;
       esac
     }
 
