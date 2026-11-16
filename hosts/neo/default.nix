@@ -84,6 +84,7 @@ in
   };
 
   home-manager.users.cuso4d.nightcord.opencode.serperMcp = "${serperMcp}/bin/serper-mcp";
+  home-manager.users.cuso4d.nightcord.codex.serperMcp = "${serperMcp}/bin/serper-mcp";
 
   environment.etc."zshenv.local".text = ''
     secret_path=${config.age.secrets."nixvim-minuet-deepseek-api-key".path}

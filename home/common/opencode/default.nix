@@ -13,7 +13,7 @@ in
   options.nightcord.opencode.serperMcp = lib.mkOption {
     type = lib.types.nullOr lib.types.str;
     default = null;
-    description = "Path to the serper MCP binary. Linux only (needs agenix).";
+    description = "Path to the serper MCP binary, set by hosts that provision the API key.";
   };
 
   config = {

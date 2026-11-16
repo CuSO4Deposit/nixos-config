@@ -7,7 +7,7 @@
   };
 
   shellAliases = {
-    a = "opencode --auto"; # a for agent
+    a = "codex"; # a for agent
     alg = "alias | grep";
     bat = "bat --theme=base16";
     c = "clear";
@@ -23,7 +23,7 @@
     lt = "eza --tree --level=2 --icons=auto --group-directories-first";
     n = "nvim";
     nf = "nf"; # nf for nix flake, shell function to use my flake
-    qa = "mkdir -p /tmp/agent && opencode --auto /tmp/agent";
+    qa = "mkdir -p /tmp/agent && codex --cd /tmp/agent";
     rgp = "rgp"; # rgp for ripgrep with pager
     sudonvim = "sudo -E -s nvim";
   };

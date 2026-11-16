@@ -28,4 +28,5 @@ in
   ];
 
   home-manager.users.cuso4d.nightcord.opencode.serperMcp = "${serper-mcp-with-key}/bin/serper-mcp";
+  home-manager.users.cuso4d.nightcord.codex.serperMcp = "${serper-mcp-with-key}/bin/serper-mcp";
 }
