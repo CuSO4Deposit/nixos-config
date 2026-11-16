@@ -38,7 +38,7 @@
   virtualisation.oci-containers = {
     backend = "docker";
     containers.piwigo = {
-      image = "piwigo/piwigo:latest";
+      image = "piwigo/piwigo:16.4.0@sha256:26daede316535ba1f6209aa4cd6a2c595b241dbb423e95da8d46f9e7a083ff0c";
       environment = {
         TZ = "Etc/UTC";
         PIWIGO_UID = "1000";
