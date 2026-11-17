@@ -74,5 +74,11 @@ pkgs.writeShellScriptBin "wemeet-wayland" ''
   export __EGL_VENDOR_LIBRARY_FILENAMES=${mesa}/share/glvnd/egl_vendor.d/50_mesa.json
   export LIBGL_ALWAYS_SOFTWARE=1
 
-  exec ${wemeet-patched}/bin/wemeet "$@"
+  exec ${pkgs.systemd}/bin/systemd-run --user --scope --collect \
+    --slice=app.slice \
+    --unit="wemeet-$$" \
+    --property=MemoryHigh=4G \
+    --property=MemoryMax=6G \
+    --property=MemorySwapMax=2G \
+    ${wemeet-patched}/bin/wemeet "$@"
 ''
