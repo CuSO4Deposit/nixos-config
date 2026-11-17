@@ -8,13 +8,9 @@ let
 in
 {
   options.nightcord.internal-cache = {
-    # The internal cache is served by nginx on laborari straight out of the
-    # rclone MinIO mount. When the office WireGuard tunnel is down the S3
-    # endpoint stops resolving, the FUSE mount starts returning EIO, and nginx
-    # blocks on every file read instead of answering 404. Nix then waits out
-    # its full stall timeout for each individual .narinfo, which makes any
-    # build effectively hang. Set this to false to take the cache out of the
-    # substituter list entirely and build straight from the upstream mirrors.
+    # Served by atticd on laborari. narinfo comes from its local database, so a
+    # dead office tunnel still answers fast; only NAR downloads fall back. Set
+    # this to false to build from the upstream mirrors instead.
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -23,13 +19,13 @@ in
 
     url = lib.mkOption {
       type = lib.types.str;
-      default = "http://nix-auto-build.internal";
+      default = "http://attic.internal/nightcord";
       description = "Base URL of the internal binary cache.";
     };
 
     publicKey = lib.mkOption {
       type = lib.types.str;
-      default = "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0=";
+      default = "nightcord:U5PWPoUzUBFcnJ/a7mWP2zbg0hGjbKJbJqeKSbE/s/M=";
       description = "Public key the internal cache signs its store paths with.";
     };
   };

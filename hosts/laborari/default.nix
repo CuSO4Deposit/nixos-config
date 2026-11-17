@@ -10,6 +10,7 @@
     ../../modules/linux/minio-mount.nix
     ../../modules/linux/rclone-webdav-mount.nix
     ../../modules/linux/restic-backup.nix
+    ../../modules/linux/attic-cache.nix
     ../../modules/linux/nix-auto-build
     ../../modules/linux/opencode-web.nix
     ../../modules/linux/office-wg.nix
@@ -34,7 +35,10 @@
   nightcord.internal-dns = {
     enable = true;
     hostOverrides = {
-      "10.20.0.2" = [ "nix-auto-build.internal" ];
+      "10.20.0.2" = [
+        config.nightcord.attic-cache.hostName
+        "nix-auto-build.internal"
+      ];
     };
     laborariAddress = "127.0.0.1";
     proximoAddress = "10.20.0.1";
@@ -46,6 +50,8 @@
     "office-band.conf".file = ../../secrets/office-band.conf.age;
     "wg-laborari.conf".file = ../../secrets/wg-laborari.conf.age;
     "nix-cache-signing-key".file = ../../secrets/nix-cache-signing-key.age;
+    "attic-env".file = ../../secrets/attic-env.age;
+    "attic-token".file = ../../secrets/attic-token.age;
     "piwigo-nginx.conf" = {
       file = ../../secrets/piwigo-nginx.conf.age;
       owner = "nginx";
@@ -90,6 +96,28 @@
     enable = true;
     cachePath = "/mnt/minio/nix-cache-54168";
     cachePublicKey = "nix-cache.laborari:wPKpQRXxNF7jBk6A1vn26ObhXAEWN8jF0QCTkdT+qe0=";
+    pushCache = "nightcord";
+    pushEndpoint = "http://${config.nightcord.attic-cache.hostName}/";
+    pushTokenFile = config.age.secrets."attic-token".path;
+  };
+
+  nightcord.attic-cache = {
+    enable = true;
+    bucket = "attic-54168";
+    s3Upstream = "https://s3.kclab.cloud";
+    s3Host = "s3.kclab.cloud";
+    environmentFile = config.age.secrets."attic-env".path;
+  };
+
+  systemd.services.nix-auto-build = {
+    wants = [
+      "atticd.service"
+      "nginx.service"
+    ];
+    after = [
+      "atticd.service"
+      "nginx.service"
+    ];
   };
 
   nightcord.proxy = "http://127.0.0.1:20172";
@@ -148,7 +176,7 @@
   networking.networkmanager.enable = true;
   networking.proxy.httpProxy = config.nightcord.proxy;
   networking.proxy.httpsProxy = config.nightcord.proxy;
-  networking.proxy.noProxy = "127.0.0.1,localhost,mirrors.ustc.edu.cn,mirrors.tuna.tsinghua.edu.cn";
+  networking.proxy.noProxy = "127.0.0.1,localhost,.internal,mirrors.ustc.edu.cn,mirrors.tuna.tsinghua.edu.cn";
   networking.wg-quick.interfaces.wg1.configFile = config.age.secrets."office-band.conf".path;
   networking.wg-quick.interfaces.wg2.configFile = config.age.secrets."wg-laborari.conf".path;
 

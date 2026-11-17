@@ -95,6 +95,10 @@ let
         index = 12;
       }
       {
+        name = "laborari:atticd";
+        index = 13;
+      }
+      {
         name = "lexikos:restic";
         index = 16;
       }
@@ -176,6 +180,11 @@ in
             name = "rclone-minio-mount";
             kind = "systemd-active";
             target = "rclone-minio-mount.service";
+          }
+          {
+            name = "atticd";
+            kind = "systemd-active";
+            target = "atticd.service";
           }
         ];
       }

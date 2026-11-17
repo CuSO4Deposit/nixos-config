@@ -6,6 +6,7 @@
       "/home/cuso4d/syncthing"
       "/var/lib/terraria"
       "/var/lib/terraria2"
+      "/var/lib/atticd"
 
       "/home/cuso4d/Documents"
       "/home/cuso4d/Pictures"

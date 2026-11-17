@@ -13,14 +13,20 @@ let
     set -euo pipefail
 
     REPO="${cfg.repoPath}"
-    CACHE="${cfg.cachePath}"
     STATUS_DIR="${cfg.statusDir}"
-    SIGNING_KEY="$CREDENTIALS_DIRECTORY/signing-key"
     HOSTS="${lib.concatStringsSep " " cfg.hosts}"
     MIRROR_REPO="$STATUS_DIR/repo.git"
     WORKTREE="$STATUS_DIR/worktree"
+    FAILED=0
 
-    mkdir -p "$STATUS_DIR"
+    export XDG_CONFIG_HOME="$STATUS_DIR/xdg"
+    mkdir -p "$STATUS_DIR" "$XDG_CONFIG_HOME/attic"
+    cat > "$XDG_CONFIG_HOME/attic/config.toml" <<EOF
+    [servers.laborari]
+    endpoint = "${cfg.pushEndpoint}"
+    token-file = "$CREDENTIALS_DIRECTORY/attic-token"
+    EOF
+    chmod 600 "$XDG_CONFIG_HOME/attic/config.toml"
 
     # Load existing history or start fresh
     if [ -f "$STATUS_DIR/status.json" ]; then
@@ -120,18 +126,23 @@ let
       echo "=== Building $h ==="
       if STORE_PATH=$(nix build ".#nixosConfigurations.$h.config.system.build.toplevel" \
             --no-link --print-out-paths --accept-flake-config); then
-        echo "Signing $STORE_PATH"
-        nix store sign --key-file "$SIGNING_KEY" -r "$STORE_PATH"
-        echo "Copying to cache"
-        nix copy --to "file://$CACHE" "$STORE_PATH"
-        update_status "$h" "success" ".hosts[\"$h\"].store_path = \"$STORE_PATH\""
-        add_history "$h" "success" "$STORE_PATH"
-        echo "=== $h succeeded ==="
-      else
-        update_status "$h" "failed" ".hosts[\"$h\"].error = \"build failed\""
-        add_history "$h" "failed" "build failed"
-        echo "=== $h FAILED ==="
-      fi
+        echo "Pushing $STORE_PATH to ${cfg.pushCache}"
+        if attic push "${cfg.pushCache}" "$STORE_PATH"; then
+          update_status "$h" "success" ".hosts[\"$h\"].store_path = \"$STORE_PATH\""
+          add_history "$h" "success" "$STORE_PATH"
+          echo "=== $h succeeded ==="
+            else
+              update_status "$h" "failed" ".hosts[\"$h\"].error = \"push failed\""
+              add_history "$h" "failed" "push failed"
+              FAILED=1
+              echo "=== $h FAILED (push) ==="
+            fi
+          else
+            update_status "$h" "failed" ".hosts[\"$h\"].error = \"build failed\""
+            add_history "$h" "failed" "build failed"
+            FAILED=1
+            echo "=== $h FAILED ==="
+          fi
     done
 
     # Save flake.lock for cached rebuilds
@@ -142,8 +153,10 @@ let
     jq --arg t "$now" '.last_run = $t' "$STATUS_DIR/status.json" > "$STATUS_DIR/status.json.tmp"
     mv "$STATUS_DIR/status.json.tmp" "$STATUS_DIR/status.json"
 
-    # Generate dashboard
-    cp "${dashboardHtml}" "$STATUS_DIR/dashboard.html"
+        # Generate dashboard
+        cp "${dashboardHtml}" "$STATUS_DIR/dashboard.html"
+
+        exit "$FAILED"
   '';
 
   gcScript = pkgs.writeShellScript "nix-auto-build-gc" ''
@@ -214,6 +227,18 @@ in
       type = lib.types.str;
       description = "Public key for the binary cache signing key";
     };
+    pushCache = lib.mkOption {
+      type = lib.types.str;
+      description = "Cache name that successful builds are pushed to.";
+    };
+    pushEndpoint = lib.mkOption {
+      type = lib.types.str;
+      description = "API endpoint of the server hosting pushCache.";
+    };
+    pushTokenFile = lib.mkOption {
+      type = lib.types.str;
+      description = "File holding the token allowed to push to pushCache.";
+    };
     listenAddress = lib.mkOption {
       type = lib.types.str;
       default = "10.20.0.2";
@@ -231,19 +256,19 @@ in
         CPUWeight = 10;
         MemoryMax = "60%";
         TimeoutStartSec = "4h";
-        LoadCredential = "signing-key:${config.age.secrets."nix-cache-signing-key".path}";
+        LoadCredential = "attic-token:${cfg.pushTokenFile}";
       };
       wants = [
-        "rclone-minio-mount.service"
         "network-online.target"
       ];
       after = [
-        "rclone-minio-mount.service"
         "network-online.target"
       ];
       environment = lib.optionalAttrs (config.nightcord.proxy != null) {
         http_proxy = config.nightcord.proxy;
         https_proxy = config.nightcord.proxy;
+        no_proxy = "attic.internal";
+        NO_PROXY = "attic.internal";
       };
       path = with pkgs; [
         git
@@ -252,6 +277,7 @@ in
         coreutils
         findutils
         gnugrep
+        attic-client
       ];
     };
 

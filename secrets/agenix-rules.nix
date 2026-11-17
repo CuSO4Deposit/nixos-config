@@ -49,6 +49,8 @@ in
   "file-htpasswd.age".publicKeys = laborari;
   "file-nginx.conf.age".publicKeys = laborari;
   "nix-cache-signing-key.age".publicKeys = laborari;
+  "attic-env.age".publicKeys = laborari;
+  "attic-token.age".publicKeys = laborari;
   "opencode-nginx.conf.age".publicKeys = laborari;
   "opencode-server-password.age".publicKeys = laborari;
   "piwigo-nginx.conf.age".publicKeys = laborari;

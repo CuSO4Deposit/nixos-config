@@ -6,6 +6,7 @@
 let
   cfg = config.nightcord.internal-dns;
   laborariAliases = [
+    "attic.internal"
     "nix-auto-build.internal"
     "opencode.internal"
   ];
