@@ -28,6 +28,7 @@ let
   settings = {
     model = "deepseek-flash";
     model_provider = deepseekProvider;
+    model_reasoning_effort = "high";
     model_catalog_json = "${home}/.codex/deepseek-models.json";
     approval_policy = "never";
     sandbox_mode = "danger-full-access";
@@ -51,6 +52,7 @@ let
       name = "DeepSeek";
       base_url = "https://api.deepseek.com/v1";
       env_key = "DEEPSEEK_API_KEY";
+      wire_api = "responses";
     };
 
     features = {
