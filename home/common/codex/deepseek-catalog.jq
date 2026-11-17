@@ -34,13 +34,6 @@ def deepseek($slug; $name; $desc; $priority; $modalities):
       "Fast long-context model for coding and everyday work.";
       1;
       ["text", "image"]
-    ),
-    deepseek(
-      "deepseek-v4-pro";
-      "DeepSeek V4 Pro";
-      "Deeper reasoning model for demanding work.";
-      2;
-      ["text"]
     )
   ]
 }

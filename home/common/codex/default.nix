@@ -7,26 +7,30 @@
 
 let
   cfg = config.nightcord.codex;
+  home = config.home.homeDirectory;
   gptProvider = "penguin-gpt";
   deepseekProvider = "deepseek";
-  catalogPath = "${config.home.homeDirectory}/.codex/deepseek-models.json";
-  # Derive metadata for the provider's models from the installed codex catalog so
-  # the entry keeps a version-matched instructions template.
-  deepseekCatalog = pkgs.runCommand "deepseek-models.json" { } ''
+  bundledModels = pkgs.writeShellScript "codex-bundled-models" ''
     export HOME="$TMPDIR"
     export CODEX_HOME="$TMPDIR/codex-home"
     mkdir -p "$CODEX_HOME"
     printf 'model = "deepseek-flash"\n' > "$CODEX_HOME/config.toml"
-    ${pkgs.codex}/bin/codex debug models > "$TMPDIR/bundled.json"
+    ${pkgs.codex}/bin/codex debug models
+  '';
+  deepseekCatalog = pkgs.runCommand "deepseek-models.json" { } ''
+    ${bundledModels} > "$TMPDIR/bundled.json"
     ${pkgs.jq}/bin/jq -f ${./deepseek-catalog.jq} "$TMPDIR/bundled.json" > $out
   '';
-  baseSeed = pkgs.writeText "codex-config-seed.toml" ''
-    model = "deepseek-flash"
+  gptCatalog = pkgs.runCommand "gpt-models.json" { } ''
+    ${bundledModels} > "$TMPDIR/bundled.json"
+    ${pkgs.jq}/bin/jq -f ${./gpt-catalog.jq} "$TMPDIR/bundled.json" > $out
   '';
-  common = {
+  settings = {
+    model = "deepseek-flash";
+    model_provider = deepseekProvider;
+    model_catalog_json = "${home}/.codex/deepseek-models.json";
     approval_policy = "never";
     sandbox_mode = "danger-full-access";
-    model_reasoning_effort = "high";
 
     tui = {
       theme = "tokyonight-night";
@@ -57,22 +61,14 @@ let
   // lib.optionalAttrs (cfg.serperMcp != null) {
     mcp_servers.serper.command = cfg.serperMcp;
   };
-  profileFor = {
-    deepseek = {
-      model_provider = deepseekProvider;
-      model_catalog_json = catalogPath;
-    };
-    gpt = {
-      model = "gpt-6-astra";
-      model_provider = gptProvider;
-      model_reasoning_effort = "medium";
-    };
-  };
-  mkProfile =
-    name:
-    (pkgs.formats.toml { }).generate "${name}.config.toml" (
-      lib.recursiveUpdate common profileFor.${name}
-    );
+  gptWrapper = pkgs.writeShellScriptBin "codex-gpt" ''
+    exec ${pkgs.codex}/bin/codex \
+      -c 'model_provider="${gptProvider}"' \
+      -c 'model="gpt-6-astra"' \
+      -c 'model_catalog_json="${home}/.codex/gpt-models.json"' \
+      -c 'model_reasoning_effort="medium"' \
+      "$@"
+  '';
 in
 {
   options.nightcord.codex.serperMcp = lib.mkOption {
@@ -82,27 +78,20 @@ in
   };
 
   config = {
+    programs.codex = {
+      enable = true;
+      package = null;
+      mutableSettings = true;
+      inherit settings;
+    };
+
+    home.packages = [ gptWrapper ];
+
     home.file = {
       ".codex/AGENTS.md".source = config.nightcord.agents.instructions;
       ".codex/themes/tokyonight-night.tmTheme".source = ./tokyonight-night.tmTheme;
       ".codex/deepseek-models.json".source = deepseekCatalog;
-    }
-    // lib.listToAttrs (
-      map (name: {
-        name = ".codex/${name}.config.toml";
-        value.source = mkProfile name;
-      }) (lib.attrNames profileFor)
-    );
-
-    # config.toml belongs to codex once it exists; only seed it on first run.
-    home.activation.codexSeedConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      config_file="${config.home.homeDirectory}/.codex/config.toml"
-      if [ -L "$config_file" ]; then
-        run rm -f "$config_file"
-      fi
-      if [ ! -e "$config_file" ]; then
-        run ${pkgs.coreutils}/bin/install -m 600 ${baseSeed} "$config_file"
-      fi
-    '';
+      ".codex/gpt-models.json".source = gptCatalog;
+    };
   };
 }
