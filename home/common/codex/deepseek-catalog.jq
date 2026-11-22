@@ -2,7 +2,7 @@
   models: [
     {
       slug: "deepseek-flash",
-      display_name: "DeepSeek V4.1 Flash",
+      display_name: "DeepSeek V4.1 Flash 1017",
       description: "Fast long-context model for coding and everyday work.",
       default_reasoning_level: "high",
       supported_reasoning_levels: [

@@ -55,9 +55,10 @@ let
       wire_api = "responses";
     };
 
+    agents.enabled = true;
+
     features = {
-      multi_agent = true;
-      terminal_resize_reflow = true;
+      multi_agent_v2 = true;
     };
   }
   // lib.optionalAttrs (cfg.serperMcp != null) {
