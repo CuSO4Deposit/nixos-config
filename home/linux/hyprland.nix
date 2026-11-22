@@ -174,6 +174,18 @@ in
         (mkBind "SUPER + SHIFT + right" (dispatch ''window.move({ direction = "right" })''))
         (mkBind "SUPER + SHIFT + up" (dispatch ''window.move({ direction = "up" })''))
         (mkBind "SUPER + SHIFT + down" (dispatch ''window.move({ direction = "down" })''))
+        (mkBindWith "SUPER + CTRL + left" (dispatch "window.resize({ x = -20, y = 0, relative = true })") {
+          repeating = true;
+        })
+        (mkBindWith "SUPER + CTRL + right" (dispatch "window.resize({ x = 20, y = 0, relative = true })") {
+          repeating = true;
+        })
+        (mkBindWith "SUPER + CTRL + up" (dispatch "window.resize({ x = 0, y = -20, relative = true })") {
+          repeating = true;
+        })
+        (mkBindWith "SUPER + CTRL + down" (dispatch "window.resize({ x = 0, y = 20, relative = true })") {
+          repeating = true;
+        })
         (mkBind "SUPER + h" (dispatch ''focus({ direction = "left" })''))
         (mkBind "SUPER + l" (dispatch ''focus({ direction = "right" })''))
         (mkBind "SUPER + k" (dispatch ''focus({ direction = "up" })''))
@@ -211,6 +223,7 @@ in
         (mkBind "SUPER + mouse_down" (dispatch ''focus({ workspace = "e+1" })''))
         (mkBind "SUPER + mouse_up" (dispatch ''focus({ workspace = "e-1" })''))
         (mkBindWith "SUPER + mouse:272" (dispatch "window.drag()") { mouse = true; })
+        (mkBindWith "SUPER + mouse:273" (dispatch "window.resize()") { mouse = true; })
 
         (mkBind "Print" (exec ''grim -g "$(slurp -d)" - | wl-copy''))
         (mkBindWith "XF86AudioMute" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ toggle") {
