@@ -25,6 +25,7 @@
     ./observable.nix
     ./dolt.nix
     ./hermes
+    ./mautrix-telegram.nix
     ./restic.nix
     ./vita-grid.nix
   ];

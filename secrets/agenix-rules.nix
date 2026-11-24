@@ -48,6 +48,7 @@ in
   "cloudflare-origin-key.pem.age".publicKeys = laborari;
   "file-htpasswd.age".publicKeys = laborari;
   "file-nginx.conf.age".publicKeys = laborari;
+  "mautrix-telegram-nginx.conf.age".publicKeys = laborari;
   "nix-cache-signing-key.age".publicKeys = laborari;
   "attic-env.age".publicKeys = laborari;
   "attic-token.age".publicKeys = laborari;
