@@ -1,5 +1,7 @@
 { lib, pkgs, ... }:
 {
+  imports = [ ../../home/linux/herdr.nix ];
+
   home.packages = [
     pkgs.herdr
     pkgs.herdr-desktop
