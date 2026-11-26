@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 {
-  imports = [ ../../home/linux/herdr.nix ];
+  imports = [ ../../home/linux/herdr ];
 
   home.packages = [
     pkgs.herdr

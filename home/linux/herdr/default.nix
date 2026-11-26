@@ -2,25 +2,25 @@
 let
   desktopKeys = {
     global = {
-      "alt-1" = "space.select:1";
-      "alt-2" = "space.select:2";
-      "alt-3" = "space.select:3";
-      "alt-4" = "space.select:4";
-      "alt-5" = "space.select:5";
-      "alt-6" = "space.select:6";
-      "alt-7" = "space.select:7";
-      "alt-8" = "space.select:8";
-      "alt-9" = "space.select:9";
+      "alt-1" = "tab.select:1";
+      "alt-2" = "tab.select:2";
+      "alt-3" = "tab.select:3";
+      "alt-4" = "tab.select:4";
+      "alt-5" = "tab.select:5";
+      "alt-6" = "tab.select:6";
+      "alt-7" = "tab.select:7";
+      "alt-8" = "tab.select:8";
+      "alt-9" = "tab.select:9";
 
-      "ctrl-alt-1" = "space.select:1";
-      "ctrl-alt-2" = "space.select:2";
-      "ctrl-alt-3" = "space.select:3";
-      "ctrl-alt-4" = "space.select:4";
-      "ctrl-alt-5" = "space.select:5";
-      "ctrl-alt-6" = "space.select:6";
-      "ctrl-alt-7" = "space.select:7";
-      "ctrl-alt-8" = "space.select:8";
-      "ctrl-alt-9" = "space.select:9";
+      "alt-shift-1" = "space.select:1";
+      "alt-shift-2" = "space.select:2";
+      "alt-shift-3" = "space.select:3";
+      "alt-shift-4" = "space.select:4";
+      "alt-shift-5" = "space.select:5";
+      "alt-shift-6" = "space.select:6";
+      "alt-shift-7" = "space.select:7";
+      "alt-shift-8" = "space.select:8";
+      "alt-shift-9" = "space.select:9";
 
       "alt-h" = "pane.go:left";
       "alt-j" = "pane.go:down";
@@ -33,25 +33,20 @@ let
       "alt-shift-k" = "pane.swap:up";
       "alt-shift-l" = "pane.swap:right";
 
-      "ctrl-1" = "tab.select:1";
-      "ctrl-2" = "tab.select:2";
-      "ctrl-3" = "tab.select:3";
-      "ctrl-4" = "tab.select:4";
-      "ctrl-5" = "tab.select:5";
-      "ctrl-6" = "tab.select:6";
-      "ctrl-7" = "tab.select:7";
-      "ctrl-8" = "tab.select:8";
-      "ctrl-9" = "tab.select:9";
       "alt-[" = "tab.prev";
       "alt-]" = "tab.next";
 
-      "alt-up" = "space.prev";
-      "alt-down" = "space.next";
+      "alt-up" = "agent.prev";
+      "alt-down" = "agent.next";
+      "alt-shift-up" = "space.prev";
+      "alt-shift-down" = "space.next";
 
       "alt-c" = "tab.new";
       "alt-shift-c" = "space.new";
       "alt-n" = "tab.rename";
       "alt-shift-n" = "space.rename";
+      "alt-w" = "tab.close";
+      "alt-shift-w" = "space.close";
       "ctrl-alt-v" = "pane.split:right";
       "ctrl-alt--" = "pane.split:down";
       "ctrl-alt-x" = "pane.close";
@@ -80,7 +75,6 @@ let
       "ctrl-," = "app.settings";
       "ctrl-shift-o" = "pane.split:right";
       "ctrl-shift-e" = "pane.split:down";
-      "ctrl-shift-w" = "tab.close";
       "ctrl-shift-x" = "pane.close";
       "ctrl-shift-z" = "pane.zoom";
       "ctrl-shift-l" = "layout.switch";
@@ -136,7 +130,7 @@ in
         auto_switch = false
 
         [ui]
-        prompt_new_workspace_name = true
+        prompt_new_workspace_name = false
         prompt_new_tab_name = true
 
         [keys]
@@ -147,16 +141,20 @@ in
 
         previous_tab = ["prefix+p", "alt+left"]
         next_tab = ["prefix+n", "alt+right"]
-        switch_tab = "ctrl+1..9"
+        switch_tab = "alt+1..9"
 
-        previous_workspace = "alt+up"
-        next_workspace = "alt+down"
-        switch_workspace = "ctrl+alt+1..9"
+        previous_agent = "alt+up"
+        next_agent = "alt+down"
+        previous_workspace = "alt+shift+up"
+        next_workspace = "alt+shift+down"
+        switch_workspace = "alt+shift+1..9"
         workspace_picker = ["prefix+w", "ctrl+alt+w"]
         goto = ["prefix+g", "ctrl+alt+g"]
 
         new_tab = ["prefix+c", "alt+c"]
         new_workspace = ["prefix+shift+n", "alt+shift+c"]
+        close_tab = ["prefix+shift+x", "alt+w"]
+        close_workspace = ["prefix+shift+d", "alt+shift+w"]
         split_vertical = ["prefix+v", "ctrl+alt+v"]
         split_horizontal = ["prefix+minus", "ctrl+alt+minus"]
         close_pane = ["prefix+x", "ctrl+alt+x"]
