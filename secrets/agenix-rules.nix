@@ -60,6 +60,11 @@ in
   "observable-nginx.conf.age".publicKeys = laborari;
   "hermes-env.age".publicKeys = laborari;
   "sayori-git-token.age".publicKeys = laborari;
+  "wastebin.env.age".publicKeys = laborari;
+  "wastebin-nginx.conf.age".publicKeys = laborari;
+  "wastebin-url.age".publicKeys = laborari;
+  "wastebin-auth.age".publicKeys = laborari;
+  "wastebin.htpasswd.age".publicKeys = laborari;
 
   # lexikos only
   "wg-lexikos.conf.age".publicKeys = lexikos;

@@ -27,6 +27,7 @@
     ./hermes
     ./mautrix-telegram.nix
     ./restic.nix
+    ./wastebin.nix
     ./vita-grid.nix
   ];
 
