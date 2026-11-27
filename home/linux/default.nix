@@ -46,6 +46,7 @@ in
     ./hyprland.nix
     ./hyprlock.nix
     ./hyprpaper.nix
+    ./herdr.nix
     ../common/firefox.nix
     ../common/agents
     ../common/claude

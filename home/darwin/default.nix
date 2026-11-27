@@ -20,6 +20,7 @@ in
     ../common/agents
     ../common/claude
     ../common/codex
+    ../common/herdr
     ../common/opencode
   ];
 

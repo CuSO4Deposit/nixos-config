@@ -1,12 +1,5 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 {
-  imports = [ ../../home/linux/herdr ];
-
-  home.packages = [
-    pkgs.herdr
-    pkgs.herdr-desktop
-  ];
-
   programs.hyprlock.settings = {
     background = {
       brightness = lib.mkForce 0.5;
