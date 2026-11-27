@@ -28,7 +28,6 @@ let
   settings = {
     model = "deepseek-flash";
     model_provider = deepseekProvider;
-    model_reasoning_effort = "high";
     model_catalog_json = "${home}/.codex/deepseek-models.json";
     approval_policy = "never";
     sandbox_mode = "danger-full-access";
@@ -69,7 +68,6 @@ let
       -c 'model_provider="${gptProvider}"' \
       -c 'model="gpt-6-astra"' \
       -c 'model_catalog_json="${home}/.codex/gpt-models.json"' \
-      -c 'model_reasoning_effort="medium"' \
       "$@"
   '';
 in
