@@ -209,6 +209,10 @@
     ];
   };
 
+  systemd.tmpfiles.rules = [
+    "d /home/guest 0700 guest users 10d"
+  ];
+
   virtualisation.docker = {
     daemon.settings = {
       proxies = {
