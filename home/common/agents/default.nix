@@ -9,6 +9,8 @@ let
   local = pkgs.stdenv.hostPlatform.isDarwin;
 in
 {
+  imports = [ ./feishu.nix ];
+
   options.nightcord.agents.instructions = lib.mkOption {
     type = lib.types.path;
     readOnly = true;

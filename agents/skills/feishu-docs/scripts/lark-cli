@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -n "${LARK_CLI_BIN:-}" && -x "${LARK_CLI_BIN}" ]]; then
+  exec "${LARK_CLI_BIN}" "$@"
+fi
+
+if command -v lark-cli >/dev/null 2>&1; then
+  if lark-cli --version >/dev/null 2>&1; then
+    exec lark-cli "$@"
+  fi
+fi
+
+for candidate in \
+  "${HOME}/.local/lib/node_modules/@larksuite/cli/bin/lark-cli" \
+  "/usr/local/lib/node_modules/@larksuite/cli/bin/lark-cli" \
+  "/opt/homebrew/lib/node_modules/@larksuite/cli/bin/lark-cli"; do
+  if [[ -x "${candidate}" ]]; then
+    exec "${candidate}" "$@"
+  fi
+done
+
+cat >&2 <<'EOF'
+lark-cli is not installed.
+
+Install it with:
+  npx @larksuite/cli@latest install
+
+On NixOS without global Node:
+  nix shell nixpkgs#nodejs -c npx @larksuite/cli@latest install
+EOF
+exit 127
