@@ -7,8 +7,8 @@
   };
 
   shellAliases = {
-    a = "codex"; # a for agent (deepseek)
-    aa = "codex-gpt"; # aa for agent on gpt
+    a = "tformula -- codex"; # a for agent (deepseek)
+    aa = "tformula -- codex-gpt"; # aa for agent on gpt
     alg = "alias | grep";
     bat = "bat --theme=base16";
     c = "clear";
@@ -24,8 +24,8 @@
     lt = "eza --tree --level=2 --icons=auto --group-directories-first";
     n = "nvim";
     nf = "nf"; # nf for nix flake, shell function to use my flake
-    qa = "mkdir -p /tmp/agent && codex --cd /tmp/agent";
-    qaa = "mkdir -p /tmp/agent && codex-gpt --cd /tmp/agent";
+    qa = "mkdir -p /tmp/agent && tformula -- codex --cd /tmp/agent";
+    qaa = "mkdir -p /tmp/agent && tformula -- codex-gpt --cd /tmp/agent";
     rgp = "rgp"; # rgp for ripgrep with pager
     sudonvim = "sudo -E -s nvim";
   };
@@ -57,6 +57,7 @@
       mosh
       nixfmt
       ripgrep
+      (pkgs.callPackage ../derivations/tformula { })
       tldr
       yq
       visidata
